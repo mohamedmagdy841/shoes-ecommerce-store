@@ -14,6 +14,7 @@ class Setting extends Model
         'email',
         'logo',
         'phone',
+        'about_us',
         'favicon',
         'street',
         'city',

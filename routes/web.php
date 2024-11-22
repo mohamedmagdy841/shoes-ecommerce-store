@@ -1,16 +1,25 @@
 <?php
 
+use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\SubscriberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.index');
+// Home
+Route::controller(HomeController::class)->name('frontend.')->group(function () {
+    Route::get('/', 'index')->name('index');
 });
 
-Route::get('/contact', function () {
-    return view('frontend.contact');
+// Contact
+Route::controller(ContactController::class)->name('frontend.')->group(function () {
+    Route::get('/contact', 'index')->name('contact');
+    Route::post('/contact/store', 'store')->name('contact.store');
 });
 
+Route::post('/newsletter', [SubscriberController::class, 'store'])->name('frontend.newsletter');
+
+// ----------------
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

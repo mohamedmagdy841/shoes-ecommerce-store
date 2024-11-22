@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('site_name');
             $table->string('email');
             $table->string('phone');
+            $table->text('about_us');
             $table->string('logo')->nullable();
             $table->string('favicon')->nullable();
             $table->string('street')->nullable();

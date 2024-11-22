@@ -27,6 +27,7 @@ class CheckSettingProvider extends ServiceProvider
                 'site_name' => 'Karma',
                 'email' => 'karma@gmail.com',
                 'phone' => '01234567891',
+                'about_us' => 'Karma is an online store selling shoes for men, women and kids',
                 'favicon' => 'default',
                 'logo' => '/img/logo.png',
                 'facebook' => 'https://www.facebook.com',

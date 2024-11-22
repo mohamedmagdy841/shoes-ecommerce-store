@@ -8,8 +8,8 @@
                 <div class="col-first">
                     <h1>Contact Us</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.html">Contact</a>
+                        <a href="{{ route('frontend.index') }}">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="{{ route('frontend.contact') }}">Contact</a>
                     </nav>
                 </div>
             </div>
@@ -32,37 +32,42 @@
                     <div class="contact_info">
                         <div class="info_item">
                             <i class="lnr lnr-home"></i>
-                            <h6>California, United States</h6>
-                            <p>Santa monica bullevard</p>
+                            <h6>{{ $getSetting->city }}, {{ $getSetting->country }}</h6>
+                            <p>{{ $getSetting->street }}</p>
                         </div>
                         <div class="info_item">
                             <i class="lnr lnr-phone-handset"></i>
-                            <h6><a href="#">00 (440) 9865 562</a></h6>
-                            <p>Mon to Fri 9am to 6 pm</p>
+                            <h6><a href="#">{{ $getSetting->phone }}</a></h6>
+                            <p>Mon to Fri 9 am to 6 pm</p>
                         </div>
                         <div class="info_item">
                             <i class="lnr lnr-envelope"></i>
-                            <h6><a href="#">support@colorlib.com</a></h6>
+                            <h6><a href="#">{{ $getSetting->email }}</a></h6>
                             <p>Send us your query anytime!</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="row contact_form" method="post" action="{{ route('frontend.contact.store') }}">
+                        @csrf
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'">
+                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                                <input type="email" class="form-control" name="email"  value="{{ old('email') }}"placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
+                                <input type="text" class="form-control" name="subject" value="{{ old('subject') }}" placeholder="Enter Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'">
+                                <x-input-error :messages="$errors->get('subject')" class="mt-2" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'"></textarea>
+                                <textarea class="form-control" name="message" rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'">{{ old('message') }}</textarea>
+                                <x-input-error :messages="$errors->get('message')" class="mt-2" />
                             </div>
                         </div>
                         <div class="col-md-12 text-right">
