@@ -45,7 +45,7 @@
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>
                             <div class="col-md-12 form-group">
@@ -57,7 +57,7 @@
                             @if (Route::has('password.request'))
                                 <div class="col-md-12 form-group">
                                     <button type="submit" value="submit" class="primary-btn">Sign In</button>
-                                    <a href="#">Forgot Password?</a>
+                                    <a href="{{ route('password.request') }}">Forgot Password?</a>
                                 </div>
                             @endif
                         </form>
