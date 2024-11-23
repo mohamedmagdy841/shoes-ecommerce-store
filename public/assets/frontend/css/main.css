@@ -54,7 +54,7 @@
 
 /* Start Gradient Area css
 ============================================================================================ */
-.gradient-bg, .primary-btn, .add-bag .add-btn, .single-product .product-details .prd-bottom .social-info span:after, .grid-btn:hover, .list-btn:hover, .grid-btn.active, .list-btn.active, .pagination a.active, .pagination a:hover, .s_Product_carousel .owl-dots div.active, .s_product_text .card_area .icon_btn:after, .product_description_area .nav.nav-tabs li a.active, .blog-pagination .page-item.active .page-link, .single-footer-widget .click-btn {
+.gradient-bg, .primary-btn, .add-bag .add-btn, .single-product .product-details .prd-bottom .social-info span:after, .grid-btn:hover, .list-btn:hover, .grid-btn.active, .list-btn.active, .pagination2 a.active, .pagination2 a:hover, .s_Product_carousel .owl-dots div.active, .s_product_text .card_area .icon_btn:after, .product_description_area .nav.nav-tabs li a.active, .blog-pagination2 .page-item.active .page-link, .single-footer-widget .click-btn {
   background: -webkit-linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
   background: -moz-linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
   background: -o-linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);
@@ -3148,28 +3148,28 @@ label {
     .sorting .nice-select .list {
       border-radius: 0px; }
 
-.pagination {
+.pagination2 {
   margin-top: 10px;
   border-left: 1px solid #eee;
   border-radius: 0px; }
-  .pagination a {
+  .pagination2 a {
     width: 40px;
     line-height: 40px;
     text-align: center;
     display: inline-block;
     background: #fff; }
-    .pagination a.active {
+    .pagination2 a.active {
       color: #fff; }
-    .pagination a:hover {
+    .pagination2 a:hover {
       color: #fff; }
-  .pagination .dot-dot {
+  .pagination2 .dot-dot {
     width: auto;
     background: transparent;
     border-top: 0px;
     border-bottom: 0px;
     color: #cccccc;
     padding: 0 5px; }
-    .pagination .dot-dot:hover {
+    .pagination2 .dot-dot:hover {
       background: transparent;
       border: 0px;
       border-right: 1px solid #eee;
@@ -3841,10 +3841,10 @@ label {
       margin-top: -6px;
       right: 20px; }
 
-.cat_page .pagination {
+.cat_page .pagination2 {
   margin-bottom: 0px;
   border-radius: 0px; }
-  .cat_page .pagination li a {
+  .cat_page .pagination2 li a {
     height: 40px;
     width: 40px;
     border-radius: 0px;
@@ -3858,11 +3858,11 @@ label {
     color: #222222;
     font-weight: normal;
     font-family: "Roboto", sans-serif; }
-  .cat_page .pagination li.blank a {
+  .cat_page .pagination2 li.blank a {
     background: transparent;
     color: #cccccc;
     border: none; }
-  .cat_page .pagination li:hover a, .cat_page .pagination li.active a {
+  .cat_page .pagination2 li:hover a, .cat_page .pagination2 li.active a {
     background: #ffba00;
     color: #fff;
     border-color: #ffba00; }
@@ -5320,22 +5320,22 @@ label {
     background: #eeeeee;
     margin: 30px 0px; }
 
-.blog-pagination {
+.blog-pagination2 {
   padding-top: 25px;
   padding-bottom: 95px; }
-  .blog-pagination .page-link {
+  .blog-pagination2 .page-link {
     border-radius: 0; }
-  .blog-pagination .page-item {
+  .blog-pagination2 .page-item {
     border: none; }
 
 .page-link {
   background: transparent;
   font-weight: 400; }
 
-.blog-pagination .page-item.active .page-link {
+.blog-pagination2 .page-item.active .page-link {
   color: #fff; }
 
-.blog-pagination .page-link {
+.blog-pagination2 .page-link {
   position: relative;
   display: block;
   padding: 0.5rem 0.75rem;
@@ -5344,14 +5344,14 @@ label {
   color: #8a8a8a;
   border: none; }
 
-.blog-pagination .page-link .lnr {
+.blog-pagination2 .page-link .lnr {
   font-weight: 600; }
 
-.blog-pagination .page-item:last-child .page-link,
-.blog-pagination .page-item:first-child .page-link {
+.blog-pagination2 .page-item:last-child .page-link,
+.blog-pagination2 .page-item:first-child .page-link {
   border-radius: 0; }
 
-.blog-pagination .page-link:hover {
+.blog-pagination2 .page-link:hover {
   color: #fff;
   text-decoration: none;
   background-color: #c5322d;

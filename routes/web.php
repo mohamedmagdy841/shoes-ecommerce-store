@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\Blog\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SubscriberController;
@@ -18,6 +19,12 @@ Route::controller(ContactController::class)->name('frontend.')->group(function (
 });
 
 Route::post('/newsletter', [SubscriberController::class, 'store'])->name('frontend.newsletter');
+
+
+
+// Blog
+Route::resource('blogs', BlogController::class);
+
 
 // ----------------
 Route::get('/dashboard', function () {
