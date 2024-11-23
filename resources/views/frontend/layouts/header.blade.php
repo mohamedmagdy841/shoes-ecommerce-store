@@ -29,15 +29,26 @@
                         <li class="nav-item submenu dropdown @yield('blog-active')">
                             <a href="{{ route('blogs.index') }}" class="nav-link">Blog</a>
                         </li>
-                        <li class="nav-item submenu dropdown @yield('login-active')">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-                                <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-                            </ul>
-                        </li>
+                        @guest
+                            <li class="nav-item @yield('login-active')"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                        @endguest
+                        @auth
+                            <li class="nav-item submenu dropdown ">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">{{ Auth::user()->name }}</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="{{ route("blogs.myBlogs") }}">My Blogs</a></li>
+                                    <li class="nav-item">
+                                        <form action="{{ route('logout') }}" method="post" id="logout_form">
+                                            @csrf
+                                            <a class="nav-link text-danger"
+                                               href="javascript:$('form#logout_form').submit();">Logout</a>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endauth
+
                         <li class="nav-item @yield('contact-active')"><a class="nav-link" href="{{ route('frontend.contact') }}">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

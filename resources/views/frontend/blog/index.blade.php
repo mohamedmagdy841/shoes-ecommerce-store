@@ -6,10 +6,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Blog Page</h1>
+                    <h1>Blog</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.html">Blog</a>
+                        <a href="{{ route('frontend.index') }}">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="{{ route('blogs.index') }}">Blog</a>
                     </nav>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="row">
                 @if(count($categories) > 0)
                     @foreach($categories as $category)
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="categories_post">
                                 <img src="{{ asset('assets/frontend') }}/img/blog/cat-post/cat-post-3.jpg" alt="post">
                                 <div class="categories_details">

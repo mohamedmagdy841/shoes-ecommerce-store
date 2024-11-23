@@ -13,7 +13,7 @@ class BlogCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $data = ['Fashion', 'Lifestyle', 'Health', 'Travel'];
+        $data = ['Fashion', 'Lifestyle', 'Health'];
         foreach ($data as $category) {
                 BlogCategory::create([
                 'name' => $category,

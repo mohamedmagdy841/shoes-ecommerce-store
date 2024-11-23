@@ -69,4 +69,9 @@ class BlogController extends Controller
     {
         //
     }
+
+    public function myBlogs()
+    {
+        return view('frontend.blog.my-blogs');
+    }
 }
