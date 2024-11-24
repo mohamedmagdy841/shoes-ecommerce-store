@@ -13,6 +13,8 @@
     <meta charset="UTF-8">
     <!-- Site Title -->
     <title>Karma Shop</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" >
+
     <!--
         CSS
         ============================================= -->

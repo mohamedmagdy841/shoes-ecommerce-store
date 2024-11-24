@@ -26,48 +26,83 @@
     <section class="blog_area m-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="blog_left_sidebar">
-                        @if(count($blogs) > 0)
-                            @foreach($blogs as $blog)
-                                <article class="row blog_item">
-                                    <div class="col-md-3">
-                                        <div class="blog_info text-right">
-                                            <div class="post_tag">
-                                                <a href="#">Food,</a>
-                                                <a class="active" href="#">Technology,</a>
-                                                <a href="#">Politics,</a>
-                                                <a href="#">Lifestyle</a>
-                                            </div>
-                                            <ul class="blog_meta list">
-                                                <li><a href="#">{{ $blog->user->name }}<i class="lnr lnr-user"></i></a></li>
-                                                <li><a href="#">{{ $blog->created_at->format("d M Y") }}<i class="lnr lnr-calendar-full"></i></a></li>
-                                                <li><a href="#">{{ $blog->number_of_views }} Views<i class="lnr lnr-eye"></i></a></li>
-                                                <li><a href="#">@if (count($blog->blog_comments) > 0) {{ count($blog->blog_comments) }} @else 0 @endif Comments<i class="lnr lnr-bubble"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="blog_post">
-                                            <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
-                                                <img src="{{ asset('storage/blog/' . $blog->image) }}" alt="{{ $blog->title }}">
-                                            </a>
-                                            <div class="blog_details">
-                                                <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
-                                                    <h2>{{ $blog->title }}</h2>
-                                                </a>
-                                                <p>{{ $blog->description }}</p>
-                                                <a href="{{ route('blogs.show', ['blog' => $blog]) }}" class="white_bg_btn">View More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            @endforeach
-                            <div class="mb-3">
-
-                            {{$blogs->links()}}
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post row">
+                        <div class="col-lg-12">
+                            <div class="feature-img">
+                                <img style="max-width: 100%;" src="{{ asset('storage/blog/' . $blog->image) }}" alt="{{ $blog->title }}">
                             </div>
+                        </div>
+                        <div class="col-lg-3  col-md-3">
+                            <div class="blog_info text-right">
+                                <div class="post_tag">
+                                    <a href="#">Food,</a>
+                                    <a class="active" href="#">Technology,</a>
+                                    <a href="#">Politics,</a>
+                                    <a href="#">Lifestyle</a>
+                                </div>
+                                <ul class="blog_meta list">
+                                    <li><a href="#">{{ $blog->user->name }}<i class="lnr lnr-user"></i></a></li>
+                                    <li><a href="#">{{ $blog->created_at->format("d M Y") }}<i class="lnr lnr-calendar-full"></i></a></li>
+                                    <li><a href="#">{{ $blog->number_of_views }} Views<i class="lnr lnr-eye"></i></a></li>
+                                    <li><a href="#">@if (count($blog->blog_comments) > 0) {{ count($blog->blog_comments) }} @else 0 @endif Comments<i class="lnr lnr-bubble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 blog_details">
+                            <h2>{{ $blog->title }}</h2>
+                            <p class="excert">
+                                {{ $blog->description }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="comments-area">
+                        <h4>@if (count($blog->blog_comments) > 0) {{ count($blog->blog_comments) }} @else 0 @endif Comments</h4>
+                        @if (count($blog->blog_comments) > 0)
+                            @foreach($blog->blog_comments as $comment)
+                                <div class="comment-list">
+                                    <div class="single-comment justify-content-between d-flex">
+                                        <div class="user justify-content-between d-flex">
+                                            <div class="thumb">
+                                                <img src="{{ auth()->user()->image }}" alt="">
+                                            </div>
+                                            <div class="desc">
+                                                <h5><a href="#">{{ $comment->name }}</a></h5>
+                                                <p class="date">{{ $comment->created_at->format("M d, Y h:i") }}</p>
+                                                <p class="comment">
+                                                    {{ $comment->comment }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         @endif
+                    </div>
+                    <div class="comment-form">
+                        <h4>Leave a Reply</h4>
+                        <form method="post" action="{{ route("blogs.comments.store") }}">
+                            @csrf
+                            <input type="hidden" name="post_id" value="{{ $blog->id }}">
+                            <div class="form-group form-inline">
+                                <div class="form-group col-lg-6 col-md-6 name">
+                                    <input type="text" class="form-control" name="name" id="name" value="{{ old("name") }}" placeholder="Enter Name" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Enter Name'">
+                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6 email">
+                                    <input type="text" class="form-control" name="subject" id="subject" value="{{ old("subject") }}" placeholder="Subject" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Subject'">
+                                    <x-input-error :messages="$errors->get('subject')" class="mt-2" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control mb-10" rows="5" name="comment" placeholder="Message"
+                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required="">{{ old("name") }}</textarea>
+                                <x-input-error :messages="$errors->get('comment')" class="mt-2" />
+                            </div>
+                            <button type="submit" class="primary-btn submit_btn">Post Comment</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -131,7 +166,7 @@
                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'">
                                     </div>
                                     <button style="border: 0" type="submit" class="bbtns click-btn btn btn-default">Subcribe</button>
-{{--                                    <a href="#" class="bbtns">Subcribe</a>--}}
+                                    {{--                                    <a href="#" class="bbtns">Subcribe</a>--}}
                                 </form>
                             </div>
                             <p class="text-bottom">You can unsubscribe at any time</p>

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Frontend\Blog\BlogCommentController;
 use App\Http\Controllers\Frontend\Blog\BlogController;
+use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SubscriberController;
@@ -23,8 +25,12 @@ Route::post('/newsletter', [SubscriberController::class, 'store'])->name('fronte
 
 
 // Blog
-Route::resource('blogs', BlogController::class);
-Route::get('/myBlogs', [BlogController::class, 'myBlogs'])->name('blogs.myBlogs');
+Route::resource('blogs', BlogController::class)->parameters([
+    'blogs' => 'blog:slug',
+]);
+Route::get('/myBlogs', [BlogController::class, 'myBlogs'])->name('blogs.myBlogs')->middleware('auth');
+Route::post('/blog-newsletter', [BlogSubscriberController::class, 'store'])->name('blogs.newsletter');
+Route::post("/comment/store", [BlogCommentController::class, 'store'])->name("blogs.comments.store");
 
 // ----------------
 //Route::get('/dashboard', function () {

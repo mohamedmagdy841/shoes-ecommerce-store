@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBlogRequest;
+use App\Http\Requests\UpdateBlogRequest;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -14,12 +16,12 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::with('blog_comments')->latest()->paginate(5);
+        $blogs = BlogPost::with('blog_comments')->latest()->paginate(5);
         $categories = BlogCategory::all();
         $most_viewed = BlogPost::orderBy('number_of_views', 'desc')
             ->limit(4)
             ->get();
-        return view('frontend.blog.index', compact('posts', 'categories', 'most_viewed'));
+        return view('frontend.blog.index', compact('blogs', 'categories', 'most_viewed'));
     }
 
     /**
@@ -27,39 +29,83 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        $categories = BlogCategory::select('id', 'name')->get();
+        return view('frontend.blog.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBlogRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if($request->hasFile('image'))
+        {
+          $image = $request->file('image');
+          $imageNewName = time() . '.' . $image->getClientOriginalExtension();
+          $image->storeAs('blog', $imageNewName, 'public');
+        }
+
+        $data['image'] = $imageNewName;
+        $data['user_id'] = auth()->user()->id;
+
+        BlogPost::create($data);
+
+        notyf()
+            ->duration(4000)
+            ->success('Blog Post Created Successfully');
+
+        return redirect()->route('blogs.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BlogPost $blog)
     {
-        //
+        $categories = BlogCategory::all();
+
+        $most_viewed = BlogPost::orderBy('number_of_views', 'desc')
+            ->limit(4)
+            ->get();
+
+        $blog->increment('number_of_views');
+
+        return view('frontend.blog.single-blog', compact('blog', 'categories', 'most_viewed'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(BlogPost $blog)
     {
-        //
+        $categories = BlogCategory::select('id', 'name')->get();
+        return view('frontend.blog.edit', compact('blog', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateBlogRequest $request, BlogPost $blog)
     {
-        //
+        $data = $request->validated();
+
+        if($request->hasFile('image'))
+        {
+            unlink(storage_path('app/public/blog/'.$blog->image));
+            $image = $request->file('image');
+            $imageNewName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('blog', $imageNewName, 'public');
+            $data['image'] = $imageNewName;
+        }
+
+        $blog->update($data);
+        notyf()
+            ->duration(4000)
+            ->success('Blog Post Updated Successfully');
+
+        return redirect()->route('blogs.index');
     }
 
     /**
@@ -67,11 +113,15 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $blog = BlogPost::find($id);
+        unlink(storage_path('app/public/blog/'.$blog->image));
+        $blog->delete();
+        return response('Blog deleted successfully.', 200);
     }
 
     public function myBlogs()
     {
-        return view('frontend.blog.my-blogs');
+        $blogs = BlogPost::where('user_id', auth()->user()->id)->latest()->get();
+        return view('frontend.blog.my-blogs', compact('blogs'));
     }
 }

@@ -38,6 +38,7 @@
                                    aria-expanded="false">{{ Auth::user()->name }}</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{ route("blogs.myBlogs") }}">My Blogs</a></li>
+
                                     <li class="nav-item">
                                         <form action="{{ route('logout') }}" method="post" id="logout_form">
                                             @csrf
@@ -45,6 +46,7 @@
                                                href="javascript:$('form#logout_form').submit();">Logout</a>
                                         </form>
                                     </li>
+
                                 </ul>
                             </li>
                         @endauth
@@ -61,14 +63,14 @@
             </div>
         </nav>
     </div>
-    <div class="search_input" id="search_input_box">
-        <div class="container">
-            <form class="d-flex justify-content-between">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                <button type="submit" class="btn"></button>
-                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-            </form>
-        </div>
-    </div>
+{{--    <div class="search_input" id="search_input_box">--}}
+{{--        <div class="container">--}}
+{{--            <form class="d-flex justify-content-between">--}}
+{{--                <input type="text" class="form-control" id="search_input" placeholder="Search Here">--}}
+{{--                <button type="submit" class="btn"></button>--}}
+{{--                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </header>
 <!-- End Header Area -->

@@ -20,10 +20,6 @@ class BlogComment extends Model
         'subject',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     public function blog_post(): BelongsTo
     {
