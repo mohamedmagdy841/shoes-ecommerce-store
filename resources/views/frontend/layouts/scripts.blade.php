@@ -17,47 +17,7 @@
 {{--sweetAlert2--}}
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/date-fns@4.1.0/cdn.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
+@stack('js')
 
-        $('.delete-form').on('submit', function(e) {
-            e.preventDefault();
-            var button = $(this);
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'post',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: button.data('route'),
-                        data: {
-                            '_method': 'delete'
-                        },
-                        success: function (response, textStatus, xhr) {
-                            Swal.fire({
-                                icon: 'success',
-                                confirmButtonColor: "#ffba00",
-                                title: response,
-                            }).then((result) => {
-                                window.location='/myBlogs'
-                            });
-                        }
-                    });
-                }
-            });
-
-        })
-    });
-</script>

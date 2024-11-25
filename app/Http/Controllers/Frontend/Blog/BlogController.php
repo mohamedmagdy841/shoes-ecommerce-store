@@ -62,17 +62,20 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BlogPost $blog)
+    public function show($slug)
     {
+        $mainBlog = BlogPost::with(['blog_comments'=>function($query){
+            $query->latest()->limit(3);
+        }])->whereSlug($slug)->first();
+
         $categories = BlogCategory::all();
 
         $most_viewed = BlogPost::orderBy('number_of_views', 'desc')
             ->limit(4)
             ->get();
 
-        $blog->increment('number_of_views');
-
-        return view('frontend.blog.single-blog', compact('blog', 'categories', 'most_viewed'));
+        $mainBlog->increment('number_of_views');
+        return view('frontend.blog.single-blog', compact('mainBlog', 'categories', 'most_viewed'));
     }
 
     /**
