@@ -22,8 +22,9 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+//        Cache::forget('home_products');
         if(!Cache::has('home_products')){
-            $home_products = Product::with('images')->latest()->limit(8)->get();
+            $home_products = Product::with('images')->latest()->limit(16)->get();
             Cache::remember('home_products', 3600, function () use ($home_products) {
                 return $home_products;
             });

@@ -127,4 +127,10 @@ class BlogController extends Controller
         $blogs = BlogPost::where('user_id', auth()->user()->id)->latest()->get();
         return view('frontend.blog.my-blogs', compact('blogs'));
     }
+
+    public function category($id)
+    {
+        $blogsOfCategory = BlogPost::where('category_id', $id)->latest()->paginate(3);
+        return view('frontend.blog.category', compact('blogsOfCategory'));
+    }
 }

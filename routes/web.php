@@ -32,6 +32,7 @@ Route::get('/myBlogs', [BlogController::class, 'myBlogs'])->name('blogs.myBlogs'
 Route::post('/blog-newsletter', [BlogSubscriberController::class, 'store'])->name('blogs.newsletter');
 Route::post("/comment/store", [BlogCommentController::class, 'store'])->name("blogs.comments.store");
 Route::get("/comment/{slug}", [BlogCommentController::class, 'index'])->name("blogs.comments");
+Route::get("/category/{id}", [BlogController::class, 'category'])->name("blogs.category");
 
 // ----------------
 Route::get('/dashboard', function () {

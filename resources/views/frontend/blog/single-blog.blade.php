@@ -150,9 +150,9 @@
                                 @if(count($categories) > 0)
                                     @foreach($categories as $category)
                                         <li>
-                                            <a href="#" class="d-flex justify-content-between">
+                                            <a href="{{ route('blogs.category', $category->id) }}" class="d-flex justify-content-between">
                                                 <p>{{ $category->name }}</p>
-                                                <p>@if (count($categories) > 0) {{ count($categories) }} @else 0 @endif</p>
+                                                <p>@if (count($category->blog_posts) > 0) {{ count($category->blog_posts) }} @else 0 @endif</p>
                                             </a>
                                         </li>
                                     @endforeach
