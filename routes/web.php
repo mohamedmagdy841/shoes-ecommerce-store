@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Frontend\Blog\BlogCommentController;
 use App\Http\Controllers\Frontend\Blog\BlogController;
+use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SubscriberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +25,8 @@ Route::controller(ContactController::class)->name('frontend.')->group(function (
 // newsletter
 Route::post('/newsletter', [SubscriberController::class, 'store'])->name('frontend.newsletter');
 
+// search
+Route::match(['get', 'post'], '/search', SearchController::class)->name('frontend.search');
 
 // Blog
 Route::resource('blogs', BlogController::class)->parameters([
@@ -33,6 +37,7 @@ Route::post('/blog-newsletter', [BlogSubscriberController::class, 'store'])->nam
 Route::post("/comment/store", [BlogCommentController::class, 'store'])->name("blogs.comments.store");
 Route::get("/comment/{slug}", [BlogCommentController::class, 'index'])->name("blogs.comments");
 Route::get("/category/{id}", [BlogController::class, 'category'])->name("blogs.category");
+Route::match(['get', 'post'], '/blog/search', BlogSearchController::class)->name('blogs.search');
 
 // ----------------
 Route::get('/dashboard', function () {

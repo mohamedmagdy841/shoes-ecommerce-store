@@ -74,10 +74,13 @@
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search Posts" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="lnr lnr-magnifier"></i></button>
-                                </span>
+                                <form action="{{ route('blogs.search') }}" method="post">
+                                    @csrf
+                                    <input type="text" class="form-control" name="search" placeholder="Search Posts" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                    </span>
+                                </form>
                             </div><!-- /input-group -->
                             <div class="br"></div>
                         </aside>

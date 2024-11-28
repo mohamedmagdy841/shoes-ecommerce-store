@@ -9,7 +9,7 @@
                     <h1>Blog</h1>
                     <nav class="d-flex align-items-center">
                         <a href="{{ route('frontend.index') }}">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="{{ route('blogs.index') }}">Blog</a>
+                        <a href="{{ route('blogs.index') }}">{{ $mainBlog->title }}</a>
                     </nav>
                 </div>
             </div>
