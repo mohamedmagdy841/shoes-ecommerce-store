@@ -20,11 +20,24 @@ class BlogCommentController extends Controller
     {
         $data = $request->validated();
 
-        if($data){
-            notyf()->success('Thanks for your comment!');
+//        if($data){
+//            notyf()->success('Thanks for your comment!');
+//        }
+
+        $comment = BlogComment::create($data);
+
+        if(!$comment){
+            return response()->json([
+                'data'=>'Operation failed',
+            ]);
+
         }
 
-        BlogComment::create($data);
-        return redirect()->back();
+        return response()->json([
+            'msg'=>'Comment Stored Successfully!',
+            'comment'=>$comment,
+            'status'=>201,
+        ]);
+//        return redirect()->back();
     }
 }

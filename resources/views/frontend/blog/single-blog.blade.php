@@ -61,7 +61,7 @@
                          $num_of_comments = \App\Models\BlogPost::whereSlug($mainBlog->slug)->first()->blog_comments
                     @endphp
                     <div class="comments-area">
-                        <h4>@if (count($num_of_comments) > 0) {{ count($num_of_comments) }} @else 0 @endif Comments</h4>
+                        <h4 id="commentCount">@if (count($num_of_comments) > 0) {{ count($num_of_comments) }} @else 0 @endif Comments</h4>
                         @if (count($num_of_comments) > 0)
                             <div class="comments">
                                 @foreach($mainBlog->blog_comments as $comment)
@@ -91,28 +91,36 @@
                     </div>
                     <div class="comment-form">
                         <h4>Leave a Reply</h4>
-                        <form method="post" action="{{ route("blogs.comments.store") }}">
+{{--                        <form method="post" action="{{ route("blogs.comments.store") }}">--}}
+                        <form id="commentForm">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $mainBlog->id }}">
                             <div class="form-group form-inline">
                                 <div class="form-group col-lg-6 col-md-6 name">
                                     <input type="text" class="form-control" name="name" id="name" value="{{ old("name") }}" placeholder="Enter Name" onfocus="this.placeholder = ''"
                                            onblur="this.placeholder = 'Enter Name'">
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                    <div style="display: none" id="nameError" class="alert alert-danger mt-2">
+                                    </div>
+{{--                                    <x-input-error :messages="$errors->get('name')" class="mt-2" id="nameError" />--}}
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 email">
                                     <input type="text" class="form-control" name="subject" id="subject" value="{{ old("subject") }}" placeholder="Subject" onfocus="this.placeholder = ''"
                                            onblur="this.placeholder = 'Subject'">
-                                    <x-input-error :messages="$errors->get('subject')" class="mt-2" />
+                                    <div style="display: none" id="subjectError" class="alert alert-danger mt-2">
+                                    </div>
+{{--                                    <x-input-error :messages="$errors->get('subject')" class="mt-2" id="subjectError" />--}}
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="comment" placeholder="Message"
-                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required="">{{ old("name") }}</textarea>
-                                <x-input-error :messages="$errors->get('comment')" class="mt-2" />
+                                <textarea class="form-control mb-10" rows="5" name="comment" id="comment" placeholder="Message"
+                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'">{{ old("name") }}</textarea>
+                                <div style="display: none" id="commentError" class="alert alert-danger mt-2">
+                                </div>
+{{--                                <x-input-error :messages="$errors->get('comment')" class="mt-2" id="commentError" />--}}
                             </div>
                             <button type="submit" class="primary-btn submit_btn">Post Comment</button>
                         </form>
+
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -212,6 +220,7 @@
     <script>
         const { format } = window.dateFns;
 
+        // show comments
         $(document).on('click', '#showMore', function (e) {
             e.preventDefault();
             $.ajax({
@@ -247,6 +256,60 @@
                     console.error("An error occurred:", data);
                 },
             });
-        })
+        });
+
+        // store comments
+        $(document).on('submit', '#commentForm', function(e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $('#name').val('');
+            $('#subject').val('');
+            $('#comment').val('');
+
+            $.ajax({
+                url: "{{ route('blogs.comments.store') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function(data) {
+                    const createdAt = new Date(data.comment.created_at);
+                    const formattedDate = format(createdAt, 'MMM dd, yyyy hh:mm a');
+                    $('#nameError').hide();
+                    $('#subjectError').hide();
+                    $('#commentError').hide();
+                    $('.comments').prepend(`
+                            <div class="comment-list">
+                            <div class="single-comment justify-content-between d-flex">
+                                <div class="user justify-content-between d-flex">
+                                    <div class="desc">
+                                        <h5><a href="#">${ data.comment.name }</a></h5>
+                                        <p class="date">${ formattedDate  }</p>
+                                        <p class="comment">
+                                            ${ data.comment.comment }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="width:100%; border-top: 1px solid #ffba00;">`);
+
+                    // Update the comment count in the h4 tag
+                    let currentCount = parseInt($('#commentCount').text());
+                    currentCount += 1;
+                    $('#commentCount').text(`${currentCount} Comments`);
+                },
+
+                error: function(data) {
+                    var response = $.parseJSON(data.responseText);
+                    $('#nameError').text(response.errors.name).show();
+                    $('#subjectError').text(response.errors.subject).show();
+                    $('#commentError').text(response.errors.comment).show();
+                },
+
+            });
+        });
     </script>
 @endpush
