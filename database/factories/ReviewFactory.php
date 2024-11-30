@@ -3,13 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Review>
  */
-class CommentFactory extends Factory
+class ReviewFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,9 +19,9 @@ class CommentFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'comment' => $this->faker->paragraph(2),
-            'status' => $this->faker->randomElement([0,1]),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'email' => $this->faker->unique()->safeEmail(),
+            'rating' => $this->faker->numberBetween(1,5),
+            'review' => $this->faker->text(),
             'product_id' => Product::inRandomOrder()->first()->id,
         ];
     }

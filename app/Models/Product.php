@@ -15,11 +15,13 @@ class Product extends Model
     protected $fillable = [
         'category_id',
         'name',
+        'brand',
         'price',
         'status',
         'qty',
         'slug',
         'description',
+        'color',
         'width',
         'height',
         'depth',
@@ -36,9 +38,10 @@ class Product extends Model
         return $this->hasMany(Image::class, 'product_id');
     }
 
-    public function comments(): HasMany
+
+    public function reviews(): HasMany
     {
-        return $this->hasMany(Comment::class, 'product_id');
+        return $this->hasMany(Review::class, 'product_id');
     }
 
     /**
@@ -49,6 +52,11 @@ class Product extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->brand . " " . $this->name;
     }
 
 //    public function scopeActive($query)

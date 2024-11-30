@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
-            CommentSeeder::class,
             ContactSeeder::class,
             BlogCategorySeeder::class,
             BlogPostSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

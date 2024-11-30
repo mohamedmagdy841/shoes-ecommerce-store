@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SubscriberController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::controller(HomeController::class)->name('frontend.')->group(function () {
     Route::get('/', 'index')->name('index');
 });
+
+// Products
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('frontend.product');
+Route::post('/product/review', [ProductController::class, 'addReview'])->name('frontend.product.review');
 
 // Contact
 Route::controller(ContactController::class)->name('frontend.')->group(function () {
@@ -39,11 +44,7 @@ Route::get("/comment/{slug}", [BlogCommentController::class, 'index'])->name("bl
 Route::get("/category/{id}", [BlogController::class, 'category'])->name("blogs.category");
 Route::match(['get', 'post'], '/blog/search', BlogSearchController::class)->name('blogs.search');
 
-// ----------------
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+// User Profile
 Route::middleware('auth')->prefix('frontend')->name('frontend.')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

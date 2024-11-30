@@ -20,9 +20,11 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(2),
+            'brand' => $this->faker->randomElement(['Adidas', 'Nike', 'Puma', 'New Balance']),
             'price' => $this->faker->numberBetween(50, 200),
             'qty' => $this->faker->numberBetween(1, 10),
             'description' => $this->faker->text(),
+            'color' => $this->faker->colorName(),
             'width' => $this->faker->numberBetween(100, 200),
             'height' => $this->faker->numberBetween(100, 300),
             'depth' => $this->faker->numberBetween(50, 100),

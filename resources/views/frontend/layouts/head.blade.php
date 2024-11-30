@@ -29,4 +29,5 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/magnific-popup.css">
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>

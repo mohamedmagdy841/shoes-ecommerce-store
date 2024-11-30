@@ -219,6 +219,7 @@
 @push('js')
     <script>
         const { format } = window.dateFns;
+        const notyf = new Notyf();
 
         // show comments
         $(document).on('click', '#showMore', function (e) {
@@ -275,6 +276,7 @@
                 contentType: false,
 
                 success: function(data) {
+                    notyf.success('Thank you for your comment!');
                     const createdAt = new Date(data.comment.created_at);
                     const formattedDate = format(createdAt, 'MMM dd, yyyy hh:mm a');
                     $('#nameError').hide();

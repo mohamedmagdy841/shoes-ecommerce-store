@@ -3916,7 +3916,7 @@ label {
       font-weight: normal;
       color: #555555; }
       .s_product_text .list li a span {
-        width: 90px;
+        /*width: 90px;*/
         display: inline-block; }
         .s_product_text .list li a span:hover {
           color: #555; }
@@ -4071,7 +4071,7 @@ label {
       .product_description_area .tab-content .total_rate .rating_list .list li a {
         font-size: 14px;
         color: #777777; }
-        .product_description_area .tab-content .total_rate .rating_list .list li a i {
+        .product_description_area .tab-content .total_rate .rating_list .list li i {
           color: #fbd600; }
       .product_description_area .tab-content .total_rate .rating_list .list li:nth-child a i:last-child {
         color: #eeeeee; }

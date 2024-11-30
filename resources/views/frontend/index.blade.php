@@ -195,9 +195,13 @@
                         @foreach($chunk as $product)
                             <div class="col-lg-3 col-md-6">
                                 <div class="single-product">
-                                    <img class="img-fluid" src="{{ $product->images->first()->path }}" alt="">
+                                    <a href="{{ route('frontend.product', $product->slug) }}">
+                                        <img class="img-fluid" src="{{ $product->images->first()->path }}" alt="">
+                                    </a>
                                     <div class="product-details">
-                                        <h6>{{ $product->name }}</h6>
+                                        <a href="{{ route('frontend.product', $product->slug) }}">
+                                            <h6>{{ $product->name }}</h6>
+                                        </a>
                                         <div class="price">
                                             <h6>${{ $product->price }}</h6>
                                             <h6 class="l-through">$210.00</h6>
@@ -216,7 +220,7 @@
                                                 <span class="lnr lnr-sync"></span>
                                                 <p class="hover-text">compare</p>
                                             </a>
-                                            <a href="" class="social-info">
+                                            <a href="{{ route('frontend.product', $product->slug) }}" class="social-info">
                                                 <span class="lnr lnr-move"></span>
                                                 <p class="hover-text">view more</p>
                                             </a>
