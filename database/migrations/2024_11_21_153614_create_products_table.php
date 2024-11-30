@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description');
             $table->decimal('price');
+            $table->boolean('status')->default(1);
             $table->integer('qty');
             $table->decimal('width');
             $table->decimal('height');

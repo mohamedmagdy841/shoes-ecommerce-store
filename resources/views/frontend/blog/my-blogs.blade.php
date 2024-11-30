@@ -76,7 +76,6 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'post',

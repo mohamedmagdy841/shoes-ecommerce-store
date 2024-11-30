@@ -16,6 +16,7 @@ class Product extends Model
         'category_id',
         'name',
         'price',
+        'status',
         'qty',
         'slug',
         'description',
@@ -49,4 +50,9 @@ class Product extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
+//    public function scopeActive($query)
+//    {
+//        $query->where('status', 1);
+//    }
 }
