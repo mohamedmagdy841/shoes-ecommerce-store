@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('title',  config('APP_NAME') . "|" . 'Contact Us')
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">

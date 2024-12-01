@@ -1,5 +1,6 @@
 @extends('frontend.master')
 
+@section('title',  config('APP_NAME') . "|" . 'Home')
 @section('banner')
     <!-- start banner Area -->
     <section class="banner-area">

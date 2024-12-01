@@ -12,7 +12,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" >
 
     <!--

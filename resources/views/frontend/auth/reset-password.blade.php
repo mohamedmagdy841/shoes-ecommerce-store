@@ -1,5 +1,5 @@
 @extends('frontend.master')
-
+@section('title',  config('APP_NAME') . "|" . 'User Reset Password')
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
