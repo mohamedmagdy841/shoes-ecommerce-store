@@ -211,19 +211,15 @@
 
                                             <a href="" class="social-info">
                                                 <span class="ti-bag"></span>
-                                                <p class="hover-text">add to bag</p>
+                                                <p class="hover-text">Add to bag</p>
                                             </a>
-                                            <a href="" class="social-info">
+                                            <a href="" class="social-info addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                                 <span class="lnr lnr-heart"></span>
                                                 <p class="hover-text">Wishlist</p>
                                             </a>
-                                            <a href="" class="social-info">
-                                                <span class="lnr lnr-sync"></span>
-                                                <p class="hover-text">compare</p>
-                                            </a>
                                             <a href="{{ route('frontend.product', $product->slug) }}" class="social-info">
                                                 <span class="lnr lnr-move"></span>
-                                                <p class="hover-text">view more</p>
+                                                <p class="hover-text">View More</p>
                                             </a>
                                         </div>
                                     </div>
@@ -525,3 +521,59 @@
     </section>
     <!-- End related-product Area -->
 @endsection
+@push('js')
+    <script>
+        const notyf = new Notyf({
+            duration: 3000,
+            types: [
+                {
+                    type: 'warning',
+                    background: 'orange',
+                    icon: {
+                        className: 'material-icons',
+                        tagName: 'i',
+                        text: 'warning'
+                    }
+                },
+                {
+                    type: 'success',
+                    background: 'green',
+                }
+            ]
+        });
+        $(document).ready(function () {
+            $('.addToWishlist').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        if(data.message === "Product added to wishlist")
+                            notyf.open({
+                                type: 'success',
+                                message: data.message
+                            });
+                        else
+                            notyf.open({
+                                type: 'warning',
+                                message: data.message
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

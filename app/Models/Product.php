@@ -44,6 +44,12 @@ class Product extends Model
         return $this->hasMany(Review::class, 'product_id');
     }
 
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlist')
+            ->withTimestamps();
+    }
+
     /**
      * Get the options for generating the slug.
      */

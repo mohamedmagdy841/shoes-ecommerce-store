@@ -65,8 +65,9 @@
                         </div>
                         <div class="card_area d-flex align-items-center">
                             <a class="primary-btn" href="#">Add to Cart</a>
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                            <a href="" class=" ml-2 addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
+                                <span class="lnr lnr-heart"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -280,6 +281,24 @@
 @endsection
 @push('js')
     <script>
+        const notyf = new Notyf({
+            duration: 3000,
+            types: [
+                {
+                    type: 'warning',
+                    background: 'orange',
+                    icon: {
+                        className: 'material-icons',
+                        tagName: 'i',
+                        text: 'warning'
+                    }
+                },
+                {
+                    type: 'success',
+                    background: 'green',
+                }
+            ]
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             const stars = document.querySelectorAll('#rating-stars li');
@@ -314,6 +333,38 @@
 
         $(document).ready(function() {
             $('#summernote').summernote();
+            $('.addToWishlist').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        if(data.message === "Product added to wishlist")
+                            notyf.open({
+                                type: 'success',
+                                message: data.message
+                            });
+                        else
+                            notyf.open({
+                                type: 'warning',
+                                message: data.message
+                            });
+                    }
+                });
+            });
         });
     </script>
 @endpush

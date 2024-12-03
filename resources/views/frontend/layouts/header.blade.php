@@ -46,6 +46,12 @@
                         <li class="nav-item @yield('contact-active')"><a class="nav-link" href="{{ route('frontend.contact') }}">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.wishlist.get') }}" class="cart">
+                                <span class="lnr lnr-heart"></span>
+                                <span class="wishlist-counter text-danger">0</span>
+                            </a>
+                        </li>
                         <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
                         <li class="nav-item">
                             <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
@@ -67,3 +73,35 @@
     </div>
 </header>
 <!-- End Header Area -->
+@push('js')
+    <script>
+        $(document).ready(function () {
+            function updateWishlistCounter() {
+                $.ajax({
+                    url: '{{ route("frontend.wishlist.get") }}',
+                    method: 'GET',
+                    success: function (data) {
+                        let wishlistCount = data.wishlistCount || 0;
+                        let counterElement = $('.wishlist-counter');
+
+                        if (wishlistCount > 0) {
+                            counterElement.text(wishlistCount).show();
+                        } else {
+                            counterElement.hide();
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to fetch wishlist count.');
+                    }
+                });
+            }
+
+            updateWishlistCounter();
+
+            $('.addToWishlist').on('click', function () {
+                updateWishlistCounter();
+            });
+        });
+
+    </script>
+@endpush

@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SubscriberController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +23,15 @@ Route::controller(HomeController::class)->name('frontend.')->group(function () {
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('frontend.product');
 Route::post('/product/review', [ProductController::class, 'addReview'])->name('frontend.product.review');
 
-// Category
+// Shop
 Route::get('/shop', [ShopController::class, 'index'])->name('frontend.shop');
+
+// Wishlist
+Route::middleware('auth')->group(function () {
+    Route::post('/wishlist/{id}',[WishlistController::class, 'add'])->name('frontend.wishlist.add');
+    Route::get('/wishlist', [WishlistController::class, 'get'])->name('frontend.wishlist.get');
+    Route::delete('/wishlist/{id}', [WishlistController::class, 'remove'])->name('frontend.wishlist.remove');
+});
 
 // Contact
 Route::controller(ContactController::class)->name('frontend.')->group(function () {
