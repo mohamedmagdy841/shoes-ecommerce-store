@@ -30,4 +30,7 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/magnific-popup.css">
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+    <!-- the fileinput plugin styling CSS file -->
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 </head>

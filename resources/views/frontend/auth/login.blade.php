@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title',  config('APP_NAME') . "|" . 'User Login')
+@section('title',  config('app.name') . " | " . 'User Login')
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">

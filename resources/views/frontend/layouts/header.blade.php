@@ -15,15 +15,8 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item @yield('home-active')"><a class="nav-link" href="{{ route('frontend.index') }}">Home</a></li>
-                        <li class="nav-item submenu dropdown @yield('category-active')">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="category.html">All Shoes</a></li>
-                                <li class="nav-item"><a class="nav-link" href="single-product.html">Shoes For Men</a></li>
-                                <li class="nav-item"><a class="nav-link" href="checkout.html">Shoes For Women</a></li>
-                                <li class="nav-item"><a class="nav-link" href="cart.html">Shoes For Kids</a></li>
-                            </ul>
+                        <li class="nav-item submenu dropdown @yield('shop-active')">
+                            <a href="{{ route('frontend.shop') }}" class="nav-link" >Shop</a>
                         </li>
                         <li class="nav-item submenu dropdown @yield('blog-active')">
                             <a href="{{ route('blogs.index') }}" class="nav-link">Blog</a>

@@ -1,6 +1,6 @@
 @extends('frontend.master')
 
-@section('title',  config('APP_NAME') . "|" . 'Contact Us')
+@section('title',  config('app.name') . " | " . 'Contact Us')
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <textarea class="form-control" name="message" rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'">{{ old('message') }}</textarea>
+                                <textarea id="summernote" class="form-control" name="message" rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'">{{ old('message') }}</textarea>
                                 <x-input-error :messages="$errors->get('message')" class="mt-2" />
                             </div>
                         </div>
@@ -80,4 +80,12 @@
         </div>
     </section>
     <!--================Contact Area =================-->
+
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+        });
+    </script>
+@endpush

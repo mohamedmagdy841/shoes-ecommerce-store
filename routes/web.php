@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\Blog\BlogCommentController;
 use App\Http\Controllers\Frontend\Blog\BlogController;
 use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
+use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
@@ -20,6 +21,9 @@ Route::controller(HomeController::class)->name('frontend.')->group(function () {
 // Products
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('frontend.product');
 Route::post('/product/review', [ProductController::class, 'addReview'])->name('frontend.product.review');
+
+// Category
+Route::get('/shop', [ShopController::class, 'index'])->name('frontend.shop');
 
 // Contact
 Route::controller(ContactController::class)->name('frontend.')->group(function () {
@@ -50,5 +54,9 @@ Route::middleware('auth')->prefix('frontend')->name('frontend.')->group(function
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/userAuth.php';

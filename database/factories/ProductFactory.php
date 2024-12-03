@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->numberBetween(50, 200),
             'qty' => $this->faker->numberBetween(1, 10),
             'description' => $this->faker->text(),
-            'color' => $this->faker->colorName(),
+            'color' => $this->faker->randomElement(['red', 'green', 'blue', 'yellow']),
             'width' => $this->faker->numberBetween(100, 200),
             'height' => $this->faker->numberBetween(100, 300),
             'depth' => $this->faker->numberBetween(50, 100),

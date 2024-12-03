@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title',  config('APP_NAME') . "|" . $product->full_name)
+@section('title',  config('app.name') . " | " . $product->full_name)
 <style>
     .fa-star {
         color: grey;
@@ -187,7 +187,7 @@
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p>{{ $review->review }}o</p>
+                                            <p>{!! $review->review !!} </p>
                                         </div>
                                     @endforeach
                                 @endif
@@ -210,25 +210,25 @@
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="hidden" name="rating" id="rating-value">
+                                            <input type="hidden" name="rating" id="rating-value" value="{{ old('rating') }}">
                                         </div>
                                         <x-input-error :messages="$errors->get('rating')" class="mt-2" />
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
+                                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Your Full name">
                                         </div>
                                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+                                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email Address">
                                         </div>
                                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea class="form-control" name="review" id="review" rows="1" placeholder="Review"></textarea>
+                                            <textarea id="summernote" class="form-control" name="review" rows="1" placeholder="Review">{{ old('review') }}</textarea>
                                         </div>
                                         <x-input-error :messages="$errors->get('review')" class="mt-2" />
                                     </div>
@@ -310,6 +310,10 @@
                     });
                 });
             });
+        });
+
+        $(document).ready(function() {
+            $('#summernote').summernote();
         });
     </script>
 @endpush

@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title',  config('APP_NAME') . "|" . $mainBlog->title)
+@section('title',  config('app.name') . " | " . $mainBlog->title)
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -72,7 +72,7 @@
                                                     <h5><a href="#">{{ $comment->name }}</a></h5>
                                                     <p class="date">{{ $comment->created_at->format("M d, Y h:i A") }}</p>
                                                     <p class="comment">
-                                                        {{ $comment->comment }}
+                                                        {!! $comment->comment !!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="comment" id="comment" placeholder="Message"
+                                <textarea class="form-control mb-10" rows="5" name="comment" id="summernote" placeholder="Message"
                                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'">{{ old("name") }}</textarea>
                                 <div style="display: none" id="commentError" class="alert alert-danger mt-2">
                                 </div>
@@ -312,6 +312,10 @@
                 },
 
             });
+        });
+
+        $(document).ready(function() {
+            $('#summernote').summernote();
         });
     </script>
 @endpush

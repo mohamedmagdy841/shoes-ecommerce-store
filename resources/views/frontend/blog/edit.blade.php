@@ -1,5 +1,5 @@
 @extends('frontend.master')
-@section('title',  config('APP_NAME') . "|" . 'Update Blog')
+@section('title',  config('app.name') . " | " . 'Update Blog')
 @section('banner')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -30,7 +30,7 @@
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="file" name="image">
+                                <input id="input-id" class="form-control" type="file" name="image">
                                 <x-input-error :messages="$errors->get('image')" class="mt-2" />
                             </div>
                             <div class="mb-3">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <textarea rows="5" class="form-control" name="description" placeholder="Write description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write description'">{{ $blog->description }}</textarea>
+                                <textarea id="summernote" rows="5" class="form-control" name="description" placeholder="Write description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write description'">{{ $blog->description }}</textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
                         </div>
@@ -62,3 +62,11 @@
     </section>
     <!--================Contact Area =================-->
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+            $("#input-id").fileinput();
+        });
+    </script>
+@endpush
