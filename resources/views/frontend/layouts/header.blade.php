@@ -52,7 +52,12 @@
                                 <span class="wishlist-counter text-danger">0</span>
                             </a>
                         </li>
-                        <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.cart.get') }}" class="cart">
+                                <span class="ti-bag"></span>
+                                <span class="cart-counter text-danger">0</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                         </li>
@@ -100,6 +105,32 @@
 
             $('.addToWishlist').on('click', function () {
                 updateWishlistCounter();
+            });
+
+            function updateCartCounter() {
+                $.ajax({
+                    url: '{{ route("frontend.cart.get") }}',
+                    method: 'GET',
+                    success: function (data) {
+                        let cartCount = data.cartCount || 0;
+                        let counterElement = $('.cart-counter');
+
+                        if (cartCount > 0) {
+                            counterElement.text(cartCount).show();
+                        } else {
+                            counterElement.hide();
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to fetch cart count.');
+                    }
+                });
+            }
+
+            updateCartCounter();
+
+            $('.addToCart').on('click', function () {
+                updateCartCounter();
             });
         });
 

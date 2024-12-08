@@ -209,9 +209,9 @@
                                         </div>
                                         <div class="prd-bottom">
 
-                                            <a href="" class="social-info">
+                                            <a href="" class="social-info addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">
                                                 <span class="ti-bag"></span>
-                                                <p class="hover-text">Add to bag</p>
+                                                <p class="hover-text">add to bag</p>
                                             </a>
                                             <a href="" class="social-info addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                                 <span class="lnr lnr-heart"></span>

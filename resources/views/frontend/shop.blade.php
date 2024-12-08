@@ -138,7 +138,7 @@
                                                 <h6>${{ $product->price }}</h6>
                                             </div>
                                             <div class="prd-bottom">
-                                                <a href="" class="social-info">
+                                                <a href="" class="social-info addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">
                                                     <span class="ti-bag"></span>
                                                     <p class="hover-text">add to bag</p>
                                                 </a>
@@ -269,6 +269,33 @@
                                 type: 'warning',
                                 message: data.message
                             });
+                    }
+                });
+            });
+
+            $('.addToCart').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        notyf.open({
+                            type: 'success',
+                            message: data.message
+                        });
                     }
                 });
             });

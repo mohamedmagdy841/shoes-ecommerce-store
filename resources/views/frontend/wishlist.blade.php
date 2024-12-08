@@ -23,7 +23,8 @@
 
 @section('content')
     <div class="container mt-5">
-        <div class="row">
+        @if(isset($wishlist) && $wishlist->count() > 0)
+            <div class="row">
         @foreach($wishlist as $product)
             <div class="col-lg-3 col-md-6">
                 <div class="single-product">
@@ -52,6 +53,12 @@
             </div>
         @endforeach
         </div>
+        @else
+            <div class="text-center">
+                <h3>Your Wishlist Is Empty</h3>
+                <a class="primary-btn mt-2" href="{{ route('frontend.shop') }}">Continue Shopping</a>
+            </div>
+        @endif
     </div>
 @endsection
 @push('js')

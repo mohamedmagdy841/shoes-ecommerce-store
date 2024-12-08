@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\Blog\BlogCommentController;
 use App\Http\Controllers\Frontend\Blog\BlogController;
 use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -31,6 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/{id}',[WishlistController::class, 'add'])->name('frontend.wishlist.add');
     Route::get('/wishlist', [WishlistController::class, 'get'])->name('frontend.wishlist.get');
     Route::delete('/wishlist/{id}', [WishlistController::class, 'remove'])->name('frontend.wishlist.remove');
+});
+
+// Cart
+Route::middleware('auth')->group(function () {
+    Route::post('/cart/{id}',[CartController::class, 'add'])->name('frontend.cart.add');
+    Route::get('/cart', [CartController::class, 'get'])->name('frontend.cart.get');
+    Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('frontend.cart.remove');
+    Route::patch('/cart/{id}/update-quantity/{action}', [CartController::class, 'updateQuantity'])
+        ->name('frontend.cart.updateQuantity');
+    Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('frontend.cart.clear');
 });
 
 // Contact
