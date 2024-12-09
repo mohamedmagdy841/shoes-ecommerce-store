@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'wishlist')->withTimestamps();
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return $this->street . " " . $this->city . " " . $this->country;
+    }
 }

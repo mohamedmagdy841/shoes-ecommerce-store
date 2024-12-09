@@ -64,7 +64,7 @@
                                     class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
                         <div class="card_area d-flex align-items-center">
-                            <a class="primary-btn" href="#">Add to Cart</a>
+                            <a href="" class="primary-btn addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">Add to Cart</a>
                             <a href="" class=" ml-2 addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                 <span class="lnr lnr-heart"></span>
                             </a>
@@ -266,7 +266,7 @@
                                         <div class="desc">
                                             <a href="{{ route('frontend.product', $product->slug) }}" class="title">{{ $product->full_name }}</a>
                                             <div class="price">
-                                                <h6>${{ $product->price }}</h6>
+                                                <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -362,6 +362,33 @@
                                 type: 'warning',
                                 message: data.message
                             });
+                    }
+                });
+            });
+
+            $('.addToCart').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        notyf.open({
+                            type: 'success',
+                            message: data.message
+                        });
                     }
                 });
             });

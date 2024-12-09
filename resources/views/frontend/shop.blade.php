@@ -135,7 +135,7 @@
                                                 <h6>{{ $product->full_name }}</h6>
                                             </a>
                                             <div class="price">
-                                                <h6>${{ $product->price }}</h6>
+                                                <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                             </div>
                                             <div class="prd-bottom">
                                                 <a href="" class="social-info addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">

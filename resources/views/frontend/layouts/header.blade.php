@@ -31,6 +31,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{ route("frontend.profile.edit") }}">My Profile</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route("blogs.myBlogs") }}">My Blogs</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route("frontend.orders.index") }}">My Orders</a></li>
                                     <li class="nav-item">
                                         <form action="{{ route('logout') }}" method="post" id="logout_form">
                                             @csrf

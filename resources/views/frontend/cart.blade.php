@@ -7,11 +7,7 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>My Wishlist</h1>
-                    <nav class="d-flex align-items-center">
-                        <a href="{{ route('frontend.index') }}">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="{{ route('frontend.cart.get') }}">My Cart</a>
-                    </nav>
+                    <h1>My Cart</h1>
                 </div>
             </div>
         </div>
@@ -50,7 +46,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <h5>{{Number::currency($item->price)}}</h5>
+                                        <h5>{{Number::currency($item->price,'EGP')}}</h5>
                                     </td>
                                     <td>
                                         <button data-id="{{ $item->id }}" data-action="decrease" class="btn btn-default bootstrap-touchspin-down update-quantity" style="background-color: #ffba00; line-height: 1;">-</button>
@@ -59,7 +55,7 @@
 
                                     </td>
                                     <td>
-                                        <h5>{{Number::currency($item->price * $item->quantity)}}</h5>
+                                        <h5>{{Number::currency($item->price * $item->quantity,'EGP')}}</h5>
                                     </td>
                                     <td>
                                         <a class="delete-item btn btn-danger waves-effect waves-light ml-2" data-id="{{ $item->id }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -81,12 +77,9 @@
 
                                 </td>
                                 <td>
-                                    <div class="cupon_text d-flex align-items-center">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <a class="primary-btn" href="#">Apply</a>
-                                        <a class="gray_btn" href="#">Close Coupon</a>
-                                    </div>
+
                                 </td>
+
                             </tr>
                             <tr>
                                 <td>
@@ -102,7 +95,7 @@
                                     <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5>{{Number::currency($subtotal)}}</h5>
+                                    <h5>{{Number::currency($subtotal,'EGP')}}</h5>
                                 </td>
                             </tr>
                             <tr class="out_button_area">
@@ -121,7 +114,7 @@
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
                                         <a class="gray_btn" style="width: 230px" href="{{ route('frontend.shop') }}">Continue Shopping</a>
-                                        <a class="primary-btn" style="width: 220px" href="#">Proceed to checkout</a>
+                                        <a class="primary-btn" style="width: 220px" href="{{ route('frontend.checkout.index') }}">Proceed to checkout</a>
                                     </div>
                                 </td>
                             </tr>

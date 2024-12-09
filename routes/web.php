@@ -5,6 +5,8 @@ use App\Http\Controllers\Frontend\Blog\BlogController;
 use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -43,6 +45,16 @@ Route::middleware('auth')->group(function () {
         ->name('frontend.cart.updateQuantity');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('frontend.cart.clear');
 });
+
+// Order
+Route::middleware('auth')->group(function () {
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('frontend.orders.store'); // Place order
+    Route::get('/orders', [OrderController::class, 'index'])->name('frontend.orders.index'); // List user orders
+//    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('frontend.orders.show'); // View order details
+});
+
+// Checkout
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index')->middleware('auth');
 
 // Contact
 Route::controller(ContactController::class)->name('frontend.')->group(function () {

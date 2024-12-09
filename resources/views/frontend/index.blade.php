@@ -204,7 +204,7 @@
                                             <h6>{{ $product->name }}</h6>
                                         </a>
                                         <div class="price">
-                                            <h6>${{ $product->price }}</h6>
+                                            <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                             <h6 class="l-through">$210.00</h6>
                                         </div>
                                         <div class="prd-bottom">
@@ -571,6 +571,33 @@
                                 type: 'warning',
                                 message: data.message
                             });
+                    }
+                });
+            });
+
+            $('.addToCart').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        notyf.open({
+                            type: 'success',
+                            message: data.message
+                        });
                     }
                 });
             });
