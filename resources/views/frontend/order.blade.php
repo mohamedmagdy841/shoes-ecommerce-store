@@ -55,7 +55,7 @@
                         </td>
                         <td class="d-flex justify-content-between">
 {{--                            <a href="{{ route('user.order.details',$order->id) }}" class="btn-small d-block text-primary"> <i class="fas fa-eye"></i>View</a>--}}
-{{--                            <a href="{{ route('user.invoice.download',$item->id) }}" class="btn-small d-block text-danger"> <i class="fa fa-download"></i> Invoice</a>--}}
+                            <a href="{{ route('frontend.orders.invoice.download',$order->id) }}" class="btn-small d-block text-danger"> <i class="fa fa-download"></i> Invoice</a>
                         </td>
                     </tr>
                 @endforeach

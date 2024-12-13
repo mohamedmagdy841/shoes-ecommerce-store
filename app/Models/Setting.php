@@ -24,4 +24,9 @@ class Setting extends Model
         'instagram',
         'youtube',
     ];
+
+    public function getFullAddressAttribute()
+    {
+        return $this->street . ", " . $this->city . ", " . $this->country;
+    }
 }

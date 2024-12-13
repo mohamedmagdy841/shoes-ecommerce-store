@@ -18,6 +18,10 @@ class UserSeeder extends Seeder
             'name' => 'Mohamed Magdy',
             'email' => 'user@gmail.com',
             'password' => Hash::make('123456789'),
+            'phone' => '0123456789',
+            'street' => '12th street',
+            'city' => 'Mansoura',
+            'country' => 'Egypt'
         ]);
     }
 }

@@ -71,6 +71,6 @@ class User extends Authenticatable
 
     public function getFullAddressAttribute()
     {
-        return $this->street . " " . $this->city . " " . $this->country;
+        return $this->street . ", " . $this->city . ", " . $this->country;
     }
 }

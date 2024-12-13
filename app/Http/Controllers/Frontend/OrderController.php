@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Facades\DB;
@@ -28,17 +29,14 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-            // Calculate total amount
             $totalAmount = $cartItems->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
 
-            // Create order
             $order = $user->orders()->create([
                 'total_price' => $totalAmount,
             ]);
 
-            // Add order items
             foreach ($cartItems as $item) {
                 $order->items()->create([
                     'product_id' => $item->id,
@@ -47,7 +45,6 @@ class OrderController extends Controller
                 ]);
             }
 
-            // Clear the cart
             Cart::session($user->id)->clear();
 
             DB::commit();
@@ -67,5 +64,16 @@ class OrderController extends Controller
 //
 //        return view('frontend.orders.show', compact('order'));
 //    }
+
+    public function orderInvoiceDownload($id)
+    {
+        $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
+        $pdf = Pdf::loadView('frontend.invoice_download',compact('order'))
+            ->setPaper('a4')->setOption([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+            ]);
+        return $pdf->download('invoice.pdf');
+    }
 
 }
