@@ -15,40 +15,7 @@
                     <x-input-error :messages="$errors->get('status')" class="mt-2" />
                 </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModaladd" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModaladd">Add New Category</h5>
-                                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" action="{{ route('admin.categories.store') }}">
-                                    @csrf
-                                    <label>Name</label>
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="name" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="name-addon">
-                                    </div>
-                                    <label>Status</label>
-                                    <div class="input-group mb-3">
-                                        <select class="form-select" name="status" aria-label="Default select example">
-                                            <option selected>Select Category Status</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">Not Active</option>
-                                        </select></div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn bg-gradient-primary">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                @include('admin.category.create')
 
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
@@ -58,7 +25,7 @@
                                 <tr>
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Name</th>
-
+                                    <th class="text-uppercase text-s font-weight-bolder">Number Of Products</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Created At</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Status</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Action</th>
@@ -68,13 +35,16 @@
                                 @forelse($categories as $key => $category)
                                     <tr>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $key+1 }}</span>
+                                            <span class=" text-s">{{ $loop->iteration + $categories->firstItem() - 1 }}</span>
                                         </td>
                                         <td class="align-middle">
                                             <span class=" text-s">{{ $category->name }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $category->created_at->format('Y-m-d h-i a') }}</span>
+                                            <span class=" text-s">{{ $category->products_count }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class=" text-s">{{ $category->created_at->format('Y-m-d h:i a') }}</span>
                                         </td>
                                         <td class="align-middle">
                                             <a href="{{ route('admin.categories.changeStatus', $category->id) }}">
@@ -85,7 +55,7 @@
                                             <a href="javascript:void(0)" class="badge badge-sm bg-gradient-info" data-bs-toggle="modal"
                                                data-bs-target="#edit-category-{{ $category->id }}"><i class="fa fa-edit"></i></a>
 
-                                            <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.users.destroy',$category)}}">
+                                            <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.categories.destroy',$category)}}">
                                                 @csrf
                                                 @method('delete')
 

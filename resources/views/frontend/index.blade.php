@@ -197,7 +197,7 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="single-product">
                                     <a href="{{ route('frontend.product', $product->slug) }}">
-                                        <img class="img-fluid" src="{{ $product->images->first()->path }}" alt="">
+                                        <img class="img-fluid" src="{{ asset('storage/'.$product->images->first()->path) }}" alt="">
                                     </a>
                                     <div class="product-details">
                                         <a href="{{ route('frontend.product', $product->slug) }}">

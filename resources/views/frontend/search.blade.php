@@ -19,7 +19,7 @@
                 @foreach($products as $product)
                             <div class="col-lg-3 col-md-6 mt-5">
                                 <div class="single-product">
-                                    <img class="img-fluid" src="{{ $product->images->first()->path }}" alt="">
+                                    <img class="img-fluid" src="{{ asset('storage/'.$product->images->first()->path) }}" alt="">
                                     <div class="product-details">
                                         <h6>{{ $product->name }}</h6>
                                         <div class="price">

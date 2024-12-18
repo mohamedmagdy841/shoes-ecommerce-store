@@ -262,7 +262,7 @@
                             @foreach($relatedProducts as $product)
                                 <div class="col-lg-3 col-md-6">
                                     <div class="single-product">
-                                        <a href="{{ route('frontend.product', $product->slug) }}"><img class="img-fluid" src="{{ $product->images->first()->path }}" alt=""></a>
+                                        <a href="{{ route('frontend.product', $product->slug) }}"><img class="img-fluid" src="{{ asset('storage/'.$product->images->first()->path) }}" alt=""></a>
                                         <div class="desc">
                                             <a href="{{ route('frontend.product', $product->slug) }}" class="title">{{ $product->full_name }}</a>
                                             <div class="price">

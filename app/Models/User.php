@@ -75,7 +75,7 @@ class User extends Authenticatable
         return $this->street . ", " . $this->city . ", " . $this->country;
     }
 
-        public function scopeActive($query)
+    public function scopeActive($query)
     {
         return $query->where('status', 1);
     }

@@ -22,6 +22,7 @@ class ShopController extends Controller
         $sortBy = $request->input('sort_by');
 
         $products = Product::with('images')
+            ->active()
             ->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
             $query->whereIn('category_id', $selectedCategories);})
             ->when(!empty($selectedBrand), function ($query) use ($selectedBrand) {

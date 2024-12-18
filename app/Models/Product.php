@@ -65,8 +65,8 @@ class Product extends Model
         return $this->brand . " " . $this->name;
     }
 
-//    public function scopeActive($query)
-//    {
-//        $query->where('status', 1);
-//    }
+    public function scopeActive($query)
+    {
+        $query->where('status', 1);
+    }
 }
