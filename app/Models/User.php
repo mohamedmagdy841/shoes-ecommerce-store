@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     public function sendPasswordResetNotification($token)
     {
@@ -72,5 +73,10 @@ class User extends Authenticatable
     public function getFullAddressAttribute()
     {
         return $this->street . ", " . $this->city . ", " . $this->country;
+    }
+
+        public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }

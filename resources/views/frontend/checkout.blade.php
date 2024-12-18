@@ -22,7 +22,7 @@
         <div class="container">
             <div class="billing_details">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <h3>Delivery Address</h3>
                         <div class="card" style="width: 25rem;">
                             <div class="card-body">
@@ -36,29 +36,9 @@
                         <div class="card" style="width: 25rem;">
                             <div class="card-body">
                                 <h5 class="card-subtitle mb-2">Credit/Debit Cards</h5>
-                                <div class="card-body">
-                                    <div class="payment_item">
-                                    <div class="radion_btn">
-                                        <input type="radio" id="f-option5" name="selector">
-                                        <label for="f-option5">Cash On Delivery</label>
-                                        <div class="check"></div>
-                                    </div>
-                                    <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
-                                        Store Postcode.</p>
-                                </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="payment_item active">
-                                    <div class="radion_btn">
-                                        <input type="radio" id="f-option6" name="selector">
-                                        <label for="f-option6">Paypal </label>
-                                        <img src="img/product/card.jpg" alt="">
-                                        <div class="check"></div>
-                                    </div>
-                                    <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
-                                        account.</p>
-                                </div>
-                                </div>
+
+
+
                                 <div class="creat_account">
                                     <input type="checkbox" id="f-option4" name="selector">
                                     <label for="f-option4">I’ve read and accept the </label>
@@ -67,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="order_box">
                             <h2>Your Order</h2>
                             <ul class="list">
@@ -77,11 +57,41 @@
                                 @endforeach
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>{{ Number::currency($subtotal) }}</span></a></li>
+                                <li><a href="#">Subtotal <span>{{ Number::currency($subtotal, 'EGP') }}</span></a></li>
                             </ul>
                             <form action="{{ route('frontend.orders.store') }}" method="post">
                                 @csrf
-                                <button type="submit" class="primary-btn" href="{{ route('frontend.orders.store') }}">Place Order</button>
+                                <div class="card-body">
+                                    <div class="payment_item">
+                                        <div class="radion_btn">
+                                            <input type="radio" id="f-option5" name="payment_method" value="cash_on_delivery">
+                                            <label for="f-option5">Cash On Delivery</label>
+                                            <x-input-error :messages="$errors->get('payment_method')" class="mt-2" />
+                                            <div class="check"></div>
+                                        </div>
+                                        <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
+                                            Store Postcode.</p>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="payment_item active">
+                                        <div class="radion_btn">
+                                            <input type="radio" id="f-option6" name="payment_method" value="paymob">
+                                            <label for="f-option6">Paymob</label>
+                                            <x-input-error :messages="$errors->get('payment_method')" class="mt-2" />
+                                            <div class="check"></div>
+                                        </div>
+                                        {{--                                        <form action="{{ route('payment.process') }}" method="POST">--}}
+                                        {{--                                            @csrf--}}
+                                        {{--                                            <input type="hidden" name="payment_method" value="paymob">--}}
+                                        {{--                                            <button type="submit" class="btn btn-primary">Pay Now</button>--}}
+                                        {{--                                        </form>--}}
+
+                                        <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
+                                            account.</p>
+                                    </div>
+                                </div>
+                                <button type="submit" class="primary-btn">Place Order</button>
                             </form>
                         </div>
                     </div>

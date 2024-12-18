@@ -21,6 +21,7 @@
 <body class="g-sidenav-show  bg-gray-100">
     @include('admin.layouts.side-bar')
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+        @include('admin.layouts.nav-bar')
         @yield('content')
     </main>
     @include('admin.layouts.scripts')

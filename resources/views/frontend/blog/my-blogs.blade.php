@@ -36,9 +36,9 @@
             </thead>
             <tbody>
             @if(count($blogs) > 0)
-                @foreach($blogs as $blog)
+                @foreach($blogs as $key => $blog)
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">{{ $key+1 }}</th>
                         <td>{{ $blog->title }}</td>
                         <td>{{ $blog->created_at->format("d M Y, h:i A") }}</td>
                         <td>

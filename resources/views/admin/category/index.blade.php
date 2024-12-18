@@ -1,0 +1,161 @@
+@extends('admin.master')
+@section('title', 'Manage Categories')
+@section('category active', 'active')
+@section('content')
+    <div class="container-fluid py-5">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="text-end">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#addNew">
+                        Add New Category
+                    </button>
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModaladd" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModaladd">Add New Category</h5>
+                                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="{{ route('admin.categories.store') }}">
+                                    @csrf
+                                    <label>Name</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="name" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="name-addon">
+                                    </div>
+                                    <label>Status</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" name="status" aria-label="Default select example">
+                                            <option selected>Select Category Status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Not Active</option>
+                                        </select></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn bg-gradient-primary">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card mb-4">
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center m-3">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-s font-weight-bolder">#</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">Name</th>
+
+                                    <th class="text-uppercase text-s font-weight-bolder">Created At</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">Status</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($categories as $key => $category)
+                                    <tr>
+                                        <td class="align-middle">
+                                            <span class=" text-s">{{ $key+1 }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class=" text-s">{{ $category->name }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class=" text-s">{{ $category->created_at->format('Y-m-d h-i a') }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="{{ route('admin.categories.changeStatus', $category->id) }}">
+                                            <span class="badge badge-sm bg-gradient-@if($category->status==1)success @else()danger @endif ">{{ $category->status==1?'Active':'Not Active' }}</span>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:void(0)" class="badge badge-sm bg-gradient-info" data-bs-toggle="modal"
+                                               data-bs-target="#edit-category-{{ $category->id }}"><i class="fa fa-edit"></i></a>
+
+                                            <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.users.destroy',$category)}}">
+                                                @csrf
+                                                @method('delete')
+
+                                                <button type="submit" style="border: 0" class="badge badge-sm bg-gradient-danger">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {{-- edit Category modal --}}
+                                    @include('admin.category.edit')
+                                    {{-- end edit category modal --}}
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="align-middle text-center"><span class="text-m font-weight-bold">No Categories</span></td>
+                                    </tr>
+                                @endforelse
+
+                                </tbody>
+                            </table>
+                            {{ $categories->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('.delete-form').on('submit', function(e) {
+                e.preventDefault();
+                var button = $(this);
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: button.data('route'),
+                            data: {
+                                '_method': 'delete'
+                            },
+                            success: function (response, textStatus, xhr) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    confirmButtonColor: "#ffba00",
+                                    title: response,
+                                }).then((result) => {
+                                    window.location='/admin/categories'
+                                });
+                            }
+                        });
+                    }
+                });
+
+            })
+        });
+    </script>
+@endpush

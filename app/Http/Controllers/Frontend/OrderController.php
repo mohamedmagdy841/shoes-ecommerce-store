@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Cart;
@@ -16,8 +17,9 @@ class OrderController extends Controller
         return view('frontend.order', compact('orders'));
     }
 
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
+
         $user = auth()->user();
         $cartItems = Cart::session($user->id)->getContent();
 
@@ -32,9 +34,10 @@ class OrderController extends Controller
             $totalAmount = $cartItems->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
-
+            $request->validated();
             $order = $user->orders()->create([
                 'total_price' => $totalAmount,
+                'payment_method' => $request->input('payment_method'),
             ]);
 
             foreach ($cartItems as $item) {

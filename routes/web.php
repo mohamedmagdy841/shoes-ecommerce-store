@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SubscriberController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,11 @@ Route::middleware('auth')->group(function () {
 
 // Checkout
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index')->middleware('auth');
+
+// Payment
+
+//Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
+//Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
 // Contact
 Route::controller(ContactController::class)->name('frontend.')->group(function () {
