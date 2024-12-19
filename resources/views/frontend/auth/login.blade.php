@@ -61,7 +61,26 @@
                                 </div>
                             @endif
                         </form>
+                        <div class="mt-4 pt-2 text-center">
+                            <div class="signin-other-title">
+                                <h5 class="font-size-14 mb-3 text-muted fw-medium">- Sign in with -</h5>
+                            </div>
 
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a href="{{ route('socialite.login', ['provider' => 'github']) }}"
+                                       class="">
+                                        <i class="fa-brands fa-github fa-2xl"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="{{ route('socialite.login', ['provider' => 'google']) }}"
+                                       class="">
+                                        <i class="fa-brands fa-google fa-2xl" style="color: #EA4335"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

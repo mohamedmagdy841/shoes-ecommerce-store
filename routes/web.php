@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\SocialiteController;
 use App\Http\Controllers\Frontend\SubscriberController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\PaymentController;
@@ -98,3 +99,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/userAuth.php';
+
+Route::name('socialite.')->controller(SocialiteController::class)->group(function () {
+    Route::get('{provider}/login', 'login')->name('login');
+    Route::get('{provider}/redirect', 'redirect')->name('redirect');
+});

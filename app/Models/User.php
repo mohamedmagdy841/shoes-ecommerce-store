@@ -35,6 +35,8 @@ class User extends Authenticatable
         'street',
         'city',
         'country',
+        'provider',
+        'provider_id',
     ];
 
     /**
