@@ -22,4 +22,6 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+
+    @vite('resources/js/app.js')
 </head>

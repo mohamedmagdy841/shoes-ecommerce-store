@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\UserAuth;
 
+use App\Events\NewUserRegisteredEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\User;
+use App\Notifications\NewUserRegisterd;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,7 +44,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
         event(new Registered($user));
+
+        $admin = Admin::findOrFail(1);
+        $admin->notify(new NewUserRegisterd($user));
+
+        NewUserRegisteredEvent::dispatch($user);
 
         Auth::login($user);
 

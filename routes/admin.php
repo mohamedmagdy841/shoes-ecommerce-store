@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ManageProductController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ManageCategoryController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
@@ -22,6 +23,15 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // product
     Route::resource('products', ManageProductController::class)->except('show');
     Route::get('products/status/{id}' ,[ManageProductController::class, 'changeStatus'])->name('products.changeStatus');
+
+    ##------------------------------------------------------- MARL ALL NOTIFICATIONS AS READ
+    Route::get('/notification/markasread', function () {
+        Auth::guard('admin')->user()->notifications->markAsRead();
+    })->name('notifications.read');
+    ##------------------------------------------------------- CLEAR ALL NOTIFICATIONS
+    Route::get('/notification/clear', function () {
+        Auth::guard('admin')->user()->notifications()->delete();
+    })->name('notifications.clear');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

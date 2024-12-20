@@ -100,7 +100,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/userAuth.php';
 
-Route::name('socialite.')->controller(SocialiteController::class)->group(function () {
+Route::prefix('socialite')->name('socialite.')->controller(SocialiteController::class)->group(function () {
     Route::get('{provider}/login', 'login')->name('login');
     Route::get('{provider}/redirect', 'redirect')->name('redirect');
 });
