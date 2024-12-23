@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Shoes E-commerce Store 
+This project is a comprehensive e-commerce platform for purchasing shoes, featuring real-time notifications, social authentication, dynamic cart management, and a robust admin panel. The application is fully containerized with Docker to ensure reliable and scalable deployment.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+### **Database Schema**  
+![drawSQL-image-export-2024-12-23](https://github.com/user-attachments/assets/61da9aeb-ad43-44e0-b4af-36664ef0929e)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### **Key Features**  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Real-Time Notifications**: Integrated Laravel Echo and Pusher to provide real-time updates for order statuses, promotions, and more.  
+- **Multi-Authentication System**: Supports multiple auth guards for users and admins, ensuring secure role-based access.  
+- **Social Authentication**: Implemented using Laravel Socialite, allowing users to log in or register via Google and GitHub OAuth providers.  
+- **Dynamic Shopping Cart**: A custom-built shopping cart system that adapts to user preferences and supports seamless item addition, removal, and updates.  
+- **PDF Invoice Generation**: Automatically generates downloadable invoices for each order.
+- **Dockerized Setup**: Fully containerized with Docker to standardize development and simplify deployment.
+- **Redis Caching**: Optimized performance by caching frequently accessed data using Redis.  
+- **Search and Filter**: Advanced search functionality with filters for brand, size, price range, and ratings.  
+- **Rating and Review System**: Users can rate and review purchased products, enhancing customer engagement.  
+- **Admin Panel**: A dedicated admin dashboard for managing products, users, orders, and reviews.  
+- **Reset Password Mail**: Allows users to reset their passwords securely via email.  
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **Technologies Used**  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Laravel 11**: Core framework for building the application.  
+- **Pusher and Echo**: For implementing real-time notifications.  
+- **Laravel Socialite**: Handles OAuth-based social logins.  
+- **Redis**: Speeds up the application with efficient caching.  
+- **Docker**: Ensures consistent and scalable deployments.  
+- **MySQL**: Backend database for storing application data.  
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### **Docker and Deployment**  
+<p align="center"><a href="https://www.docker.com/" target="_blank"><img src="https://github.com/user-attachments/assets/1511730a-e1cb-4a3f-b605-8f35cad40027" width="400" alt="Docker Logo"></a></p>
 
-### Premium Partners
+The project is fully containerized using Docker and Docker Compose for simplified setup and deployment.  
+- Apache and MySQL services run in Docker containers.  
+- Laravel serves the application from the `/public` directory.  
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+### **Getting Started**  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### **Clone the Repository**  
+```bash
+git clone https://github.com/your-username/shoes-ecommerce-store.git
+cd shoes-ecommerce-store
+```
 
-## Code of Conduct
+#### **Set up Docker**  
+Ensure Docker is installed, then start the containers:  
+```bash
+docker-compose up
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### **Configure Environment**  
+Set up the `.env` file with database credentials, Pusher keys, Redis configuration, and OAuth credentials for Google and GitHub.  
 
-## Security Vulnerabilities
+#### **Run Migrations and Seeders**  
+```bash
+php artisan migrate --seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### **Access the Application**  
+Visit `http://localhost` in your browser to explore the platform.  
