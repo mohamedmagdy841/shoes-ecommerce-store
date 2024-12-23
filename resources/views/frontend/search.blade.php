@@ -23,8 +23,7 @@
                                     <div class="product-details">
                                         <h6>{{ $product->name }}</h6>
                                         <div class="price">
-                                            <h6>${{ $product->price }}</h6>
-                                            <h6 class="l-through">$210.00</h6>
+                                            <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                         </div>
                                         <div class="prd-bottom">
 

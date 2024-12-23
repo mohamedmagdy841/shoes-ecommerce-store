@@ -9,26 +9,25 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::view('/', 'admin.index')->name('dashboard');
 
-    // user
+    // User
     Route::controller(ManageUserController::class)->group(function () {
         Route::get('/users', 'index')->name('users.index');
         Route::delete('/users/{id}', 'destroy')->name('users.destroy');
         Route::get('users/status/{id}' ,'changeStatus')->name('users.changeStatus');
     });
 
-    // category
+    // Category
     Route::resource('categories', ManageCategoryController::class)->except(['show', 'create', 'edit']);
     Route::get('categories/status/{id}' ,[ManageCategoryController::class, 'changeStatus'])->name('categories.changeStatus');
 
-    // product
+    // Product
     Route::resource('products', ManageProductController::class)->except('show');
     Route::get('products/status/{id}' ,[ManageProductController::class, 'changeStatus'])->name('products.changeStatus');
 
-    ##------------------------------------------------------- MARL ALL NOTIFICATIONS AS READ
+    // Notifications
     Route::get('/notification/markasread', function () {
         Auth::guard('admin')->user()->notifications->markAsRead();
     })->name('notifications.read');
-    ##------------------------------------------------------- CLEAR ALL NOTIFICATIONS
     Route::get('/notification/clear', function () {
         Auth::guard('admin')->user()->notifications()->delete();
     })->name('notifications.clear');

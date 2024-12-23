@@ -49,7 +49,7 @@
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
                         <h3>{{ $product->full_name }}</h3>
-                        <h2>${{ $product->price  }}</h2>
+                        <h2>{{Number::currency($product->price,'EGP')}}</h2>
                         <ul class="list">
                             <li><span>Category</span> : <a href="#">{{ $product->category->name }}</a></li>
                             <li><span>Availability</span> : @if($product->qty > 0) {{ $product->qty  }} In Stock @else Out Of Stock @endif </li>

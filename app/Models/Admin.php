@@ -14,10 +14,6 @@ class Admin extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-//    public function sendPasswordResetNotification($token)
-//    {
-//        $this->notify(new UserPasswordNotification($token));
-//    }
 
     /**
      * The attributes that are mass assignable.
