@@ -18,9 +18,7 @@ class PaymobPaymentService extends BasePaymentService implements PaymentGatewayI
     {
         $this->base_url = env("PAYMOB_BASE_URL");
         $this->api_key = env("PAYMOB_API_KEY");
-        if (empty($this->base_url) || empty($this->api_key)) {
-            throw new \InvalidArgumentException('Paymob configuration is not set properly in the .env file.');
-        }
+
         $this->header = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
@@ -33,10 +31,9 @@ class PaymobPaymentService extends BasePaymentService implements PaymentGatewayI
 //first generate token to access api
     protected function generateToken()
     {
-        $response = $this->buildRequest('POST', '/api/auth/tokens', ['api_key' => $this->api_key]);
-dd($response);
+        $response = $this->buildRequest('POST', '/api/auth/tokens', $this->base_url, $this->header, ['api_key' => $this->api_key]);
 //        return $response;
-//        return $response->getData(true)['data']['token'];
+        return $response->getData(true)['data']['token'];
     }
 
     public function sendPayment(Request $request):array
@@ -47,7 +44,7 @@ dd($response);
         $data['api_source'] = "INVOICE";
         $data['integrations'] = $this->integrations_id;
 
-        $response = $this->buildRequest('POST', '/api/ecommerce/orders', $data);
+        $response = $this->buildRequest('POST', '/api/ecommerce/orders', $this->base_url, $this->header, $data);
         //handel payment response data and return it
         if ($response->getData(true)['success']) {
 

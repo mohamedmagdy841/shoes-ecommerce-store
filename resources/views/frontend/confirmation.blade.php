@@ -27,8 +27,8 @@
                         <ul class="list">
                             <li><a href="#"><span>Order number</span> : {{ $order->id }}</a></li>
                             <li><a href="#"><span>Date</span> : {{ $order->created_at->format("d M Y, h:i A") }}</a></li>
-                            <li><a href="#"><span>Total</span> : {{Number::currency($order->total_price)}}</a></li>
-                            <li><a href="#"><span>Payment method</span> : Check payments</a></li>
+                            <li><a href="#"><span>Total</span> : {{Number::currency($order->total_price, 'EGP')}}</a></li>
+                            <li><a href="#"><span>Payment method</span> : {{ $order->payment_method }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                                 <h5></h5>
                             </td>
                             <td>
-                                <p>{{ Number::currency($order->total_price) }}</p>
+                                <p>{{ Number::currency($order->total_price, 'EGP') }}</p>
                             </td>
                         </tr>
                         </tbody>

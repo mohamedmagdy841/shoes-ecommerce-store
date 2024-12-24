@@ -12,10 +12,11 @@ class BasePaymentService
      */
     protected  $base_url;
     protected array $header;
-    protected function buildRequest($method, $url, $data = null,$type='json'): \Illuminate\Http\JsonResponse
+    protected function buildRequest($method, $url,$base_url,$header, $data = null,$type='json'): \Illuminate\Http\JsonResponse
     {
         try {
-            //type ? json || form_params
+            $this->header = $header;
+            $this->base_url = $base_url;
             $response = Http::withHeaders($this->header)->send($method, $this->base_url . $url, [
                 $type => $data
             ]);
@@ -26,9 +27,12 @@ class BasePaymentService
             ], $response->status());
         } catch (Exception $e) {
             return response()->json([
-                'success' => false,
+                'success' => 'No NO No',
                 'status' => 500,
                 'message' => $e->getMessage(),
+//                'base_url' => $this->base_url,
+//                'url' =>  $url,
+//                'header' => $this->header,
             ], 500);
         }
     }

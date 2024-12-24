@@ -49,11 +49,13 @@ Route::middleware('auth')->group(function () {
 });
 
 // Order
-Route::middleware('auth')->group(function () {
-    Route::post('/orders/store', [OrderController::class, 'store'])->name('frontend.orders.store'); // Place order
-    Route::get('/orders', [OrderController::class, 'index'])->name('frontend.orders.index'); // List user orders
-//    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('frontend.orders.show'); // View order details
-    Route::get('/orders/invoice/download/{id}', [OrderController::class, 'orderInvoiceDownload'])->name('frontend.orders.invoice.download');
+Route::controller(OrderController::class)->middleware('auth')->group(function () {
+    Route::post('/orders/cashOrder', 'cashOrder')->name('frontend.orders.cash_order'); // Place order
+    Route::get('/orders', 'index')->name('frontend.orders.index'); // List user orders
+//    Route::get('/orders/{id}', 'show')->name('frontend.orders.show'); // View order details
+    Route::get('/orders/invoice/download/{id}', 'orderInvoiceDownload')->name('frontend.orders.invoice.download');
+
+    Route::post('/orders/stripe_order', 'stripeOrder')->name('frontend.orders.stripe_order');
 });
 
 // Checkout

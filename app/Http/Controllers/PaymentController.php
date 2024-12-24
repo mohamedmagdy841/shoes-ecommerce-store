@@ -37,11 +37,11 @@ class PaymentController extends Controller
     public function success()
     {
 
-        return view('payment-success');
+        return view('frontend.payments.paymob.payment-success');
     }
     public function failed()
     {
 
-        return view('payment-failed');
+        return view('frontend.payments.paymob.payment-failed');
     }
 }
