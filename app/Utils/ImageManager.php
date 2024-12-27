@@ -4,7 +4,7 @@ namespace App\Utils;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
-class ImageManger{
+class ImageManager{
 
     public static function uploadImages($request , $product=null , $user=null)
     {

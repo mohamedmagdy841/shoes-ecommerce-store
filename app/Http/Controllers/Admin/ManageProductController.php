@@ -7,14 +7,22 @@ use App\Http\Requests\Admin\Product\StoreProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Utils\ImageManger;
+use App\Utils\ImageManager;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ManageProductController extends Controller
+class ManageProductController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:add_product|edit_product|delete_product|show_product,admin', except: ['index']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -44,7 +52,7 @@ class ManageProductController extends Controller
             DB::beginTransaction();
             $product = Product::create($request->except(['_token', 'images']));
 
-            ImageManger::uploadImages($request, $product);
+            ImageManager::uploadImages($request, $product);
 
             DB::commit();
             Cache::forget('home_products');
@@ -78,8 +86,8 @@ class ManageProductController extends Controller
             $product->update($request->except(['images', '_token']));
 
             if ($request->hasFile('images')) {
-                ImageManger::deleteImages($product);
-                ImageManger::uploadImages($request, $product);
+                ImageManager::deleteImages($product);
+                ImageManager::uploadImages($request, $product);
             }
             DB::commit();
 
@@ -97,7 +105,7 @@ class ManageProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        ImageManger::deleteImages($product);
+        ImageManager::deleteImages($product);
         $product->delete();
         return response('Product deleted successfully.', 200);
     }

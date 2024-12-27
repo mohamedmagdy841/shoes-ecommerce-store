@@ -5,9 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ManageUserController extends Controller
+class ManageUserController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:delete_user,admin,admin', only: ['destroy', 'changeStatus']),
+        ];
+    }
+
     public function index()
     {
         $users = User::paginate(5);

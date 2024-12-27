@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="edit-category-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModaledit" aria-hidden="true">
+<div class="modal fade" id="view-category-{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalview" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModaledit">View Details</h5>
+                <h5 class="modal-title" id="exampleModalview">View Details</h5>
                 <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

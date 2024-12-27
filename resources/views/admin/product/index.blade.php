@@ -6,13 +6,13 @@
         <div class="row">
             <div class="col-12">
 
-                <div class="text-end">
-                    <!-- Button trigger modal -->
-                    <a href="{{ route('admin.products.create') }}" class="btn bg-gradient-primary">
-                        Add New Product
-                    </a>
-                </div>
-
+                @if(auth('admin')->user()->can('add_product'))
+                    <div class="text-end">
+                        <a href="{{ route('admin.products.create') }}" class="btn bg-gradient-primary">
+                            Add New Product
+                        </a>
+                    </div>
+                @endif
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -71,25 +71,35 @@
                                             <span class=" text-s">{{ $product->created_at->format('Y-m-d h:i a') }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="{{ route('admin.products.changeStatus', $product->id) }}">
-                                            <span class="badge badge-sm bg-gradient-@if($product->status==1)success @else()danger @endif ">{{ $product->status==1?'Active':'Not Active' }}</span>
-                                            </a>
+                                            @if(auth('admin')->user()->can('delete_product'))
+                                                <a href="{{ route('admin.products.changeStatus', $product->id) }}">
+                                                <span class="badge badge-sm bg-gradient-@if($product->status==1)success @else()danger @endif ">{{ $product->status==1?'Active':'Not Active' }}</span>
+                                                </a>
+                                            @endif
                                         </td>
                                         <td class="align-middle">
-                                            <a href="javascript:void(0)" class="badge bg-gradient-primary" data-bs-toggle="modal"
-                                               data-bs-target="#edit-category-{{ $product->id }}"><i class="fa fa-eye"></i></a>
-                                            <a href="{{ route('admin.products.edit', ['product' => $product]) }}" class="badge badge-sm bg-gradient-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                            <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.products.destroy',$product)}}">
-                                                @csrf
-                                                @method('delete')
+                                            @if(auth('admin')->user()->can('show_product'))
+                                                <a href="javascript:void(0)" class="badge bg-gradient-primary" data-bs-toggle="modal"
+                                                   data-bs-target="#view-category-{{ $product->id }}"><i class="fa fa-eye"></i></a>
+                                            @endif
+                                                @if(auth('admin')->user()->can('edit_product'))
+                                                <a href="{{ route('admin.products.edit', ['product' => $product]) }}" class="badge badge-sm bg-gradient-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                            @endif
+                                                @if(auth('admin')->user()->can('delete_product'))
+                                                <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.products.destroy',$product)}}">
+                                                    @csrf
+                                                    @method('delete')
 
-                                                <button type="submit" style="border: 0" class="badge badge-sm bg-gradient-danger">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
+                                                    <button type="submit" style="border: 0" class="badge badge-sm bg-gradient-danger">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
-                                    @include('admin.product.view')
+                                    @if(auth('admin')->user()->can('show_product'))
+                                        @include('admin.product.view')
+                                    @endif
                                 @empty
                                     <tr>
                                         <td colspan="7" class="align-middle text-center"><span class="text-m font-weight-bold">No Products</span></td>

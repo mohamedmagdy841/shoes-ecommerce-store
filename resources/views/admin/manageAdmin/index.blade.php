@@ -1,9 +1,17 @@
 @extends('admin.master')
-@section('title', 'Manage Users')
-@section('user active', 'active')
+@section('title', 'Manage Admins')
+@section('admin active', 'active')
 @section('content')
     <div class="container-fluid py-5">
         <div class="row">
+            <div class="text-end">
+                <!-- Button trigger modal -->
+                @if(auth('admin')->user()->can('add_admin'))
+                    <a href="{{ route('admin.admins.create') }}" class="btn bg-gradient-primary">
+                        Add New Product
+                    </a>
+                @endif
+            </div>
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
@@ -14,44 +22,36 @@
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Name</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Email</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Phone</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Address</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">Role</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Status</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($users as $key => $user)
+                                @forelse($admins as $key => $admin)
                                     <tr>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $loop->iteration + $users->firstItem() - 1 }}</span>
+                                            <span class=" text-s">{{ $loop->iteration + $admins->firstItem() - 1 }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $user->name }}</span>
+                                            <span class=" text-s">{{ $admin->name }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $user->email }}</span>
+                                            <span class=" text-s">{{ $admin->email }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $user->phone }}</span>
+                                            <span class=" text-s">{{ $admin->getRoleNames()[0] }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $user->full_address }}</span>
+                                            <span class=" text-s">{{ $admin->created_at->format('Y-m-d h-i a') }}</span>
                                         </td>
+
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ $user->created_at->format('Y-m-d h-i a') }}</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            @if(auth('admin')->user()->can('delete_product'))
-                                                <a href="{{ route('admin.users.changeStatus', $user->id) }}">
-                                                <span class="badge badge-sm bg-gradient-@if($user->status==1)success @else()danger @endif ">{{ $user->status==1?'Active':'Not Active' }}</span>
-                                                </a>
+                                            @if(auth('admin')->user()->can('edit_admin'))
+                                                <a href="{{ route('admin.admins.edit', ['admin' => $admin]) }}" class="badge badge-sm bg-gradient-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                             @endif
-                                        </td>
-                                        <td class="align-middle">
-                                            @if(auth('admin')->user()->can('delete_user'))
-                                                <form method="POST" class="delete-form"  data-route="{{route('admin.users.destroy',['id' => $user->id])}}">
+                                            @if(auth('admin')->user()->can('delete_admin'))
+                                                <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.admins.destroy',['admin' => $admin])}}">
                                                     @csrf
                                                     @method('delete')
 
@@ -64,7 +64,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="align-middle text-center"><span class="text-m font-weight-bold">No Users</span></td>
+                                        <td colspan="7" class="align-middle text-center"><span class="text-m font-weight-bold text-danger">No Admins</span></td>
                                     </tr>
                                 @endforelse
 
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                {{ $users->links() }}
+                            {{ $admins->links() }}
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
                                     confirmButtonColor: "#ffba00",
                                     title: response,
                                 }).then((result) => {
-                                    window.location='/admin/users'
+                                    window.location='/admin/admins'
                                 });
                             }
                         });

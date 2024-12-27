@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::create([
+        $admin = Admin::create([
             'name' => 'Admin Mohamed Magdy',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456789'),
@@ -23,5 +23,7 @@ class AdminSeeder extends Seeder
             'city' => 'Nasr City',
             'country' => 'Egypt'
         ]);
+
+        $admin->assignRole('Super Admin');
     }
 }

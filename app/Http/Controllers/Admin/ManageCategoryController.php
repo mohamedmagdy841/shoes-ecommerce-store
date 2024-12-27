@@ -7,9 +7,17 @@ use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ManageCategoryController extends Controller
+class ManageCategoryController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:add_category|edit_category|delete_category,admin', except: ['index']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
