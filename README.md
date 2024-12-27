@@ -10,7 +10,8 @@ This project is a comprehensive e-commerce platform for purchasing shoes, featur
 
 ### **Key Features**  
 
-- **Real-Time Notifications**: Integrated Laravel Echo and Pusher to provide real-time updates for order statuses, promotions, and more.  
+- **Real-Time Notifications**: Integrated Laravel Echo and Pusher to provide real-time updates for order statuses, promotions, and more.
+- **Payment Gateway Integration**: Supports Stripe Payment Gateway. 
 - **Multi-Authentication System**: Supports multiple auth guards for users and admins, ensuring secure role-based access.  
 - **Social Authentication**: Implemented using Laravel Socialite, allowing users to log in or register via Google and GitHub OAuth providers.  
 - **Dynamic Shopping Cart**: A custom-built shopping cart system that adapts to user preferences and supports seamless item addition, removal, and updates.  
