@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\OrderDataExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductImportRequest;
+use App\Imports\OrderDataImport;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageOrderController extends Controller implements HasMiddleware
 {
@@ -41,4 +45,10 @@ class ManageOrderController extends Controller implements HasMiddleware
         $order->delete();
         return response()->json('Order has been deleted.');
     }
+
+    public function export()
+    {
+        return Excel::download(new OrderDataExport(), 'orders.xlsx');
+    }
+
 }

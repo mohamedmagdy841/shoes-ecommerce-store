@@ -5,6 +5,13 @@
     <div class="container-fluid py-5">
         <div class="row">
             <div class="col-12">
+                @if(auth('admin')->user()->can('manage_orders'))
+                    <div class="text-end">
+                        <a href="{{ route('admin.orders.export') }}" class="btn bg-gradient-primary">
+                            Export Data
+                        </a>
+                    </div>
+                @endif
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -37,7 +44,8 @@
                                             <span class=" text-s">{{ $order->items_count }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <span class=" text-s">{{ Number::currency($order->total_price, 'EGP') }}</span>
+                                            <span
+                                                class=" text-s">{{ Number::currency($order->total_price, 'EGP') }}</span>
                                         </td>
                                         <td class="align-middle">
                                             <span class=" text-s">{{ $order->created_at->format('Y-m-d h:i a') }}</span>
@@ -45,24 +53,33 @@
                                         <td class="align-middle">
                                             @if(auth('admin')->user()->can('manage_orders'))
                                                 <a href="#">
-                                                <span class="badge badge-sm bg-gradient-@if($order->status=="cancelled")danger @else()success @endif ">{{ $order->status }}</span>
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-@if($order->status=="cancelled")danger @else()success @endif ">{{ $order->status }}</span>
                                                 </a>
                                             @endif
                                         </td>
                                         <td class="align-middle">
                                             @if(auth('admin')->user()->can('manage_orders'))
                                                 <div class="dropdown" style="display: inline">
-                                                    <button class="btn btn-secondary dropdown-toggle mt-3" type="button" id="dropdownMenuButton{{$order->id}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle mt-3" type="button"
+                                                            id="dropdownMenuButton{{$order->id}}"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
                                                         Status
                                                     </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{$order->id}}">
+                                                    <ul class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuButton{{$order->id}}">
                                                         @foreach(['pending', 'processing', 'completed', 'cancelled'] as $status)
                                                             <li>
-                                                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" id="status-form-{{ $order->id }}-{{ $status }}">
+                                                                <form
+                                                                    action="{{ route('admin.orders.updateStatus', $order->id) }}"
+                                                                    method="POST"
+                                                                    id="status-form-{{ $order->id }}-{{ $status }}">
                                                                     @csrf
                                                                     @method('PUT')
-                                                                    <input type="hidden" name="status" value="{{ $status }}">
-                                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('status-form-{{ $order->id }}-{{ $status }}').submit();">
+                                                                    <input type="hidden" name="status"
+                                                                           value="{{ $status }}">
+                                                                    <a class="dropdown-item" href="javascript:void(0)"
+                                                                       onclick="document.getElementById('status-form-{{ $order->id }}-{{ $status }}').submit();">
                                                                         {{ ucfirst($status) }}
                                                                     </a>
                                                                 </form>
@@ -74,7 +91,8 @@
                                             @endif
 
                                             @if(auth('admin')->user()->can('manage_orders'))
-                                                <form method="POST" class="delete-form" style="display: inline"  data-route="{{route('admin.orders.destroy',$order)}}">
+                                                <form method="POST" class="delete-form" style="display: inline"
+                                                      data-route="{{route('admin.orders.destroy',$order)}}">
                                                     @csrf
                                                     @method('delete')
 
@@ -87,7 +105,8 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="align-middle text-center"><span class="text-m font-weight-bold">No orders</span></td>
+                                        <td colspan="7" class="align-middle text-center"><span
+                                                class="text-m font-weight-bold">No orders</span></td>
                                     </tr>
                                 @endforelse
 
@@ -104,9 +123,9 @@
 
 @push('js')
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('.delete-form').on('submit', function(e) {
+            $('.delete-form').on('submit', function (e) {
                 e.preventDefault();
                 var button = $(this);
 
@@ -135,7 +154,7 @@
                                     confirmButtonColor: "#ffba00",
                                     title: response,
                                 }).then((result) => {
-                                    window.location='/admin/orders'
+                                    window.location = '/admin/orders'
                                 });
                             }
                         });

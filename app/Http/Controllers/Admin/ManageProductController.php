@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\StoreProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
+use App\Http\Requests\ProductImportRequest;
+use App\Imports\ProductDataImport;
 use App\Models\Category;
 use App\Models\Product;
 use App\Utils\ImageManager;
@@ -14,6 +16,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageProductController extends Controller implements HasMiddleware
 {
@@ -127,4 +130,5 @@ class ManageProductController extends Controller implements HasMiddleware
         }
         return redirect()->back();
     }
+
 }

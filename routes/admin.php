@@ -16,7 +16,6 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::view('/', 'admin.index')->name('dashboard');
 
     // Profile
-
     Route::controller(AdminProfileController::class)->group(function () {
         Route::get('profile', 'edit')->name('profile.edit');
         Route::put('profile/{admin}', 'update')->name('profile.update');
@@ -42,6 +41,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/orders', 'index')->name('orders.index');
         Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
         Route::put('/orders/{order}/status' ,'updateStatus')->name('orders.updateStatus');
+        Route::get('/orders/export' ,'export')->name('orders.export');
     });
 
     // Notifications
