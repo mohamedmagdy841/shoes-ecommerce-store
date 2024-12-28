@@ -80,7 +80,7 @@
                                         <td class="align-middle">
                                             @if(auth('admin')->user()->can('show_product'))
                                                 <a href="javascript:void(0)" class="badge bg-gradient-primary" data-bs-toggle="modal"
-                                                   data-bs-target="#view-category-{{ $product->id }}"><i class="fa fa-eye"></i></a>
+                                                   data-bs-target="#view-product-{{ $product->id }}"><i class="fa fa-eye"></i></a>
                                             @endif
                                                 @if(auth('admin')->user()->can('edit_product'))
                                                 <a href="{{ route('admin.products.edit', ['product' => $product]) }}" class="badge badge-sm bg-gradient-info"><i class="fa fa-edit" aria-hidden="true"></i></a>

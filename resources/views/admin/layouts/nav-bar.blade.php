@@ -15,7 +15,7 @@
                     {{ auth('admin')->user()->name }}
                 </button>
                 <ul class="dropdown-menu border">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form action="{{ route('admin.logout') }}" method="post" id="logout_form">

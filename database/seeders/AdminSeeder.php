@@ -14,16 +14,32 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Admin::create([
-            'name' => 'Admin Mohamed Magdy',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('123456789'),
-            'phone' => '0123456789',
-            'street' => '15th street',
-            'city' => 'Nasr City',
-            'country' => 'Egypt'
-        ]);
+        $adminArray = [
+            'Admin Mohamed Magdy' => ['magdy@gmail.com', 'Super Admin'],
+            'Admin' => ['admin@gmail.com', 'Admin'],
+            'Category Manager Admin' => ['category@gmail.com', 'Category Manager'],
+            'Product Manager Admin' => ['product@gmail.com', 'Product Manager'],
+            'Order Manager Admin' => ['order@gmail.com', 'Order Manager'],
+        ];
 
-        $admin->assignRole('Super Admin');
+        $streets = ['10th Street', '11th Street', '12th Street', '13th Street', '14th Street'];
+        $cities = ['Nasr City', 'California', 'Toronto', 'Berlin', 'Paris'];
+        $countries = ['Egypt', 'USA', 'Canada', 'Germany', 'France'];
+
+        foreach ($adminArray as $key => $value) {
+
+            $admin = Admin::create([
+                'name' => $key,
+                'email' => $value[0],
+                'password' => Hash::make('123456789'),
+                'phone' => '01' . random_int(100000000, 999999999),
+                'street' => $streets[array_rand($streets)],
+                'city' => $cities[array_rand($cities)],
+                'country' => $countries[array_rand($countries)],
+            ]);
+
+            $admin->assignRole($value[1]);
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\ManageAdminController;
+use App\Http\Controllers\Admin\ManageOrderController;
 use App\Http\Controllers\Admin\ManageProductController;
 use App\Http\Controllers\Admin\ManageRoleController;
 use App\Http\Controllers\Admin\ManageSettingController;
@@ -10,7 +12,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+    // Home
     Route::view('/', 'admin.index')->name('dashboard');
+
+    // Profile
+
+    Route::controller(AdminProfileController::class)->group(function () {
+        Route::get('profile', 'edit')->name('profile.edit');
+        Route::put('profile/{admin}', 'update')->name('profile.update');
+    });
 
     // Users
     Route::controller(ManageUserController::class)->group(function () {
@@ -26,6 +36,13 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Products
     Route::resource('products', ManageProductController::class)->except('show');
     Route::get('products/status/{id}' ,[ManageProductController::class, 'changeStatus'])->name('products.changeStatus');
+
+    // Orders
+    Route::controller(ManageOrderController::class)->group(function () {
+        Route::get('/orders', 'index')->name('orders.index');
+        Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
+        Route::put('/orders/{order}/status' ,'updateStatus')->name('orders.updateStatus');
+    });
 
     // Notifications
     Route::get('/notification/markasread', function () {
