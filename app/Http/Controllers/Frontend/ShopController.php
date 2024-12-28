@@ -45,11 +45,11 @@ class ShopController extends Controller
                 } elseif ($sortBy === 'price_desc') {
                     $query->orderBy('price', 'desc');
                 }})
-            ->paginate(12);
+            ->paginate(12)->withQueryString();
 
-        if ($request->ajax()) {
-            return response()->json(['products' => $products]);
-        }
+//        if ($request->ajax()) {
+//            return response()->json(['products' => $products]);
+//        }
         return view('frontend.shop', compact('categories', 'products', 'brands', 'colors', 'selectedColor'));
     }
 }
