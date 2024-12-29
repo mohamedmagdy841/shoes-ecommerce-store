@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\GeneralSearchController;
 use App\Http\Controllers\Admin\ManageAdminController;
 use App\Http\Controllers\Admin\ManageOrderController;
 use App\Http\Controllers\Admin\ManageProductController;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+//    Route::fallback(function(){
+//        return response()->view('errors.404');
+//    });
+
     // Home
     Route::get('/', [AdminHomeController::class, 'index'])->name('dashboard');
 
@@ -63,6 +68,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::resource('admins', ManageAdminController::class)->except(['show']);
     // Roles
     Route::resource('roles', ManageRoleController::class)->except(['show']);
+
+    // General Search
+    Route::get('search', [GeneralSearchController::class , 'search'])->name('search');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

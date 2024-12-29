@@ -4,11 +4,33 @@
         <h6 class="font-weight-bolder mt-4">@yield('title')</h6>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here...">
-                </div>
-            </div>
+
+            <!-- Topbar Search -->
+                <form action="{{ route('admin.search') }}" method="get" class="mt-3 p-1">
+                    <div class="input-group" >
+                        <input style="height: 40px;" name="keyword" type="text" class="form-control" placeholder="Search">
+                        <select style="height: 40px; padding-left: 1rem; border: 2px"  name="option" class="form-control bg-light" >
+                            <option selected disabled>Choose</option>
+                            @if(auth('admin')->user()->can('manage_orders'))
+                                <option value="order">Orders</option>
+                            @endif
+                            @if(auth('admin')->user()->can('manage_users'))
+                                <option value="user">Users</option>
+                            @endif
+                            @if(auth('admin')->user()->can('add_category'))
+                                <option value="category">Categories</option>
+                            @endif
+                            @if(auth('admin')->user()->can('add_product'))
+                                <option value="product">Products</option>
+                            @endif
+                        </select>
+                        <div class="input-group-append" style="padding-left: 0.1rem;">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             <!-- Example single danger button -->
             <div class="btn-group">
                 <button type="button" style="margin-bottom: 0;" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,7 +48,7 @@
                 </ul>
             </div>
             <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <li class="nav-item d-xl-none ps-3 px-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
                             <i class="sidenav-toggler-line"></i>
@@ -35,12 +57,7 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                    </a>
-                </li>
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                <li class="nav-item dropdown pe-2 px-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0 notificationsIcon" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-bell cursor-pointer"></i>
                         <span class="dot dot-md text-danger" id="notificationsIconCounter">{{ count(Auth::guard('admin')->user()->unreadnotifications) }}</span>
@@ -84,6 +101,7 @@
                 </li>
             </ul>
         </div>
+    </div>
     </div>
 </nav>
 <!-- End Navbar -->
