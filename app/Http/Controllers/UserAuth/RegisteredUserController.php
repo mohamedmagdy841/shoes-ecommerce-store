@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -47,8 +48,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $admin = Admin::findOrFail(1);
-        $admin->notify(new NewUserRegisterd($user));
+        $admins = Admin::get();
+        Notification::send($admins, new NewUserRegisterd($user));
 
         NewUserRegisteredEvent::dispatch($user);
 

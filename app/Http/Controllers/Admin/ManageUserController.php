@@ -13,7 +13,7 @@ class ManageUserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:delete_user,admin,admin', only: ['destroy', 'changeStatus']),
+            new Middleware('permission:delete_user,admin', only: ['destroy', 'changeStatus']),
         ];
     }
 

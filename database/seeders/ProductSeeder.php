@@ -16,9 +16,14 @@ class ProductSeeder extends Seeder
     {
         $products = Product::factory(50)->create();
 
-        // to make sure each product have 3 images
-        $products->each(function ($product) {
-            Image::factory(3)->create(['product_id' => $product->id]);
+        $sourceFolder = 'images/products';
+
+        $products->each(function ($product) use ($sourceFolder) {
+            for ($i = 0; $i < 3; $i++) {
+                Image::factory()->withImageFromFolder($sourceFolder)->create([
+                    'product_id' => $product->id,
+                ]);
+            }
         });
     }
 }

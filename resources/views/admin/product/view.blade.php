@@ -63,7 +63,7 @@
                         </div>
                     </div>
                         <div class="mb-3">
-                            <img class="img-fluid" src="{{ asset('storage/'.$product->images->first()->path) }}" alt="{{$product->full_name}}">
+                            <img class="img-fluid" src="{{ asset($product->images->first()->path) }}" alt="{{$product->full_name}}">
                         </div>
                 </div>
 

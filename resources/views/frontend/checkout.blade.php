@@ -18,10 +18,7 @@
 
 @section('content')
     <style>
-        /**
-        * The CSS shown here will not be introduced in the Quickstart guide, but shows
-        * how you can use CSS to style your Element's container.
-        */
+
         .StripeElement {
             box-sizing: border-box;
             height: 40px;
@@ -42,7 +39,6 @@
         .StripeElement--webkit-autofill {
             background-color: #fefde5 !important;}
     </style>
-    <!-- /////////////////////////----------End CSS ------- ///////////////////////////// -->
 
     <!--================Checkout Area =================-->
     <section class="checkout_area section_gap">

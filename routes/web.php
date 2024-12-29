@@ -32,14 +32,14 @@ Route::post('/product/review', [ProductController::class, 'addReview'])->name('f
 Route::get('/shop', [ShopController::class, 'index'])->name('frontend.shop');
 
 // Wishlist
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'checkUserStatus'])->group(function () {
     Route::post('/wishlist/{id}',[WishlistController::class, 'add'])->name('frontend.wishlist.add');
     Route::get('/wishlist', [WishlistController::class, 'get'])->name('frontend.wishlist.get');
     Route::delete('/wishlist/{id}', [WishlistController::class, 'remove'])->name('frontend.wishlist.remove');
 });
 
 // Cart
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'checkUserStatus'])->group(function () {
     Route::post('/cart/{id}',[CartController::class, 'add'])->name('frontend.cart.add');
     Route::get('/cart', [CartController::class, 'get'])->name('frontend.cart.get');
     Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('frontend.cart.remove');
@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Order
-Route::controller(OrderController::class)->middleware('auth')->group(function () {
+Route::controller(OrderController::class)->middleware(['auth', 'checkUserStatus'])->group(function () {
     Route::post('/orders/cashOrder', 'cashOrder')->name('frontend.orders.cash_order'); // Place order
     Route::get('/orders', 'index')->name('frontend.orders.index'); // List user orders
 //    Route::get('/orders/{id}', 'show')->name('frontend.orders.show'); // View order details
@@ -59,7 +59,7 @@ Route::controller(OrderController::class)->middleware('auth')->group(function ()
 });
 
 // Checkout
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index')->middleware('auth');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index')->middleware(['auth', 'checkUserStatus']);
 
 // Payment
 
@@ -82,7 +82,7 @@ Route::match(['get', 'post'], '/search', SearchController::class)->name('fronten
 Route::resource('blogs', BlogController::class)->parameters([
     'blogs' => 'blog:slug',
 ]);
-Route::get('/myBlogs', [BlogController::class, 'myBlogs'])->name('blogs.myBlogs')->middleware('auth');
+Route::get('/myBlogs', [BlogController::class, 'myBlogs'])->name('blogs.myBlogs')->middleware(['auth:web', 'checkUserStatus']);
 Route::post('/blog-newsletter', [BlogSubscriberController::class, 'store'])->name('blogs.newsletter');
 Route::post("/comment/store", [BlogCommentController::class, 'store'])->name("blogs.comments.store");
 Route::get("/comment/{slug}", [BlogCommentController::class, 'index'])->name("blogs.comments");
@@ -90,15 +90,11 @@ Route::get("/category/{id}", [BlogController::class, 'category'])->name("blogs.c
 Route::match(['get', 'post'], '/blog/search', BlogSearchController::class)->name('blogs.search');
 
 // User Profile
-Route::middleware('auth')->prefix('frontend')->name('frontend.')->group(function () {
+Route::middleware(['auth', 'checkUserStatus'])->prefix('frontend')->name('frontend.')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/userAuth.php';
 
@@ -107,3 +103,7 @@ Route::prefix('socialite')->name('socialite.')->controller(SocialiteController::
     Route::get('{provider}/login', 'login')->name('login');
     Route::get('{provider}/redirect', 'redirect')->name('redirect');
 });
+
+Route::get('wait' , function(){
+    return view('frontend.wait');
+})->name('frontend.wait');

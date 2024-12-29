@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\ManageAdminController;
 use App\Http\Controllers\Admin\ManageOrderController;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Home
-    Route::view('/', 'admin.index')->name('dashboard');
+    Route::get('/', [AdminHomeController::class, 'index'])->name('dashboard');
 
     // Profile
     Route::controller(AdminProfileController::class)->group(function () {

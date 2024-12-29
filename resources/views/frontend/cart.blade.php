@@ -38,7 +38,7 @@
                                     <td>
                                         <div class="media">
                                             <div class="d-flex">
-                                                <img style="width: 150px; height: 100px;" src="{{ $item->attributes->image }}" alt="">
+                                                <img style="width: 100px; height: 100px;" src="{{ $item->attributes->image }}" alt="">
                                             </div>
                                             <div class="media-body">
                                                 <p>{{ $item->name }}</p>

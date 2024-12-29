@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Authenticate
+class CheckUserStatus
 {
     /**
      * Handle an incoming request.
@@ -15,6 +16,10 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if(Auth::guard('web')->check() && Auth::guard('web')->user()->status==0){
+
+            return redirect()->route('frontend.wait');
+        }
         return $next($request);
     }
 }

@@ -23,5 +23,7 @@ class UserSeeder extends Seeder
             'city' => 'Mansoura',
             'country' => 'Egypt'
         ]);
+
+        User::factory(9)->create();
     }
 }
