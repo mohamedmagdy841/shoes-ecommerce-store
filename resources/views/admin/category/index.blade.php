@@ -29,8 +29,10 @@
                         <th class="text-uppercase text-s font-weight-bolder">Name</th>
                         <th class="text-uppercase text-s font-weight-bolder">Number Of Products</th>
                         <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                        <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                        <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                        @if(auth('admin')->user()->can('delete_category'))
+                            <th class="text-uppercase text-s font-weight-bolder">Status</th>
+                            <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>

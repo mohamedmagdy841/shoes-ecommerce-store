@@ -13,10 +13,10 @@ use App\Http\Controllers\Admin\ManageCategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
-//    Route::fallback(function(){
-//        return response()->view('errors.404');
-//    });
+Route::prefix('admin')->name('admin.')->middleware(['admin', 'checkAdminStatus'])->group(function () {
+    Route::fallback(function(){
+        return response()->view('errors.404');
+    });
 
     // Home
     Route::get('/', [AdminHomeController::class, 'index'])->name('dashboard');
@@ -66,6 +66,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 
     // Admins
     Route::resource('admins', ManageAdminController::class)->except(['show']);
+    Route::get('admins/status/{id}' ,[ManageAdminController::class, 'changeStatus'])
+        ->name('admins.changeStatus');
+
     // Roles
     Route::resource('roles', ManageRoleController::class)->except(['show']);
 

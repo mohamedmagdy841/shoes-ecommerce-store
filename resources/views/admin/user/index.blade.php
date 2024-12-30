@@ -17,8 +17,10 @@
                                     <th class="text-uppercase text-s font-weight-bolder">Phone</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Address</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    @if(auth('admin')->user()->can('delete_user'))
+                                        <th class="text-uppercase text-s font-weight-bolder">Status</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -43,7 +45,7 @@
                                             <span class=" text-s">{{ $user->created_at->format('Y-m-d h-i a') }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            @if(auth('admin')->user()->can('delete_product'))
+                                            @if(auth('admin')->user()->can('delete_user'))
                                                 <a href="{{ route('admin.users.changeStatus', $user->id) }}">
                                                 <span class="badge badge-sm bg-gradient-@if($user->status==1)success @else()danger @endif ">{{ $user->status==1?'Active':'Not Active' }}</span>
                                                 </a>

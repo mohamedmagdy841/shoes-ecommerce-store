@@ -24,7 +24,10 @@
                                     <th class="text-uppercase text-s font-weight-bolder">Email</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Role</th>
                                     <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    @if(auth('admin')->user()->can('delete_admin'))
+                                        <th class="text-uppercase text-s font-weight-bolder">Status</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -45,7 +48,13 @@
                                         <td class="align-middle">
                                             <span class=" text-s">{{ $admin->created_at->format('Y-m-d h-i a') }}</span>
                                         </td>
-
+                                        <td class="align-middle">
+                                            @if(auth('admin')->user()->can('delete_admin'))
+                                                <a href="{{ route('admin.admins.changeStatus', $admin->id) }}">
+                                                    <span class="badge badge-sm bg-gradient-@if($admin->status==1)success @else()danger @endif ">{{ $admin->status==1?'Active':'Not Active' }}</span>
+                                                </a>
+                                            @endif
+                                        </td>
                                         <td class="align-middle">
                                             @if(auth('admin')->user()->can('edit_admin'))
                                                 <a href="{{ route('admin.admins.edit', ['admin' => $admin]) }}" class="badge badge-sm bg-gradient-info"><i class="fa fa-edit" aria-hidden="true"></i></a>

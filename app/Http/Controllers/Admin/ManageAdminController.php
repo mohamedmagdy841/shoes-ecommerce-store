@@ -94,4 +94,22 @@ class ManageAdminController extends Controller implements HasMiddleware
         $admin->delete();
         return response()->json('Admin has been deleted');
     }
+
+    public function changeStatus($id)
+    {
+        $user = Admin::findOrFail($id);
+
+        if ($user->status == 1) {
+            $user->update([
+                'status' => 0,
+            ]);
+            notyf()->success('Admin Blocked Successfully!');
+        } else {
+            $user->update([
+                'status' => 1,
+            ]);
+            notyf()->success('Admin Is Active Now!');
+        }
+        return redirect()->back();
+    }
 }

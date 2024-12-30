@@ -5,39 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>403</title>
-    <link rel="stylesheet" href="{{ asset('assets/errors/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/errors/403/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1 class="first-four">4</h1>
-        <div class="cog-wheel1">
-            <div class="cog1">
-              <div class="top"></div>
-              <div class="down"></div>
-              <div class="left-top"></div>
-              <div class="left-down"></div>
-              <div class="right-top"></div>
-              <div class="right-down"></div>
-              <div class="left"></div>
-              <div class="right"></div>
-          </div>
+    <div class="text-wrapper">
+        <div class="title" data-content="404">
+            403 - ACCESS DENIED
         </div>
 
-        <div class="cog-wheel2">
-          <div class="cog2">
-              <div class="top"></div>
-              <div class="down"></div>
-              <div class="left-top"></div>
-              <div class="left-down"></div>
-              <div class="right-top"></div>
-              <div class="right-down"></div>
-              <div class="left"></div>
-              <div class="right"></div>
-          </div>
+        <div class="subtitle">
+            Oops, You don't have permission to access this page.
         </div>
-       <h1 class="second-four">3</h1>
-        <p class="wrong-para">Uh Oh! Not Authorized</p>
-      </div>
-      <script src="{{ asset('assets/errors/script.js') }}"></script>
+        <div class="isi">
+            Please Contact The Admin.
+        </div>
+
+        <div class="buttons">
+{{--            <a class="button" href="https://www.brodroid.com">Go to homepage</a>--}}
+        <form action="{{ route('admin.logout') }}" method="post" id="logout_form">
+            @csrf
+            <a class="button" href="javascript:void(0);" onclick="document.getElementById('logout_form').submit();">Logout</a>
+        </form>
+        </div>
+
+    </div>
+    <script src="{{ asset('assets/errors/403/script.js') }}"></script>
 </body>
 </html>

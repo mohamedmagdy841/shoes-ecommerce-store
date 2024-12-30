@@ -24,6 +24,11 @@ Route::controller(HomeController::class)->name('frontend.')->group(function () {
     Route::get('/', 'index')->name('index');
 });
 
+// Fallback
+Route::fallback(function(){
+    return response()->view('errors.404');
+});
+
 // Products
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('frontend.product');
 Route::post('/product/review', [ProductController::class, 'addReview'])->name('frontend.product.review');

@@ -5,39 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>429</title>
-    <link rel="stylesheet" href="{{ asset('assets/errors/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/errors/429/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1 class="first-four">4</h1>
-        <div class="cog-wheel1">
-            <div class="cog1">
-              <div class="top"></div>
-              <div class="down"></div>
-              <div class="left-top"></div>
-              <div class="left-down"></div>
-              <div class="right-top"></div>
-              <div class="right-down"></div>
-              <div class="left"></div>
-              <div class="right"></div>
-          </div>
+<div class="container">
+    <div class="row content">
+        <div class="col-lg-12"></div>
+        <div class="col-lg-12">
+            <h1>429</h1>
+            <h2>Too Many Requests. You've made too many requests recently. Please wait and try your request again later.</h2>
+            <p>
+                You may want to head back to the homepage.
+                <br>
+                If you think something is broken, report a problem.
+                <br>
+            </p>
+            <a class="btn" href="#">RETURN HOME</a>
+            <span class="btn">REPORT PROBLEM</span>
         </div>
+    </div>
+</div>
+<div class="bg-img"></div>
 
-        <div class="cog-wheel2">
-          <div class="cog2">
-              <div class="top"></div>
-              <div class="down"></div>
-              <div class="left-top"></div>
-              <div class="left-down"></div>
-              <div class="right-top"></div>
-              <div class="right-down"></div>
-              <div class="left"></div>
-              <div class="right"></div>
-          </div>
-        </div>
-       <h1 class="second-four">9</h1>
-        <p class="wrong-para">Tow Many Attempts</p>
-      </div>
-      <script src="{{ asset('assets/errors/script.js') }}"></script>
+<script src="{{ asset('assets/errors/429/script.js') }}"></script>
 </body>
 </html>

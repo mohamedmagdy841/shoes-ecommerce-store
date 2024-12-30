@@ -3,7 +3,9 @@
         <div class="col-lg-7 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-body px-0 pt-0 pb-2">
+
                     <div class="table ">
+                        <h4 class="p-4">Latest Products</h4>
                         <table class="table align-items-center m-3">
                             <thead>
                             <tr>
@@ -53,6 +55,7 @@
             <div class="card">
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table p-0">
+                        <h4 class="p-4">Latest Orders</h4>
                         <table class="table align-items-center m-3">
                             <thead>
                             <tr>

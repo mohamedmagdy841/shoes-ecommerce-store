@@ -43,7 +43,11 @@ class GeneralSearchController extends Controller
     }
     private function searchOrders($request)
     {
-        $orders = Order::where('status' , 'LIKE' , '%'.$request->keyword.'%')->paginate(3)->withQueryString();
+        $orders = Order::withCount('items')
+            ->where('status' , 'LIKE' , '%'.$request->keyword.'%')
+            ->orWhere('payment_method' , 'LIKE' , '%'.$request->keyword.'%')
+            ->paginate(3)
+            ->withQueryString();
         return view('admin.order.index' , compact('orders'));
     }
     private function searchProducts($request)

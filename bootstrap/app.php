@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckAdminStatus;
 use App\Http\Middleware\CheckUserStatus;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => App\Http\Middleware\Admin::class,
             'guest'    => RedirectIfAuthenticated::class,
             'checkUserStatus' => CheckUserStatus::class,
+            'checkAdminStatus' => CheckAdminStatus::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
