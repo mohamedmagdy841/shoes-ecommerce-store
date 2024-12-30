@@ -15,6 +15,7 @@
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" >
 
+
     <!--
         CSS
         ============================================= -->
@@ -36,4 +37,14 @@
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            grecaptcha.render('g-recaptcha', {
+                'sitekey': '{{ config("services.recaptcha.site_key") }}'
+            });
+        };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
 </head>

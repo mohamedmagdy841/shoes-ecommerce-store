@@ -19,6 +19,7 @@
                                         <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
                                         <span class="add-text text-uppercase">Add to Bag</span>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-lg-7">
@@ -55,6 +56,7 @@
 @endsection
 @section('home-active', 'active')
 @section('content')
+
     <!-- start features Area -->
     <section class="features-area section_gap">
         <div class="container">

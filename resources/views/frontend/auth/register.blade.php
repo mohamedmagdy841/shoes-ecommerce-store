@@ -59,6 +59,7 @@
                                     <input type="checkbox" id="f-option2" name="selector">
                                     <label for="f-option2">Keep me logged in</label>
                                 </div>
+                            <div id="g-recaptcha"></div>
                             </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Register</button>
