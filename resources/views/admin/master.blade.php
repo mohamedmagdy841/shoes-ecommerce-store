@@ -14,11 +14,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html @if (LaravelLocalization::getCurrentLocale() == 'ar') lang="ar" dir="rtl" @else  lang="en" @endif>
 
 @include('admin.layouts.head')
 
-<body class="g-sidenav-show  bg-gray-100">
+<body class="g-sidenav-show @if (LaravelLocalization::getCurrentLocale() == 'ar') rtl @endif bg-gray-100">
     @include('admin.layouts.side-bar')
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
         @include('admin.layouts.nav-bar')

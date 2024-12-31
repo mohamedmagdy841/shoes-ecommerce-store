@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Settings')
+@section('title', __('keywords.manage') . ' ' . __('keywords.settings'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.settings'))
 @section('setting active', 'active')
 @section('content')
     <div class="container py-5">
@@ -90,7 +91,7 @@
                 </div>
                 @if(auth('admin')->user()->can('manage_settings'))
                     <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">{{ __('keywords.submit') }}</button>
                     </div>
                 @endif
             </div>

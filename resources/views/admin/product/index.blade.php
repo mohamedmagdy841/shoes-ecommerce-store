@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Products')
+@section('title', __('keywords.manage') . ' ' . __('keywords.products'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.products'))
 @section('product active', 'active')
 @section('content')
     <div class="container-fluid py-5">
@@ -9,7 +10,7 @@
                 @if(auth('admin')->user()->can('add_product'))
                     <div class="text-end">
                         <a href="{{ route('admin.products.create') }}" class="btn bg-gradient-primary">
-                            Add New Product
+                            {{ __('keywords.add_new_product') }}
                         </a>
                     </div>
                 @endif
@@ -20,19 +21,19 @@
                                 <thead>
                                 <tr>
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Name</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Category</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Price</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Quantity</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Color</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Width</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Height</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Depth</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Weight</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Created At</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.name') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.category') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.price') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.quantity') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.color') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.width') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.height') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.depth') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.weight') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.created_at') }}</th>
                                     @if(auth('admin')->user()->can('delete_product'))
-                                        <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                                        <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.status') }}</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.action') }}</th>
                                     @endif
                                 </tr>
                                 </thead>

@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Admins')
+@section('title', __('keywords.manage') . ' ' . __('keywords.admins'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.admins'))
 @section('admin active', 'active')
 @section('content')
     <div class="container-fluid py-5">
@@ -8,7 +9,7 @@
                 <!-- Button trigger modal -->
                 @if(auth('admin')->user()->can('add_admin'))
                     <a href="{{ route('admin.admins.create') }}" class="btn bg-gradient-primary">
-                        Add New Product
+                        {{ __('keywords.add_new_admin') }}
                     </a>
                 @endif
             </div>

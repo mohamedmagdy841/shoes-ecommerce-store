@@ -12,11 +12,19 @@ use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ManageCategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::prefix('admin')->name('admin.')->middleware(['admin', 'checkAdminStatus'])->group(function () {
-    Route::fallback(function(){
-        return response()->view('errors.404');
-    });
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale().'/admin',
+        'as' =>'admin.',
+        'middleware' => [ 'admin', 'checkAdminStatus', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ],
+    function () {
+
+//    Route::fallback(function(){
+//        return response()->view('errors.404');
+//    });
 
     // Home
     Route::get('/', [AdminHomeController::class, 'index'])->name('dashboard');

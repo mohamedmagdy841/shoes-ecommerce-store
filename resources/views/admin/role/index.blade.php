@@ -1,12 +1,13 @@
 @extends('admin.master')
-@section('title', 'Manage Roles')
+@section('title', __('keywords.manage') . ' ' . __('keywords.roles'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.roles'))
 @section('role active', 'active')
 @section('content')
     <div class="container-fluid py-5">
         <div class="row">
             <div class="text-end">
                 <a href="{{ route('admin.roles.create') }}" class="btn bg-gradient-primary">
-                    Add New Role
+                    {{ __('keywords.add_new_role') }}
                 </a>
             </div>
             <div class="col-12">
@@ -17,9 +18,9 @@
                                 <thead>
                                 <tr>
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Name</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.name') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.created_at') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

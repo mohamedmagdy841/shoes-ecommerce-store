@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Orders')
+@section('title', __('keywords.manage') . ' ' . __('keywords.orders'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.orders'))
 @section('order active', 'active')
 @section('content')
     <div class="container-fluid py-5">
@@ -8,7 +9,7 @@
                 @if(auth('admin')->user()->can('manage_orders'))
                     <div class="text-end">
                         <a href="{{ route('admin.orders.export') }}" class="btn bg-gradient-primary">
-                            Export Data
+                            {{ __('keywords.export_data') }}
                         </a>
                     </div>
                 @endif
@@ -18,14 +19,14 @@
                             <table class="table align-items-center m-3">
                                 <thead>
                                 <tr>
-                                    <th class="text-uppercase text-s font-weight-bolder">Order ID</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Ordered By</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Payment Method</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Number Of Items</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Total Price</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Created At</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.order_id') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.ordered_by') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.payment_method') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.number_of_items') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.total_price') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.created_at') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.status') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

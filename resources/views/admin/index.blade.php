@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Home')
+@section('title', __('keywords.home'))
+@section('subtitle', __('keywords.home'))
 @section('home active', 'active')
 @section('content')
     <div class="container-fluid py-4">

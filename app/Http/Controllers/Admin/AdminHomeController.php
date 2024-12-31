@@ -11,7 +11,7 @@ class AdminHomeController extends Controller
     public function index()
     {
         $orders_chart_options = [
-            'chart_title' => 'Orders by Month',
+            'chart_title' => __('keywords.orders_by_month'),
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Order',
             'group_by_field' => 'created_at',
@@ -22,7 +22,7 @@ class AdminHomeController extends Controller
         ];
 
         $products_chart_options = [
-            'chart_title' => 'Products by Category',
+            'chart_title' => __('keywords.products_by_category'),
             'report_type' => 'group_by_relationship',
             'model' => 'App\Models\Product',
             'relationship_name' => 'category',

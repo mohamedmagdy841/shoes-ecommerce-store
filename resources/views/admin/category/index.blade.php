@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Categories')
+@section('title', __('keywords.manage') . ' ' . __('keywords.categories'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.categories'))
 @section('category active', 'active')
 @section('content')
     <div class="container-fluid py-5">
@@ -10,7 +11,7 @@
             <div class="text-end">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#addNew">
-                        Add New Category
+                        {{ __('keywords.add_new_category') }}
                     </button>
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     <x-input-error :messages="$errors->get('status')" class="mt-2" />
@@ -26,12 +27,12 @@
                     <thead>
                     <tr>
                         <th class="text-uppercase text-s font-weight-bolder">#</th>
-                        <th class="text-uppercase text-s font-weight-bolder">Name</th>
-                        <th class="text-uppercase text-s font-weight-bolder">Number Of Products</th>
-                        <th class="text-uppercase text-s font-weight-bolder">Created At</th>
+                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.name') }}</th>
+                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.number_of_products') }}</th>
+                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.created_at') }}</th>
                         @if(auth('admin')->user()->can('delete_category'))
-                            <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                            <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                            <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.status') }}</th>
+                            <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.action') }}</th>
                         @endif
                     </tr>
                     </thead>

@@ -5,16 +5,16 @@
                 <div class="card-body px-0 pt-0 pb-2">
 
                     <div class="table ">
-                        <h4 class="p-4">Latest Products</h4>
+                        <h4 class="p-4">{{ __('keywords.latest_products') }}</h4>
                         <table class="table align-items-center m-3">
                             <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder">#</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Name</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Category</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Price</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Qty</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Status</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.name') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.category') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.price') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.qty') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.status') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,14 +55,14 @@
             <div class="card">
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table p-0">
-                        <h4 class="p-4">Latest Orders</h4>
+                        <h4 class="p-4">{{ __('keywords.latest_orders') }}</h4>
                         <table class="table align-items-center m-3">
                             <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Order ID</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Ordered By</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Total Price</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">Status</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.order_id') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.ordered_by') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.total_price') }}</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder">{{ __('keywords.status') }}</th>
                             </tr>
                             </thead>
                             <tbody>

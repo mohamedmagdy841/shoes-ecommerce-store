@@ -15,11 +15,11 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         Role::insert([
-            ['name' => 'Super Admin', 'guard_name' => 'admin'],
-            ['name' => 'Admin', 'guard_name' => 'admin'],
-            ['name' => 'Category Manager', 'guard_name' => 'admin'],
-            ['name' => 'Product Manager', 'guard_name' => 'admin'],
-            ['name' => 'Order Manager', 'guard_name' => 'admin'],
+            ['name' => 'Super Admin', 'guard_name' => 'admin', 'created_at' => now()],
+            ['name' => 'Admin', 'guard_name' => 'admin', 'created_at' => now()],
+            ['name' => 'Category Manager', 'guard_name' => 'admin', 'created_at' => now()],
+            ['name' => 'Product Manager', 'guard_name' => 'admin', 'created_at' => now()],
+            ['name' => 'Order Manager', 'guard_name' => 'admin', 'created_at' => now()],
         ]);
 
         $permissions = [

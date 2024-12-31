@@ -1,5 +1,6 @@
 @extends('admin.master')
-@section('title', 'Manage Users')
+@section('title',  __('keywords.manage') . ' ' . __('keywords.users'))
+@section('subtitle', __('keywords.manage') . ' ' . __('keywords.users'))
 @section('user active', 'active')
 @section('content')
     <div class="container-fluid py-5">
@@ -12,14 +13,14 @@
                                 <thead>
                                 <tr>
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Name</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Email</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Phone</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Address</th>
-                                    <th class="text-uppercase text-s font-weight-bolder">Created At</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.name') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.email') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.phone') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.address') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.created_at') }}</th>
                                     @if(auth('admin')->user()->can('delete_user'))
-                                        <th class="text-uppercase text-s font-weight-bolder">Status</th>
-                                        <th class="text-uppercase text-s font-weight-bolder">Action</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.status') }}</th>
+                                        <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.action') }}</th>
                                     @endif
                                 </tr>
                                 </thead>

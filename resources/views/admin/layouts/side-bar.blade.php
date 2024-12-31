@@ -1,13 +1,13 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 @if (LaravelLocalization::getCurrentLocale() == 'ar') fixed-end me-3 rotate-caret @else ms-3 fixed-start @endif " id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="{{ route('admin.dashboard') }}">
             <img src="{{ asset('assets/admin') }}/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">Admin Dashboard</span>
+            <span class="ms-1 font-weight-bold">{{ __('keywords.dashboard') }}</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
 {{--            Home--}}
             <li class="nav-item">
@@ -26,7 +26,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Home</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.home') }}</span>
                 </a>
             </li>
 {{--            Users--}}
@@ -47,7 +47,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Manage Users</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.users') }}</span>
                 </a>
             </li>
             {{--            Categories--}}
@@ -68,7 +68,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Manage Categories</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.categories') }}</span>
                 </a>
             </li>
 {{--            Products--}}
@@ -89,7 +89,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Manage Products</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.products') }}</span>
                 </a>
             </li>
 {{--            Orders--}}
@@ -111,7 +111,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Manage Orders</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.orders') }}</span>
                 </a>
             </li>
 {{--            Settings--}}
@@ -133,13 +133,13 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Manage Settings</span>
+                    <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.settings') }}</span>
                 </a>
             </li>
 {{--            Roles & Admins--}}
             @if(auth('admin')->user()->hasRole('Super Admin'))
                 <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Roles & Admins</h6>
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ __('keywords.roles') }} & {{ __('keywords.admins') }}</h6>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  @yield('admin active')" href="{{ route('admin.admins.index') }}">
@@ -159,7 +159,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Manage Admins</span>
+                        <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.admins') }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -179,7 +179,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Manage Roles</span>
+                        <span class="nav-link-text @if (LaravelLocalization::getCurrentLocale() == 'ar') me-1 @else ms-1 @endif">{{ __('keywords.manage') }} {{ __('keywords.roles') }}</span>
                     </a>
                 </li>
             @endif
