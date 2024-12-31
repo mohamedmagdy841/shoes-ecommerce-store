@@ -18,7 +18,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = auth()->user()->orders()->with('items.product')->get();
+        $orders = auth()->user()->orders()->with('items.product')->paginate(8);
         return view('frontend.order', compact('orders'));
     }
 
@@ -66,16 +66,9 @@ class OrderController extends Controller
         }
     }
 
-//    public function show($id)
-//    {
-//        $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
-//
-//        return view('frontend.orders.show', compact('order'));
-//    }
-
     public function orderInvoiceDownload($id)
     {
-        $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
+        $order = auth()->user()->orders()->with('items.product')->where('status', 'completed')->findOrFail($id);
         $pdf = Pdf::loadView('frontend.invoice_download',compact('order'))
             ->setPaper('a4')->setOption([
                 'tempDir' => public_path(),

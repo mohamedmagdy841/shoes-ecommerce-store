@@ -112,3 +112,7 @@ Route::prefix('socialite')->name('socialite.')->controller(SocialiteController::
 Route::get('wait' , function(){
     return view('frontend.wait');
 })->name('frontend.wait');
+
+Route::get('dashboard' , function(){
+    return view('welcome');
+})->name('dashboard');

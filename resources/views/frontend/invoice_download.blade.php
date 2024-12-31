@@ -73,7 +73,7 @@
             <p class="font">
                 <strong>Invoice:</strong> #{{ $order->id }}<br>
                 <strong>Order Date:</strong> {{ $order->created_at->format("M d, Y h:i A") }} <br>
-                <strong>Payment Type:</strong> ?????
+                <strong>Payment Method:</strong> {{ $order->payment_method }}
             </p>
 
         </td>

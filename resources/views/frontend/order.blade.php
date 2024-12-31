@@ -22,7 +22,6 @@
                 <th scope="col">#</th>
                 <th scope="col">Order ID</th>
                 <th scope="col">Date</th>
-{{--                <th scope="col">Invoice</th>--}}
                 <th scope="col">Amount</th>
                 <th scope="col">Payment</th>
                 <th scope="col">Status</th>
@@ -38,7 +37,7 @@
                         <td>{{ $order->created_at->format("d M Y, h:i A") }}</td>
                         <td>{{ Number::currency($order->total_price,'EGP') }}</td>
                         <td>
-
+                            {{ $order->payment_method }}
                         </td>
                         <td class="text-light">
                             @if ($order->status == 'pending')
@@ -53,15 +52,22 @@
                                 <span class="badge bg-danger">Cancelled</span>
                             @endif
                         </td>
-                        <td class="d-flex justify-content-between">
+                        <td>
 {{--                            <a href="{{ route('user.order.details',$order->id) }}" class="btn-small d-block text-primary"> <i class="fas fa-eye"></i>View</a>--}}
-                            <a href="{{ route('frontend.orders.invoice.download',$order->id) }}" class="btn-small d-block text-danger"> <i class="fa fa-download"></i> Invoice</a>
+                            @if ($order->status == 'completed')
+                                <a href="{{ route('frontend.orders.invoice.download',$order->id) }}" class="btn-small d-block text-danger"> <i class="fa fa-download"></i> Invoice</a>
+                            @else
+                                No Invoice
+                            @endif
                         </td>
                     </tr>
                 @endforeach
             @endif
             </tbody>
         </table>
+        <div class="m-4">
+            {{ $orders->links() }}
+        </div>
     </div>
 @endsection
 
