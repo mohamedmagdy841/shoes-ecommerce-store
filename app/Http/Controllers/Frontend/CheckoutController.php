@@ -18,6 +18,10 @@ class CheckoutController extends Controller
         }
 
         $subtotal = Cart::session($user->id)->getSubtotal();
-        return view('frontend.checkout', compact('cartItems', 'subtotal', 'user'));
+
+        $appliedCoupon = session('applied_coupon', null);
+        $discountedTotal = session('discounted_total', null);
+        $discountAmount = session('discount_amount', null);
+        return view('frontend.checkout', get_defined_vars());
     }
 }

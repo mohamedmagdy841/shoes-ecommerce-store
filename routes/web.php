@@ -51,6 +51,8 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
     Route::patch('/cart/{id}/update-quantity/{action}', [CartController::class, 'updateQuantity'])
         ->name('frontend.cart.updateQuantity');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('frontend.cart.clear');
+    Route::get('/cart/apply_coupon', [CartController::class, 'applyCoupon'])->name('frontend.cart.apply_coupon'); // post didn't work
+    Route::get('/cart/cancel_coupon', [CartController::class, 'cancelCoupon'])->name('frontend.cart.cancel_coupon');
 });
 
 // Order

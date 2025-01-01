@@ -32,7 +32,7 @@
             @if(count($orders) > 0)
                 @foreach($orders as $key => $order)
                     <tr>
-                        <th scope="row">{{ $key + 1 }}</th>
+                        <th scope="row">{{ $loop->iteration + $orders->firstItem() - 1 }}</th>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->created_at->format("d M Y, h:i A") }}</td>
                         <td>{{ Number::currency($order->total_price,'EGP') }}</td>

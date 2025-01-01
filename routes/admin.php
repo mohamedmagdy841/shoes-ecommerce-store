@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\GeneralSearchController;
 use App\Http\Controllers\Admin\ManageAdminController;
+use App\Http\Controllers\Admin\ManageCouponController;
 use App\Http\Controllers\Admin\ManageOrderController;
 use App\Http\Controllers\Admin\ManageProductController;
 use App\Http\Controllers\Admin\ManageRoleController;
@@ -49,6 +50,16 @@ Route::group(
     // Products
     Route::resource('products', ManageProductController::class)->except('show');
     Route::get('products/status/{id}' ,[ManageProductController::class, 'changeStatus'])->name('products.changeStatus');
+
+    // Coupons
+    Route::controller(ManageCouponController::class)->prefix('coupons')->group(function () {
+        Route::get('/', 'index')->name('coupons.index');
+        Route::get('/create', 'create')->name('coupons.create');
+        Route::get('/{coupon}/edit', 'edit')->name('coupons.edit');
+        Route::post('/', 'store')->name('coupons.store');
+        Route::delete('/{coupon}', 'destroy')->name('coupons.destroy');
+        Route::put('/{coupon}', 'update')->name('coupons.update');
+    });
 
     // Orders
     Route::controller(ManageOrderController::class)->group(function () {

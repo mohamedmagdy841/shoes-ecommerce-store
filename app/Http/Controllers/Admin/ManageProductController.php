@@ -32,7 +32,6 @@ class ManageProductController extends Controller implements HasMiddleware
     public function index()
     {
         $products = Product::with('images')->latest()->paginate(5);
-//        return $products->first();
         return view('admin.product.index', compact('products'));
     }
 

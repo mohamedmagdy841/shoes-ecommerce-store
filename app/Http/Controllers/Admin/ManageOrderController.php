@@ -23,7 +23,7 @@ class ManageOrderController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $orders = Order::withCount('items')->paginate(5);
+        $orders = Order::withCount('items')->latest()->paginate(5);
         return view('admin.order.index', compact('orders'));
     }
 

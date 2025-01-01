@@ -77,7 +77,11 @@
 
                                 </td>
                                 <td>
-
+                                    <div class="cupon_text d-flex align-items-center">
+                                        <input id="coupon-code" type="text" placeholder="Coupon Code" style="border: 1px solid; color: #333; margin-right: 0.25rem">
+                                        <a class="primary-btn coupon">Apply</a>
+                                        <a class="gray_btn cancelCoupon">Remove Coupon</a>
+                                    </div>
                                 </td>
 
                             </tr>
@@ -94,8 +98,19 @@
                                 <td>
                                     <h5>Subtotal</h5>
                                 </td>
-                                <td>
+                                <td class="subtotal">
                                     <h5>{{Number::currency($subtotal,'EGP')}}</h5>
+                                </td>
+                            </tr>
+                            <tr class="discounted-subtotal" style="display: none;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>New Subtotal</h5>
+                                </td>
+                                <td class="subtotal-discounted">
+                                    <h5></h5>
                                 </td>
                             </tr>
                             <tr class="out_button_area">
@@ -109,7 +124,6 @@
 
                                 </td>
                                 <td>
-
                                 </td>
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
@@ -137,7 +151,6 @@
     <script>
         const notyf = new Notyf();
         $(document).ready(function() {
-            $('#summernote').summernote();
 
             $('.delete-item').on('click', function (event) {
                 event.preventDefault();
@@ -178,6 +191,54 @@
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
                     }
+                });
+            });
+
+            $('.coupon').on('click', function (event) {
+                event.preventDefault();
+
+                const couponCode = $('#coupon-code').val();  // Get the input value
+
+                $.ajax({
+                    url: '{{ route('frontend.cart.apply_coupon') }}',
+                    method: 'GET',
+                    data: {
+                        coupon_code: couponCode,
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            $('.subtotal-discounted').html(`<h5>${response.total}</h5>`);
+                            $('.discounted-subtotal').show();
+                            notyf.success('Coupon applied successfully!');
+                        } else {
+                            notyf.error(response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        notyf.error('Failed to apply coupon.');
+                    }
+                });
+            });
+
+            $('.cancelCoupon').on('click', function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '{{ route('frontend.cart.cancel_coupon') }}',
+                    method: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            $('.discounted-subtotal').hide();
+                            $('#coupon-code').val('');
+                            notyf.success('Coupon canceled successfully!');
+                        } else {
+                            notyf.error(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        notyf.error('Failed to cancel coupon.');
+                    },
                 });
             });
 

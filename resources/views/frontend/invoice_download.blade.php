@@ -103,8 +103,10 @@
 <table width="100%" style=" padding:0 10px 0 10px;">
     <tr>
         <td align="right" >
+            @if ($order->discount_amount)
+                <h3><span style="color: #ffc107;">Discount:</span> - {{ Number::currency($order->discount_amount, 'EGP') }}</h3>
+            @endif
             <h2><span style="color: #ffc107;">Total:</span> {{ Number::currency($order->total_price, 'EGP') }}</h2>
-            {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
         </td>
     </tr>
 </table>

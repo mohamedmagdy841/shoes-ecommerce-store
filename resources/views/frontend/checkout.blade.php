@@ -103,6 +103,15 @@
                             </ul>
                             <ul class="list list_2">
                                 <li><a href="#">Subtotal <span>{{ Number::currency($subtotal, 'EGP') }}</span></a></li>
+                                <li>
+                                    @if($appliedCoupon)
+                                        <p>Coupon Applied: {{ $appliedCoupon }}</p>
+                                        <p>Discount Amount: - {{ Number::currency($discountAmount, 'EGP') }}</p>
+                                        <a href="#">Final Total: <span>{{ Number::currency($discountedTotal, 'EGP') }}</span></a>
+                                    @else
+                                        <p>No coupon applied.</p>
+                                    @endif
+                                </li>
                             </ul>
                         </div>
                     </div>

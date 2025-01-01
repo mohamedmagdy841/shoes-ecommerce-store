@@ -1,5 +1,4 @@
 @extends('frontend.master')
-
 @section('title',  config('app.name') . " | " . 'Confirmation')
 @section('banner')
     <!-- Start Banner Area -->
@@ -29,6 +28,11 @@
                             <li><a href="#"><span>Date</span> : {{ $order->created_at->format("d M Y, h:i A") }}</a></li>
                             <li><a href="#"><span>Total</span> : {{Number::currency($order->total_price, 'EGP')}}</a></li>
                             <li><a href="#"><span>Payment method</span> : {{ $order->payment_method }}</a></li>
+                            @if ($order->coupon_code)
+                                <li><a href="#"><span>Coupon Code</span> : {{ $order->coupon_code }}</a></li>
+                                <li><a href="#"><span>Discount</span> : - {{ Number::currency($order->discount_amount, 'EGP') }}</a></li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>
