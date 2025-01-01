@@ -64,6 +64,18 @@ return [
     'depth' => 'Depth',
     'weight' => 'Weight',
 
+    // manage coupons
+    'add_new_coupon' => 'Add New Coupon',
+    'coupons' => 'Coupons',
+    'code' => 'Code',
+    'limit' => 'Limit',
+    'type' => 'Type',
+    'value' => 'Value',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'is_valid' => 'Is Valid',
+    'used_count' => 'Used Count',
+
     // manage orders
     'payment_method' => 'Payment Method',
     'number_of_items' => 'Number Of Items',

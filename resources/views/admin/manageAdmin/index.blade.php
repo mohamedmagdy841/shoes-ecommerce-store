@@ -52,7 +52,7 @@
                                         <td class="align-middle">
                                             @if(auth('admin')->user()->can('delete_admin'))
                                                 <a href="{{ route('admin.admins.changeStatus', $admin->id) }}">
-                                                    <span class="badge badge-sm bg-gradient-@if($admin->status==1)success @else()danger @endif ">{{ $admin->status==1?'Active':'Not Active' }}</span>
+                                                    <span class="badge badge-sm bg-gradient-@if($admin->status==1)success @else()danger @endif ">{{ $admin->status==1?'Active':'Inactive' }}</span>
                                                 </a>
                                             @endif
                                         </td>

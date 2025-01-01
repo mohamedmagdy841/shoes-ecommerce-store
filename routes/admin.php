@@ -58,7 +58,7 @@ Route::group(
         Route::get('/{coupon}/edit', 'edit')->name('coupons.edit');
         Route::post('/', 'store')->name('coupons.store');
         Route::delete('/{coupon}', 'destroy')->name('coupons.destroy');
-        Route::put('/{coupon}', 'update')->name('coupons.update');
+        Route::patch('/{coupon}', 'update')->name('coupons.update');
     });
 
     // Orders

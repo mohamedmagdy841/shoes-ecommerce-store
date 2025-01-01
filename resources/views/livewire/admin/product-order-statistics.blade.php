@@ -36,7 +36,7 @@
                                         <span class="text-sm">{{ $product->qty }}</span>
                                     </td>
                                     <td class="align-middle">
-                                        <span class="badge badge-sm bg-gradient-@if($product->status==1)success @else()danger @endif ">{{ $product->status==1?'Active':'Not Active' }}</span>
+                                        <span class="badge badge-sm bg-gradient-@if($product->status==1)success @else()danger @endif ">{{ $product->status==1?'Active':'Inactive' }}</span>
                                     </td>
                                 </tr>
                             @empty

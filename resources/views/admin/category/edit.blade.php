@@ -21,7 +21,7 @@
                         <select class="form-select" name="status" aria-label="Default select example">
                             <option>Select Category Status</option>
                             <option value="1" @selected($category->status == 1)>Active</option>
-                            <option value="0" @selected($category->status == 0)>Not Active</option>
+                            <option value="0" @selected($category->status == 0)>Inactive</option>
                         </select></div>
                     <div class="modal-footer">
                         <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>

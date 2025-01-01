@@ -14,6 +14,15 @@ use Illuminate\Support\Number;
 
 class CartController extends Controller
 {
+
+    protected $couponValidator;
+    protected $couponService;
+
+    public function __construct(CouponValidator $couponValidator, CouponService $couponService)
+    {
+        $this->couponValidator = $couponValidator;
+        $this->couponService = $couponService;
+    }
     public function get()
     {
         $userID = auth()->user()->id;
@@ -124,8 +133,8 @@ class CartController extends Controller
             $couponService = new CouponService();
 
 
-            $couponValidate->validateCoupon($coupon);
-            $totalAfterDiscount = $couponService->calculateDiscountedAmount($coupon, $subtotal);
+            $this->couponValidator->validateCoupon($coupon);
+            $totalAfterDiscount = $this->couponService->calculateDiscountedAmount($coupon, $subtotal);
             $coupon->increment('used_count');
 
             session([

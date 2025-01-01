@@ -22,12 +22,12 @@ class UpdateCouponRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'nullable|string|max:255|unique:coupons,code,' . $this->coupon->id,
+            'code' => 'nullable|string|min:5|max:10|unique:coupons,code,' . $this->coupon->id,
             'type' => 'nullable|in:percentage,fixed',
-            'value' => 'nullable|integer|min:1',
-            'limit' => 'nullable|integer|min:1',
-            'start_date' => 'nullable|date|before_or_equal:end_date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'value' => 'nullable|integer|min:1|max:100',
+            'limit' => 'nullable|integer|min:1|max:100',
+            'start_date' => 'required|date|before_or_equal:end_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ];
     }
 }

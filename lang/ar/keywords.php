@@ -101,6 +101,18 @@ return [
     'depth' => 'العمق',
     'weight' => 'الوزن',
 
+    // manage coupons
+    'add_new_coupon' => 'إضافة كوبون جديد',
+    'coupons' => 'الكوبونات',
+    'code' => 'الكود',
+    'limit' => 'الحد الأقصى',
+    'type' => 'النوع',
+    'value' => 'القيمة',
+    'start_date' => 'تاريخ البداية',
+    'end_date' => 'تاريخ الانتهاء',
+    'is_valid' => 'هل هو صالح',
+    'used_count' => 'عدد مرات الاستخدام',
+
     // manage orders
     'export_data' => 'تصدير البيانات',
     'payment_method' => 'طريقة الدفع',

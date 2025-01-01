@@ -29,7 +29,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
-                            <input type="text" name="status" value="{{ $product->status==1?'Active':'Not Active' }}" class="form-control" id="status">
+                            <input type="text" name="status" value="{{ $product->status==1?'Active':'Inactive' }}" class="form-control" id="status">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>

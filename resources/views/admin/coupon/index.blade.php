@@ -23,6 +23,7 @@
                                     <th class="text-uppercase text-s font-weight-bolder">#</th>
                                     <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.code') }}</th>
                                     <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.limit') }}</th>
+                                    <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.used_count') }}</th>
                                     <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.type') }}</th>
                                     <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.value') }}</th>
                                     <th class="text-uppercase text-s font-weight-bolder">{{ __('keywords.start_date') }}</th>
@@ -45,6 +46,9 @@
                                         </td>
                                         <td class="align-middle">
                                             <span class=" text-s">{{ $coupon->limit }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class=" text-s">{{ $coupon->used_count }}</span>
                                         </td>
                                         <td class="align-middle">
                                             <span class=" text-s">{{ $coupon->type }}</span>

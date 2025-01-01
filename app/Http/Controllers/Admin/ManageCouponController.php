@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCouponRequest;
 use App\Http\Requests\Admin\UpdateCouponRequest;
 use App\Models\Coupon;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ManageCouponController extends Controller
+class ManageCouponController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:add_coupon|edit_coupon|delete_coupon,admin', except: ['index']),
+        ];
+    }
     public function index()
     {
-        $coupons = Coupon::paginate(5);
+        $coupons = Coupon::latest()->paginate(5);
         return view('admin.coupon.index', compact('coupons'));
     }
 
@@ -29,7 +38,7 @@ class ManageCouponController extends Controller
 
     public function edit(Coupon $coupon)
     {
-        return view('admin.coupon.edit', compact('coupon', 'coupon'));
+        return view('admin.coupon.edit', compact('coupon'));
     }
 
     public function update(UpdateCouponRequest $request, Coupon $coupon)

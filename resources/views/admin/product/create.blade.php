@@ -54,7 +54,7 @@
                         <select class="form-select" id="status" name="status" aria-label="Default select example">
                             <option selected>Select Product Status</option>
                             <option value="1">Active</option>
-                            <option value="0">Not Active</option>
+                            <option value="0">Inactive</option>
                         </select>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
