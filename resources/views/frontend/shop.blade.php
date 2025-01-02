@@ -30,9 +30,6 @@
                     <div class="head">Browse Categories</div>
 
 {{--                    <form id="filter-form">--}}
-
-                    blade
-                    Copy code
                     <form method="get" action="{{ route('frontend.shop') }}">
                         <!-- Categories Filter -->
                         @if(count($categories) > 0)

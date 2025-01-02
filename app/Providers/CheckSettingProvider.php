@@ -40,7 +40,6 @@ class CheckSettingProvider extends ServiceProvider
             ]);
         });
 
-        // share categories
         $categories = Category::select('slug', 'name')->get();
 
         View::share([

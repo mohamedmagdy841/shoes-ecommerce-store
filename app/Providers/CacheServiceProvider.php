@@ -30,8 +30,18 @@ class CacheServiceProvider extends ServiceProvider
             });
         }
 
+        //        Cache::forget('cheapest_products');
+        if(!Cache::has('cheapest_products')){
+            $cheapest_products = Product::with('images')->orderBy('price')->limit(9)->get();
+            Cache::remember('cheapest_products', 3600, function () use ($cheapest_products) {
+                return $cheapest_products;
+            });
+        }
+
+        $cheapest_products = Cache::get('cheapest_products');
         $home_products = Cache::get('home_products');
 
         View::share('home_products', $home_products);
+        View::share('cheapest_products', $cheapest_products);
     }
 }

@@ -48,26 +48,37 @@ $(document).ready(function(){
     /*=================================
     Javascript for banner area carousel
     ==================================*/
+    var prevImageSrc = document.getElementById('image-sources').getAttribute('data-prev');
+    var nextImageSrc = document.getElementById('image-sources').getAttribute('data-next');
+
     $(".active-banner-slider").owlCarousel({
         items:1,
         autoplay:false,
         autoplayTimeout: 5000,
         loop:true,
         nav:true,
-        navText:["<img src='img/banner/prev.png'>","<img src='img/banner/next.png'>"],
+        navText: [
+            "<div class='owl-prev'><img src='" + prevImageSrc + "'></div>",
+            "<div class='owl-next'><img src='" + nextImageSrc + "'></div>"
+        ],
         dots:false
     });
 
     /*=================================
     Javascript for product area carousel
     ==================================*/
+    var prevProductImageSrc = document.getElementById('product-image-sources').getAttribute('data-prev');
+    var nextProductImageSrc = document.getElementById('product-image-sources').getAttribute('data-next');
     $(".active-product-area").owlCarousel({
         items:1,
         autoplay:false,
         autoplayTimeout: 5000,
         loop:true,
         nav:true,
-        navText:["<img src='img/product/prev.png'>","<img src='img/product/next.png'>"],
+        navText: [
+            "<img src='" + prevProductImageSrc + "'>",
+            "<img src='" + nextProductImageSrc + "'>"
+        ],
         dots:false
     });
 

@@ -47,9 +47,6 @@ class ShopController extends Controller
                 }})
             ->paginate(12)->withQueryString();
 
-//        if ($request->ajax()) {
-//            return response()->json(['products' => $products]);
-//        }
         return view('frontend.shop', compact('categories', 'products', 'brands', 'colors', 'selectedColor'));
     }
 }
