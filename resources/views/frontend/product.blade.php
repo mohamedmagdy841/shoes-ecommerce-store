@@ -9,7 +9,6 @@
     .fa-star.selected {
         color: #fbd600;
     }
-
 </style>
 @section('banner')
     <!-- Start Banner Area -->
@@ -38,11 +37,9 @@
                 <div class="col-lg-6">
                     <div class="s_Product_carousel">
                         @if(count($product->images) > 0)
-                            @foreach($product->images as $image)
                                 <div class="single-prd-item">
-                                    <img class="img-fluid" src="{{ $image->path }}" alt="">
+                                    <img class="img-fluid" src="{{ asset($product->images->first()->path) }}" alt="">
                                 </div>
-                            @endforeach
                         @endif
                     </div>
                 </div>

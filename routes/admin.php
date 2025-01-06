@@ -23,24 +23,20 @@ Route::group(
     ],
     function () {
 
-//    Route::fallback(function(){
-//        return response()->view('errors.404');
-//    });
-
     // Home
     Route::get('/', [AdminHomeController::class, 'index'])->name('dashboard');
 
     // Profile
-    Route::controller(AdminProfileController::class)->group(function () {
-        Route::get('profile', 'edit')->name('profile.edit');
-        Route::put('profile/{admin}', 'update')->name('profile.update');
+    Route::controller(AdminProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::put('/{admin}', 'update')->name('update');
     });
 
     // Users
-    Route::controller(ManageUserController::class)->group(function () {
-        Route::get('/users', 'index')->name('users.index');
-        Route::delete('/users/{id}', 'destroy')->name('users.destroy');
-        Route::get('users/status/{id}' ,'changeStatus')->name('users.changeStatus');
+    Route::controller(ManageUserController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}' ,'changeStatus')->name('changeStatus');
     });
 
     // Categories
@@ -52,21 +48,21 @@ Route::group(
     Route::get('products/status/{id}' ,[ManageProductController::class, 'changeStatus'])->name('products.changeStatus');
 
     // Coupons
-    Route::controller(ManageCouponController::class)->prefix('coupons')->group(function () {
-        Route::get('/', 'index')->name('coupons.index');
-        Route::get('/create', 'create')->name('coupons.create');
-        Route::get('/{coupon}/edit', 'edit')->name('coupons.edit');
-        Route::post('/', 'store')->name('coupons.store');
-        Route::delete('/{coupon}', 'destroy')->name('coupons.destroy');
-        Route::patch('/{coupon}', 'update')->name('coupons.update');
+    Route::controller(ManageCouponController::class)->prefix('coupons')->name('coupons.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{coupon}/edit', 'edit')->name('edit');
+        Route::post('/', 'store')->name('store');
+        Route::delete('/{coupon}', 'destroy')->name('destroy');
+        Route::patch('/{coupon}', 'update')->name('update');
     });
 
     // Orders
-    Route::controller(ManageOrderController::class)->group(function () {
-        Route::get('/orders', 'index')->name('orders.index');
-        Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
-        Route::put('/orders/{order}/status' ,'updateStatus')->name('orders.updateStatus');
-        Route::get('/orders/export' ,'export')->name('orders.export');
+    Route::controller(ManageOrderController::class)->prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/{order}', 'destroy')->name('destroy');
+        Route::put('/{order}/status' ,'updateStatus')->name('updateStatus');
+        Route::get('/export' ,'export')->name('export');
     });
 
     // Notifications
@@ -78,9 +74,9 @@ Route::group(
     })->name('notifications.clear');
 
     // Settings
-    Route::controller(ManageSettingController::class)->group(function () {
-        Route::get('/settings', 'index')->name('settings.index');
-        Route::match(['put', 'patch'], '/settings/update', 'update')->name('settings.update');
+    Route::controller(ManageSettingController::class)->prefix('settings')->name('settings.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::match(['put', 'patch'], '/update', 'update')->name('update');
     });
 
     // Admins

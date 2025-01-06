@@ -29,6 +29,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Created at</th>
                     <th scope="col">Actions</th>
 
@@ -40,11 +41,12 @@
                     <tr>
                         <th scope="row">{{ $key+1 }}</th>
                         <td>{{ $blog->title }}</td>
+                        <td>{{ $blog->blog_category->name }}</td>
                         <td>{{ $blog->created_at->format("d M Y, h:i A") }}</td>
                         <td>
                             <a href="{{ route('blogs.show', ['blog' => $blog]) }}" class="btn btn-info waves-effect waves-light"><i class="fa fa-eye" aria-hidden="true"></i></a>
                             <a href="{{ route('blogs.edit', ['blog' => $blog]) }}" class="btn btn-primary waves-effect waves-light"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <form method="post" class="delete-form" style="display: inline;" data-route="{{route('blogs.destroy',$blog->id)}}">
+                            <form method="post" class="delete-form-blog" style="display: inline;" action="{{route('blogs.destroy',$blog)}}">
                                 @csrf
                                 @method('DELETE')
 
@@ -58,49 +60,4 @@
         </table>
     </div>
 @endsection
-
-@push('js')
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $('.delete-form').on('submit', function(e) {
-                e.preventDefault();
-                var button = $(this);
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'post',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            url: button.data('route'),
-                            data: {
-                                '_method': 'delete'
-                            },
-                            success: function (response, textStatus, xhr) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    confirmButtonColor: "#ffba00",
-                                    title: response,
-                                }).then((result) => {
-                                    window.location='/myBlogs'
-                                });
-                            }
-                        });
-                    }
-                });
-
-            })
-        });
-    </script>
-@endpush
 

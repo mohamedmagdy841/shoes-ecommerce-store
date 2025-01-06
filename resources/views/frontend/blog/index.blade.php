@@ -90,7 +90,7 @@
                             @if(count($most_viewed) > 0)
                                 @foreach($most_viewed as $blog)
                                     <div class="media post_item">
-                                        <img src="{{ $blog->image }}" alt="post" style="width: 80px; height: 80px;">
+                                        <img src="{{ asset('storage/blog/' . $blog->image) }}" alt="post" style="width: 80px; height: 80px;">
                                         <div class="media-body">
                                             <a href="blog-details.html">
                                                 <h3>{{ $blog->title }}</h3>

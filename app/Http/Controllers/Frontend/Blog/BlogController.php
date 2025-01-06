@@ -114,12 +114,15 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(BlogPost $blog)
     {
-        $blog = BlogPost::find($id);
         unlink(storage_path('app/public/blog/'.$blog->image));
         $blog->delete();
-        return response('Blog deleted successfully.', 200);
+        notyf()
+            ->duration(4000)
+            ->success('Blog Post Deleted Successfully');
+
+        return redirect()->back();
     }
 
     public function myBlogs()

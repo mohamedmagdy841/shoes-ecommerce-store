@@ -152,11 +152,11 @@
                                                 <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                             </div>
                                             <div class="prd-bottom">
-                                                <a href="" class="social-info addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">
+                                                <a href="" class="social-info addToCart2" data-product-id="{{ route('frontend.cart.add', $product->id) }}">
                                                     <span class="ti-bag"></span>
                                                     <p class="hover-text">add to bag</p>
                                                 </a>
-                                                <a href="" class="social-info addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
+                                                <a href="" class="social-info addToWishlist2" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                                     <span class="lnr lnr-heart"></span>
                                                     <p class="hover-text">Wishlist</p>
                                                 </a>
@@ -184,7 +184,7 @@
 @endsection
 @push('js')
     <script>
-        const notyf = new Notyf({
+        const notyf2 = new Notyf({
             duration: 3000,
             types: [
                 {
@@ -225,11 +225,11 @@
                                             <h6>$${product.price}</h6>
                                         </div>
                                         <div class="prd-bottom">
-                                            <a href="#" class="social-info">
-                                                <span class="ti-bag"></span>
-                                                <p class="hover-text">add to bag</p>
-                                            </a>
-                                            <a href="#" class="social-info addToWishlist" data-product-id="${product.id}">
+                                                <a href="" class="social-info addToCart2" data-product-id="${product.id}">
+                                                    <span class="ti-bag"></span>
+                                                    <p class="hover-text">add to bag</p>
+                                                </a>
+                                            <a href="#" class="social-info addToWishlist2" data-product-id="${product.id}">
                                                 <span class="lnr lnr-heart"></span>
                                                 <p class="hover-text">Wishlist</p>
                                             </a>
@@ -254,40 +254,7 @@
                 }
             });
 
-            $('.addToWishlist').on('click', function (e) {
-                e.preventDefault();
-
-                @guest()
-                    Swal.fire({
-                        title: "You Must Log In First",
-                        icon: "warning",
-                        confirmButtonColor: "#3085d6",
-                        confirmButtonText: "Ok"
-                    });
-                @endguest
-
-                $.ajax({
-                    type: 'post',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: $(this).attr('data-product-id'),
-                    success: function (data) {
-                        if(data.message === "Product added to wishlist")
-                            notyf.open({
-                                type: 'success',
-                                message: data.message
-                            });
-                        else
-                            notyf.open({
-                                type: 'warning',
-                                message: data.message
-                            });
-                    }
-                });
-            });
-
-            $('.addToCart').on('click', function (e) {
+            $('.addToWishlist2').on('click', function (e) {
                 e.preventDefault();
 
                 @guest()
@@ -306,7 +273,40 @@
                     },
                     url: $(this).attr('data-product-id'),
                     success: function (data) {
-                        notyf.open({
+                        if(data.message === "Product added to wishlist")
+                            notyf2.open({
+                                type: 'success',
+                                message: data.message
+                            });
+                        else
+                            notyf2.open({
+                                type: 'warning',
+                                message: data.message
+                            });
+                    }
+                });
+            });
+
+            $('.addToCart2').on('click', function (e) {
+                e.preventDefault();
+
+                @guest()
+                Swal.fire({
+                    title: "You Must Log In First",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                });
+                @endguest
+
+                $.ajax({
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: $(this).attr('data-product-id'),
+                    success: function (data) {
+                        notyf2.open({
                             type: 'success',
                             message: data.message
                         });
