@@ -41,7 +41,7 @@ class CartController extends Controller
             Cache::put($cartCacheKey, $cart, now()->addMinutes(30));
         }
 
-        $items = $cart['items'];
+        $items = collect($cart['items']);
         $subtotal = $cart['subtotal'];
 
         if (request()->ajax()) {
@@ -129,9 +129,6 @@ class CartController extends Controller
         try {
             Cache::forget('cart_'.$userID);
             $subtotal = Cart::session($userID)->getSubtotal();
-            $couponValidate = new CouponValidator();
-            $couponService = new CouponService();
-
 
             $this->couponValidator->validateCoupon($coupon);
             $totalAfterDiscount = $this->couponService->calculateDiscountedAmount($coupon, $subtotal);

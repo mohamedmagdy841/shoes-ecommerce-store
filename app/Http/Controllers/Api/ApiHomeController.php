@@ -15,12 +15,12 @@ class ApiHomeController extends Controller
     use HttpResponse;
     public function index()
     {
-        $home_products = Product::active()->with('images')->latest()->limit(16)->get();
+        $latest_products = Product::active()->with('images')->latest()->limit(16)->get();
         $cheapest_products = Product::active()->with('images')->orderBy('price')->limit(9)->get();
         $categories = Category::active()->get();
 
         $data = [
-            'home_products' => ProductResource::collection($home_products),
+            'latest_products' => ProductResource::collection($latest_products),
             'cheapest_products' => ProductResource::collection($cheapest_products),
             'categories' => CategoryResource::collection($categories)
         ];

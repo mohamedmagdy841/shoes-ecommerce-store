@@ -54,7 +54,7 @@ class ApiShopController extends Controller
 
         $data = [
             'categories' => CategoryResource::collection($categories),
-            'products' => ProductResource::collection($products),
+            'products' => ProductResource::collection($products)->response()->getData(true),
             'brands' => $brands,
             'colors' => $colors,
             'selectedColor' => $selectedColor,
