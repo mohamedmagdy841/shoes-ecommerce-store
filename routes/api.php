@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApiContactController;
 use App\Http\Controllers\Api\ApiHomeController;
 use App\Http\Controllers\Api\ApiProductController;
 use App\Http\Controllers\Api\ApiShopController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+// Auth
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login');
+    Route::post('/register', 'register');
+    Route::get('/getUser', function (Request $request) {
+        return $request->user();
+    })->middleware('auth:sanctum');
+    Route::post('/logout', 'logout')->middleware('auth:sanctum');
+    Route::post('/logout-all', 'logoutAll')->middleware('auth:sanctum');
+});
 
 // Home
 Route::get('/', [ApiHomeController::class, 'index']);
