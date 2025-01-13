@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ApiHomeController;
 use App\Http\Controllers\Api\ApiProductController;
 use App\Http\Controllers\Api\ApiShopController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,12 @@ Route::controller(AuthController::class)->group(function () {
     })->middleware('auth:sanctum');
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
     Route::post('/logout-all', 'logoutAll')->middleware('auth:sanctum');
+});
+
+// Verify Email
+Route::middleware('auth:sanctum')->controller(VerifyEmailController::class)->group(function(){
+    Route::post('auth/email/verify', 'verifyEmail');
+    Route::get('auth/email/verify', 'sendOtpAgain');
 });
 
 // Home

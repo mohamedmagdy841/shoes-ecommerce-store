@@ -9,6 +9,7 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.0",
         "darryldecode/cart": "^4.2",
+        "ichtrojan/laravel-otp": "^2.0",
         "kartik-v/bootstrap-fileinput": "dev-master",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",

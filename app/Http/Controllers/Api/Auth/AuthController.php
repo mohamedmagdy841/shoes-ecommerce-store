@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\User;
 use App\Notifications\NewUserRegisterd;
+use App\Notifications\SendOtpVerifyUserEmail;
 use App\Traits\HttpResponse;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -51,9 +52,10 @@ class AuthController extends Controller
             $admins = Admin::get();
             Notification::send($admins, new NewUserRegisterd($user));
             NewUserRegisteredEvent::dispatch($user);
+            $user->notify(new SendOtpVerifyUserEmail());
 
             DB::commit();
-            return $this->sendResponse(['token' => $token], 'You have logged in successfully', 200);
+            return $this->sendResponse(['token' => $token], 'You have logged in successfully', 201);
         } catch (\Exception $e)
         {
             DB::rollBack();
