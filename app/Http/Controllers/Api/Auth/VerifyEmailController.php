@@ -20,13 +20,13 @@ class VerifyEmailController extends Controller
 
     public function verifyEmail(Request $request)
     {
-        $request->validate(['token'=>['required' , 'max:8']]);
+        $request->validate(['code'=>['required' , 'max:8']]);
         $user = $request->user();
         if($user->email_verified_at != null){
             return $this->sendResponse([], 'Email is already verified', 200);
         }
 
-        $otp2 = $this->otp->validate($user->email , $request->token);
+        $otp2 = $this->otp->validate($user->email , $request->code);
 
         if($otp2->status == false){
             return $this->sendResponse([], 'Code is invalid', 400);
