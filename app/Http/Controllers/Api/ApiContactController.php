@@ -14,12 +14,6 @@ class ApiContactController extends Controller
 {
     use HttpResponse;
 
-    public function index()
-    {
-        $getSetting = Setting::find(1)->get();
-        return $this->sendResponse(new SettingResource($getSetting), 'Success');
-    }
-
     public function store(StoreContactRequest $request)
     {
         $data = $request->validated();

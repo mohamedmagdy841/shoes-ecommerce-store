@@ -44,8 +44,7 @@ Route::controller(ApiProductController::class)->prefix('product')->group(functio
 Route::get('/shop', [ApiShopController::class, 'index']);
 
 // Contact
-Route::controller(ApiContactController::class)->prefix('contact')->group(function () {
-    Route::get('/',  'index');
+Route::middleware(['auth:sanctum', 'verifyEmail'])->controller(ApiContactController::class)->prefix('contact')->group(function () {
     Route::post('/store',  'store');
 });
 

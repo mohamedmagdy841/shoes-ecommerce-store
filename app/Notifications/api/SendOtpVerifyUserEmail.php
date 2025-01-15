@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\api;
 
 use Ichtrojan\Otp\Otp;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class SendOtpVerifyUserEmail extends Notification  implements ShouldQueue
+class SendOtpVerifyUserEmail extends Notification
 {
     use Queueable;
 

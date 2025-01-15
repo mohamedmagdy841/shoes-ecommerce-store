@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Events\NewUserRegisteredEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailVerifyJob;
 use App\Models\Admin;
 use App\Models\User;
+use App\Notifications\api\SendOtpVerifyUserEmail;
 use App\Notifications\NewUserRegisterd;
-use App\Notifications\SendOtpVerifyUserEmail;
 use App\Traits\HttpResponse;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
@@ -26,9 +28,17 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
+        if(RateLimiter::tooManyAttempts($request->ip(), 3)) {
+            $seconds = RateLimiter::availableIn($request->ip());
+            return $this->sendResponse([], 'Too many attempts, try after '. $seconds . ' seconds', 429);
+        }
+
+        RateLimiter::increment($request->ip());
+
         $user = User::whereEmail($request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
             $token = $user->createToken('user_token' , ['*'] , now()->addMinutes(60))->plainTextToken;
+            RateLimiter::clear($request->ip());
             return $this->sendResponse(['token' => $token], 'You have logged in successfully', 200);
         }
 
@@ -52,7 +62,7 @@ class AuthController extends Controller
             $admins = Admin::get();
             Notification::send($admins, new NewUserRegisterd($user));
             NewUserRegisteredEvent::dispatch($user);
-            $user->notify(new SendOtpVerifyUserEmail());
+            SendEmailVerifyJob::dispatch($user);
 
             DB::commit();
             return $this->sendResponse(['token' => $token], 'You have logged in successfully', 201);
