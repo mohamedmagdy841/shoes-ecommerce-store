@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiCartController;
 use App\Http\Controllers\Api\ApiContactController;
+use App\Http\Controllers\Api\ApiCouponController;
 use App\Http\Controllers\Api\ApiHomeController;
 use App\Http\Controllers\Api\ApiProductController;
 use App\Http\Controllers\Api\ApiShopController;
@@ -65,6 +66,12 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiCartContro
     Route::delete('/{id}', 'remove');
     Route::delete('/', 'removeAll');
     Route::patch('/{id}/update-quantity/{action}',  'updateQuantity');
+});
+
+// Coupon
+Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiCouponController::class)->prefix('coupon')->group(function () {
+    Route::post('/apply_coupon',  'applyCoupon');
+    Route::get('/cancel_coupon',  'cancelCoupon');
 });
 
 //Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
