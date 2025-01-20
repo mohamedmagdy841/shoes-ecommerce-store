@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Traits\HttpResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckUserStatus
 {
+    use HttpResponse;
     /**
      * Handle an incoming request.
      *
@@ -20,6 +22,12 @@ class CheckUserStatus
 
             return redirect()->route('frontend.wait');
         }
+
+        if(Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->status==0){
+
+            return $this->sendResponse([], 'You are blocked, please contact the admin.', Response::HTTP_FORBIDDEN);
+        }
+
         return $next($request);
     }
 }

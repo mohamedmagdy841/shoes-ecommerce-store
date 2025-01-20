@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiCartController;
 use App\Http\Controllers\Api\ApiContactController;
 use App\Http\Controllers\Api\ApiHomeController;
 use App\Http\Controllers\Api\ApiProductController;
@@ -56,6 +57,15 @@ Route::middleware(['auth:sanctum', 'verifyEmail'])->controller(ApiContactControl
     Route::post('/store',  'store');
 });
 
+
+// Cart
+Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiCartController::class)->prefix('cart')->group(function () {
+    Route::get('/',  'get');
+    Route::post('/{id}', 'add');
+    Route::delete('/{id}', 'remove');
+    Route::delete('/', 'removeAll');
+    Route::patch('/{id}/update-quantity/{action}',  'updateQuantity');
+});
 
 //Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 //Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
