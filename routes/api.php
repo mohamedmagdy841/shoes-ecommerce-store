@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiCouponController;
 use App\Http\Controllers\Api\ApiHomeController;
 use App\Http\Controllers\Api\ApiProductController;
 use App\Http\Controllers\Api\ApiShopController;
+use App\Http\Controllers\Api\ApiSubscriberController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\Password\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\Password\ResetPasswordController;
@@ -73,6 +74,9 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiCouponCont
     Route::post('/apply_coupon',  'applyCoupon');
     Route::get('/cancel_coupon',  'cancelCoupon');
 });
+
+// newsletter
+Route::post('/newsletter', [ApiSubscriberController::class, 'store']);
 
 //Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 //Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
