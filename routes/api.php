@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiCartController;
+use App\Http\Controllers\Api\ApiCheckoutController;
 use App\Http\Controllers\Api\ApiContactController;
 use App\Http\Controllers\Api\ApiCouponController;
 use App\Http\Controllers\Api\ApiHomeController;
@@ -85,6 +86,9 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiWishlistCo
     Route::get('/', 'get');
     Route::delete('/{id}', 'remove');
 });
+
+// Checkout
+Route::get('/checkout', [ApiCheckoutController::class, 'index']);
 
 //Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 //Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
