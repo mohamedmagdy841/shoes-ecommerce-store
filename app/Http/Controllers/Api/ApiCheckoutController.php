@@ -44,4 +44,5 @@ class ApiCheckoutController extends Controller
             'discount_amount' => $discountAmount,
         ], 'success');
     }
+
 }

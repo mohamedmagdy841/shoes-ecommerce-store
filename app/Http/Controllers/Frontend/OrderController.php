@@ -45,11 +45,11 @@ class OrderController extends Controller
                 return $item->quantity * $item->price;
             });
 
-            $request->validated();
+            $validatedData = $request->validated();
 
             $order = $user->orders()->create([
                 'total_price' => $totalAmount,
-                'payment_method' => $request->input('payment_method'),
+                'payment_method' => $validatedData['payment_method'],
                 'coupon_code' => $appliedCoupon,
                 'discount_amount' => $discountedAmount,
             ]);

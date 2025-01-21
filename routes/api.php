@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ApiCheckoutController;
 use App\Http\Controllers\Api\ApiContactController;
 use App\Http\Controllers\Api\ApiCouponController;
 use App\Http\Controllers\Api\ApiHomeController;
+use App\Http\Controllers\Api\ApiOrderController;
 use App\Http\Controllers\Api\ApiProductController;
 use App\Http\Controllers\Api\ApiShopController;
 use App\Http\Controllers\Api\ApiSubscriberController;
@@ -88,7 +89,15 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiWishlistCo
 });
 
 // Checkout
-Route::get('/checkout', [ApiCheckoutController::class, 'index']);
+Route::get('/checkout', [ApiCheckoutController::class, 'index'])->middleware(['auth:sanctum', 'checkUserStatus']);
+
+// Order
+Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiOrderController::class)->prefix('orders')->group(function () {
+    Route::post('/cash-order', 'cashOrder'); // Place order
+    Route::get('/', 'index'); // List user orders
+    Route::get('/invoice/download/{id}', 'orderInvoiceDownload');
+    Route::post('/stripe-order', 'stripeOrder');
+});
 
 //Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
 //Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
