@@ -82,6 +82,7 @@
 @push('js')
     <script>
         $(document).ready(function () {
+            // Function to update wishlist counter
             function updateWishlistCounter() {
                 $.ajax({
                     url: '{{ route("frontend.wishlist.get") }}',
@@ -102,12 +103,7 @@
                 });
             }
 
-            updateWishlistCounter();
-
-            $('.addToWishlist').on('click', function () {
-                updateWishlistCounter();
-            });
-
+            // Function to update cart counter
             function updateCartCounter() {
                 $.ajax({
                     url: '{{ route("frontend.cart.get") }}',
@@ -128,12 +124,19 @@
                 });
             }
 
+            // Initial updates for counters
+            updateWishlistCounter();
             updateCartCounter();
 
-            $('.addToCart').on('click', function () {
+            // Event listeners for addToWishlist and addToWishlist2
+            $('.addToWishlist, .addToWishlist2, .addToWishlist3').on('click', function () {
+                updateWishlistCounter();
+            });
+
+            // Event listeners for addToCart and addToCart2
+            $('.addToCart, .addToCart2, .addToCart3').on('click', function () {
                 updateCartCounter();
             });
         });
-
     </script>
 @endpush

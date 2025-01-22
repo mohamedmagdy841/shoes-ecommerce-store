@@ -40,7 +40,6 @@ class CartController extends Controller
 
             Cache::put($cartCacheKey, $cart, now()->addMinutes(30));
         }
-        return $cart;
         $items = collect($cart['items']);
         $subtotal = $cart['subtotal'];
 

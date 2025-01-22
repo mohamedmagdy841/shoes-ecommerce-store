@@ -61,8 +61,8 @@
                                     class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
                         <div class="card_area d-flex align-items-center">
-                            <a href="" class="primary-btn addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">Add to Cart</a>
-                            <a href="" class=" ml-2 addToWishlist" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
+                            <a href="" class="primary-btn addToCart3" data-product-id="{{ route('frontend.cart.add', $product->id) }}">Add to Cart</a>
+                            <a href="" class=" ml-2 addToWishlist3" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                 <span class="lnr lnr-heart"></span>
                             </a>
                         </div>
@@ -330,7 +330,8 @@
 
         $(document).ready(function() {
             $('#summernote').summernote();
-            $('.addToWishlist').on('click', function (e) {
+
+            $('.addToWishlist3').on('click', function (e) {
                 e.preventDefault();
 
                 @guest()
@@ -363,7 +364,7 @@
                 });
             });
 
-            $('.addToCart').on('click', function (e) {
+            $('.addToCart3').on('click', function (e) {
                 e.preventDefault();
 
                 @guest()

@@ -37,14 +37,19 @@
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-        var onloadCallback = function() {
-            grecaptcha.render('g-recaptcha', {
-                'sitekey': '{{ config("services.recaptcha.site_key") }}'
-            });
-        };
-    </script>
+
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
             async defer>
     </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var onloadCallback = function () {
+                grecaptcha.render('g-recaptcha', {
+                    'sitekey': '6Lc9FqoqAAAAABtxQ1c_i1OQqcNqGjwHj_1z-JD3'
+                });
+            };
+            onloadCallback();
+        });
+    </script>
+
 </head>
