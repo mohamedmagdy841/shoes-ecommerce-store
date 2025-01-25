@@ -20,38 +20,67 @@ class ManageCouponController extends Controller implements HasMiddleware
     }
     public function index()
     {
-        $coupons = Coupon::latest()->paginate(5);
-        return view('admin.coupon.index', compact('coupons'));
+        try {
+            $coupons = Coupon::latest()->paginate(5);
+            return view('admin.coupon.index', compact('coupons'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the coupons.');
+            return redirect()->back();
+        }
     }
 
     public function create()
     {
-        return view('admin.coupon.create');
+        try {
+            return view('admin.coupon.create');
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the create coupon page.');
+            return redirect()->back();
+        }
     }
 
     public function store(StoreCouponRequest $request)
     {
-        Coupon::create($request->validated());
-        notyf()->success('Coupon created successfully!');
-        return redirect()->back();
+        try {
+            Coupon::create($request->validated());
+            notyf()->success('Coupon created successfully!');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while creating the coupon.');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function edit(Coupon $coupon)
     {
-        return view('admin.coupon.edit', compact('coupon'));
+        try {
+            return view('admin.coupon.edit', compact('coupon'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the edit coupon page.');
+            return redirect()->back();
+        }
     }
 
     public function update(UpdateCouponRequest $request, Coupon $coupon)
     {
-        $coupon->update($request->validated());
-        notyf()->success('Coupon updated successfully');
-        return redirect()->route('admin.coupons.index');
+        try {
+            $coupon->update($request->validated());
+            notyf()->success('Coupon updated successfully');
+            return redirect()->route('admin.coupons.index');
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while updating the coupon.');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function destroy(Coupon $coupon)
     {
-        $coupon->delete();
-        return response('Coupon deleted successfully.', 200);
+        try {
+            $coupon->delete();
+            return response('Coupon deleted successfully.', 200);
+        } catch (\Exception $e) {
+            return response('An error occurred while deleting the coupon.', 500);
+        }
     }
 
 }

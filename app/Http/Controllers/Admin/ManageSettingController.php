@@ -21,15 +21,25 @@ class ManageSettingController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $settings = Setting::all();
-        return view('admin.setting.index', compact('settings'));
+        try {
+            $settings = Setting::all();
+            return view('admin.setting.index', compact('settings'));
+        } catch (\Exception $e) {
+            notyf()->error('Failed to load settings.');
+            return redirect()->back();
+        }
     }
     public function update(UpdateSettingRequest $request)
     {
-        $data = $request->validated();
-        $setting = Setting::find(1);
-        $setting->update($data);
-        notyf()->success('Settings Updated');
-        return redirect()->back();
+        try {
+            $data = $request->validated();
+            $setting = Setting::find(1);
+            $setting->update($data);
+            notyf()->success('Settings Updated');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('Failed to update settings.');
+            return redirect()->back();
+        }
     }
 }

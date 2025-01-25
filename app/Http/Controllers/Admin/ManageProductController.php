@@ -31,8 +31,13 @@ class ManageProductController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $products = Product::with('images')->latest()->paginate(5);
-        return view('admin.product.index', compact('products'));
+        try {
+            $products = Product::with('images')->latest()->paginate(5);
+            return view('admin.product.index', compact('products'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the products.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -40,8 +45,13 @@ class ManageProductController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $categories = Category::active()->select('id' , 'name')->get();
-        return view('admin.product.create', compact('categories'));
+        try {
+            $categories = Category::active()->select('id', 'name')->get();
+            return view('admin.product.create', compact('categories'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the categories.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -72,8 +82,13 @@ class ManageProductController extends Controller implements HasMiddleware
      */
     public function edit(Product $product)
     {
-        $categories = Category::active()->select('id' , 'name')->get();
-        return view('admin.product.edit', compact('product', 'categories'));
+        try {
+            $categories = Category::active()->select('id', 'name')->get();
+            return view('admin.product.edit', compact('product', 'categories'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the product details.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -107,27 +122,34 @@ class ManageProductController extends Controller implements HasMiddleware
      */
     public function destroy(Product $product)
     {
-        ImageManager::deleteImages($product);
-        $product->delete();
-        return response('Product deleted successfully.', 200);
+        try {
+            ImageManager::deleteImages($product);
+            $product->delete();
+            return response('Product deleted successfully.', 200);
+        } catch (\Exception $e) {
+            return response('An error occurred while deleting the product.', 500);
+        }
     }
 
     public function changeStatus($id)
     {
-        $product = Product::findOrFail($id);
+        try {
+            $product = Product::findOrFail($id);
 
-        if ($product->status == 1) {
             $product->update([
-                'status' => 0,
+                'status' => $product->status == 1 ? 0 : 1,
             ]);
-            notyf()->success('Product Deactivated Successfully!');
-        } else {
-            $product->update([
-                'status' => 1,
-            ]);
-            notyf()->success('Product Is Active Now!');
+
+            $message = $product->status == 1
+                ? 'Product Is Active Now!'
+                : 'Product Deactivated Successfully!';
+            notyf()->success($message);
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while changing the product status.');
+            return redirect()->back();
         }
-        return redirect()->back();
     }
 
 }

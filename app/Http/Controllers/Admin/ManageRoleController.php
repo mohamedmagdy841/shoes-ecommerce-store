@@ -24,8 +24,12 @@ class ManageRoleController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $roles = Role::paginate(5);
-        return view('admin.role.index', compact('roles'));
+        try {
+            $roles = Role::paginate(5);
+            return view('admin.role.index', compact('roles'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to load roles.');
+        }
     }
 
     /**
@@ -33,8 +37,12 @@ class ManageRoleController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $permissions = Permission::where('guard_name', 'admin')->get();
-        return view('admin.role.create', compact('permissions'));
+        try {
+            $permissions = Permission::where('guard_name', 'admin')->get();
+            return view('admin.role.create', compact('permissions'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to load permissions.');
+        }
     }
 
     /**
@@ -42,33 +50,34 @@ class ManageRoleController extends Controller implements HasMiddleware
      */
     public function store(StoreRoleRequest $request)
     {
-        $data = $request->validated();
-        $role = Role::create(['name' => $data['name'], 'guard_name' => 'admin']);
-        if (isset($data['permissionArray'])) {
-            foreach ($data['permissionArray'] as $permission => $value) {
-                $role->givePermissionTo($permission);
+        try {
+            $data = $request->validated();
+            $role = Role::create(['name' => $data['name'], 'guard_name' => 'admin']);
+            if (isset($data['permissionArray'])) {
+                foreach ($data['permissionArray'] as $permission => $value) {
+                    $role->givePermissionTo($permission);
+                }
             }
+
+            notyf()->success('Role has been created');
+            return redirect()->route('admin.roles.index');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to create role.');
         }
-
-        notyf()->success('Role has been created');
-        return redirect()->route('admin.roles.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role)
     {
-        $permissions = Permission::where('guard_name', 'admin')->get();
-        return view('admin.role.edit', compact('role', 'permissions'));
+        try {
+            $permissions = Permission::where('guard_name', 'admin')->get();
+            return view('admin.role.edit', compact('role', 'permissions'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to load role data.');
+        }
     }
 
     /**
@@ -76,17 +85,21 @@ class ManageRoleController extends Controller implements HasMiddleware
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $data = $request->validated();
-        $role->update(['name' => $data['name'], 'guard_name' => 'admin']);
-        $role->syncPermissions();
-        if (isset($data['permissionArray'])) {
-            foreach ($data['permissionArray'] as $permission => $value) {
-                $role->givePermissionTo($permission);
+        try {
+            $data = $request->validated();
+            $role->update(['name' => $data['name'], 'guard_name' => 'admin']);
+            $role->syncPermissions();
+            if (isset($data['permissionArray'])) {
+                foreach ($data['permissionArray'] as $permission => $value) {
+                    $role->givePermissionTo($permission);
+                }
             }
-        }
 
-        notyf()->success('Role has been updated');
-        return redirect()->route('admin.roles.index');
+            notyf()->success('Role has been updated');
+            return redirect()->route('admin.roles.index');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to update role.');
+        }
     }
 
     /**
@@ -94,9 +107,13 @@ class ManageRoleController extends Controller implements HasMiddleware
      */
     public function destroy(Role $role)
     {
-        $role->syncPermissions();
-        $role->delete();
-        notyf()->success('Role has been deleted');
-        return redirect()->route('admin.roles.index');
+        try {
+            $role->syncPermissions();
+            $role->delete();
+            notyf()->success('Role has been deleted');
+            return redirect()->route('admin.roles.index');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.roles.index')->withErrors('Failed to delete role.');
+        }
     }
 }

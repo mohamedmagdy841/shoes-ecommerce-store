@@ -27,8 +27,13 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $admins = Admin::where('id', '!=', Auth::guard('admin')->user()->id)->paginate(5);
-        return view('admin.manageAdmin.index', compact('admins'));
+        try {
+            $admins = Admin::where('id', '!=', Auth::guard('admin')->user()->id)->paginate(5);
+            return view('admin.manageAdmin.index', compact('admins'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while fetching the admin list.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -36,8 +41,13 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $roles = Role::where('guard_name', 'admin')->get();
-        return view('admin.manageAdmin.create', compact('roles'));
+        try {
+            $roles = Role::where('guard_name', 'admin')->get();
+            return view('admin.manageAdmin.create', compact('roles'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the create form.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -45,22 +55,20 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function store(StoreAdminRequest $request)
     {
-        $data = $request->validated();
-        $admin = Admin::create($data);
-        if (isset($data['role']))
-        {
-            $admin->assignRole($data['role']);
-        }
-        notyf()->success('Admin has been created');
-        return redirect(route('admin.admins.index'));
-    }
+        try {
+            $data = $request->validated();
+            $admin = Admin::create($data);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {
-        //
+            if (isset($data['role'])) {
+                $admin->assignRole($data['role']);
+            }
+
+            notyf()->success('Admin has been created');
+            return redirect(route('admin.admins.index'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while creating the admin.');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -68,8 +76,13 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function edit(Admin $admin)
     {
-        $roles = Role::where('guard_name', 'admin')->get();
-        return view('admin.manageAdmin.edit', compact('admin', 'roles'));
+        try {
+            $roles = Role::where('guard_name', 'admin')->get();
+            return view('admin.manageAdmin.edit', compact('admin', 'roles'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the edit form.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -77,12 +90,17 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $data = $request->validated();
-        if ($data['password'] == null) unset($data['password']);
-        $admin->update($data);
-        $admin->syncRoles([$data['role']]);
-        notyf()->success('Admin has been updated');
-        return redirect(route('admin.admins.index'));
+        try {
+            $data = $request->validated();
+            if ($data['password'] == null) unset($data['password']);
+            $admin->update($data);
+            $admin->syncRoles([$data['role']]);
+            notyf()->success('Admin has been updated');
+            return redirect(route('admin.admins.index'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while updating the admin.');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -90,26 +108,28 @@ class ManageAdminController extends Controller implements HasMiddleware
      */
     public function destroy(Admin $admin)
     {
-        $admin->syncRoles([null]);
-        $admin->delete();
-        return response()->json('Admin has been deleted');
+        try {
+            $admin->syncRoles([null]);
+            $admin->delete();
+            return response()->json('Admin has been deleted');
+        } catch (\Exception $e) {
+            return response()->json('An error occurred while deleting the admin.', 500);
+        }
     }
 
     public function changeStatus($id)
     {
-        $user = Admin::findOrFail($id);
-
-        if ($user->status == 1) {
+        try {
+            $user = Admin::findOrFail($id);
             $user->update([
-                'status' => 0,
+                'status' => $user->status == 1 ? 0 : 1,
             ]);
-            notyf()->success('Admin Blocked Successfully!');
-        } else {
-            $user->update([
-                'status' => 1,
-            ]);
-            notyf()->success('Admin Is Active Now!');
+            $message = $user->status == 1 ? 'Admin Is Active Now!' : 'Admin Blocked Successfully!';
+            notyf()->success($message);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while changing the admin status.');
+            return redirect()->back();
         }
-        return redirect()->back();
     }
 }

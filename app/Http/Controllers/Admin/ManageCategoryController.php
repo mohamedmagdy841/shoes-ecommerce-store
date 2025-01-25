@@ -23,8 +23,13 @@ class ManageCategoryController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $categories = Category::withCount('products')->paginate(5);
-        return view('admin.category.index', compact('categories'));
+        try {
+            $categories = Category::withCount('products')->paginate(5);
+            return view('admin.category.index', compact('categories'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the categories.');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -32,10 +37,15 @@ class ManageCategoryController extends Controller implements HasMiddleware
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->validated();
-        Category::create($data);
-        notyf()->success('Category created successfully');
-        return redirect()->back();
+        try {
+            $data = $request->validated();
+            Category::create($data);
+            notyf()->success('Category created successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while creating the category.');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -43,10 +53,15 @@ class ManageCategoryController extends Controller implements HasMiddleware
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validated();
-        $category->update($data);
-        notyf()->success('Category updated successfully');
-        return redirect()->back();
+        try {
+            $data = $request->validated();
+            $category->update($data);
+            notyf()->success('Category updated successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while updating the category.');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -54,25 +69,27 @@ class ManageCategoryController extends Controller implements HasMiddleware
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return response('Category deleted successfully.', 200);
+        try {
+            $category->delete();
+            return response('Category deleted successfully.', 200);
+        } catch (\Exception $e) {
+            return response('An error occurred while deleting the category.', 500);
+        }
     }
 
     public function changeStatus($id)
     {
-        $category = Category::findOrFail($id);
-
-        if ($category->status == 1) {
+        try {
+            $category = Category::findOrFail($id);
             $category->update([
-                'status' => 0,
+                'status' => $category->status == 1 ? 0 : 1,
             ]);
-            notyf()->success('Category Deactivated Successfully!');
-        } else {
-            $category->update([
-                'status' => 1,
-            ]);
-            notyf()->success('Category Is Active Now!');
+            $message = $category->status == 1 ? 'Category Is Active Now!' : 'Category Deactivated Successfully!';
+            notyf()->success($message);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while changing the category status.');
+            return redirect()->back();
         }
-        return redirect()->back();
     }
 }

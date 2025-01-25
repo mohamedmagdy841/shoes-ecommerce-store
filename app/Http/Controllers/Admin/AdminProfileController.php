@@ -11,16 +11,40 @@ class AdminProfileController extends Controller
 {
     public function edit()
     {
-        $admin = auth('admin')->user();
-        return view('admin.profile.edit', compact('admin'));
+        try {
+            $admin = auth('admin')->user();
+
+            if (!$admin) {
+                throw new \Exception('Admin not found or not authenticated.');
+            }
+
+            return view('admin.profile.edit', compact('admin'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred: ' . $e->getMessage());
+            return redirect()->route('admin.login'); // Redirect to login if not authenticated
+        }
     }
 
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $data = $request->validated();
-        if ($data['password'] == null) unset($data['password']);
-        $admin->update($data);
-        notyf()->success('Profile has been updated');
-        return redirect()->back();
+        try {
+            $data = $request->validated();
+
+            if ($data['password'] == null) {
+                unset($data['password']);
+            }
+
+            $updateResult = $admin->update($data);
+
+            if (!$updateResult) {
+                throw new \Exception('Failed to update the profile.');
+            }
+
+            notyf()->success('Profile has been updated');
+            return redirect()->route('admin.profile.edit');
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred: ' . $e->getMessage());
+            return redirect()->back();
+        }
     }
 }

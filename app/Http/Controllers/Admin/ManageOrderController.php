@@ -23,32 +23,53 @@ class ManageOrderController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $orders = Order::withCount('items')->latest()->paginate(5);
-        return view('admin.order.index', compact('orders'));
+        try {
+            $orders = Order::withCount('items')->latest()->paginate(5);
+            return view('admin.order.index', compact('orders'));
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while loading the orders.');
+            return redirect()->back();
+        }
     }
 
     public function updateStatus(Request $request, Order $order)
     {
-        $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
-        ]);
+        try {
+            $request->validate([
+                'status' => 'required|in:pending,processing,completed,cancelled',
+            ]);
 
-        $order->status = $request->status;
-        $order->save();
+            $order->status = $request->status;
+            $order->save();
 
-        notyf()->success('Order status has been updated.');
-        return redirect()->back();
+            notyf()->success('Order status has been updated.');
+            return redirect()->back();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while updating the order status.');
+            return redirect()->back();
+        }
     }
 
     public function destroy(Order $order)
     {
-        $order->delete();
-        return response()->json('Order has been deleted.');
+        try {
+            $order->delete();
+            return response()->json('Order has been deleted.', 200);
+        } catch (\Exception $e) {
+            return response()->json('An error occurred while deleting the order.', 500);
+        }
     }
 
     public function export()
     {
-        return Excel::download(new OrderDataExport(), 'orders.xlsx');
+        try {
+            return Excel::download(new OrderDataExport(), 'orders.xlsx');
+        } catch (\Exception $e) {
+            notyf()->error('An error occurred while exporting the orders.');
+            return redirect()->back();
+        }
     }
 
 }

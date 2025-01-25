@@ -19,32 +19,41 @@ class ManageUserController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $users = User::paginate(5);
-        return view('admin.user.index', compact('users'));
+        try {
+            $users = User::paginate(5);
+            return view('admin.user.index', compact('users'));
+        } catch (\Exception $e) {
+            notyf()->error('Failed to load users.');
+            return redirect()->back();
+        }
     }
 
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return response('User deleted successfully.', 200);
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return response('User deleted successfully.', 200);
+        } catch (\Exception $e) {
+            notyf()->error('Failed to delete user.');
+            return response('Failed to delete user.', 500);
+        }
     }
 
     public function changeStatus($id)
     {
         $user = User::findOrFail($id);
 
-        if ($user->status == 1) {
             $user->update([
-                'status' => 0,
+                'status' => $user->status == 1 ? 0 : 1,
             ]);
-            notyf()->success('User Blocked Successfully!');
-        } else {
-            $user->update([
-                'status' => 1,
-            ]);
-            notyf()->success('User Is Active Now!');
-        }
+
+            $message = $user->status == 1 ?
+                'User activated successfully.' :
+                'User deactivated successfully.';
+
+            notyf()->success($message);
+
         return redirect()->back();
     }
 }
