@@ -61,7 +61,9 @@
                                     class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
                         <div class="card_area d-flex align-items-center">
-                            <a href="" class="primary-btn addToCart3" data-product-id="{{ route('frontend.cart.add', $product->id) }}">Add to Cart</a>
+                            <a href="" class="primary-btn addToCart3"
+                               data-product-id="{{ route('frontend.cart.add', $product->id) }}"
+                               data-quantity-selector="#sst">Add to Cart</a>
                             <a href="" class=" ml-2 addToWishlist3" data-product-id="{{ route('frontend.wishlist.add', $product->id) }}">
                                 <span class="lnr lnr-heart"></span>
                             </a>
@@ -368,13 +370,27 @@
                 e.preventDefault();
 
                 @guest()
-                Swal.fire({
-                    title: "You Must Log In First",
-                    icon: "warning",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok"
-                });
+                    Swal.fire({
+                        title: "You Must Log In First",
+                        icon: "warning",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Ok"
+                    });
                 @endguest
+
+                const quantitySelector = $(this).attr('data-quantity-selector');
+                const quantity = $(quantitySelector).val();
+
+                if (quantity <= 0 || isNaN(quantity)) {
+                    Swal.fire({
+                        title: "Invalid Quantity",
+                        text: "Please enter a valid quantity.",
+                        icon: "warning",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Ok"
+                    });
+                    return;
+                }
 
                 $.ajax({
                     type: 'post',
@@ -382,6 +398,9 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     url: $(this).attr('data-product-id'),
+                    data: {
+                        quantity: quantity // Send the quantity to the server
+                    },
                     success: function (data) {
                         notyf.open({
                             type: 'success',

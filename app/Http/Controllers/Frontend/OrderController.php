@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Cart;
@@ -60,6 +61,15 @@ class OrderController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->price,
                 ]);
+
+                $product = Product::find($item->id);
+                if ($product) {
+                    if ($product->qty < $item->quantity) {
+                        notyf()->error('Not enough stock for product');
+                        return redirect()->back();
+                    }
+                    $product->decrement('qty', $item->quantity);
+                }
             }
 
             Cart::session($user->id)->clear();
@@ -103,7 +113,7 @@ class OrderController extends Controller
 
             $token = $request->input('stripeToken');
 
-            $charge = Charge::create([
+            Charge::create([
                 'amount' => $totalAmount*100,
                 'currency' => 'EGP',
                 'description' => 'Karma Store',
@@ -125,6 +135,15 @@ class OrderController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->price,
                 ]);
+
+                $product = Product::find($item->id);
+                if ($product) {
+                    if ($product->qty < $item->quantity) {
+                        notyf()->error('Not enough stock for product');
+                        return redirect()->back();
+                    }
+                    $product->decrement('qty', $item->quantity);
+                }
             }
 
             Cart::session($user->id)->clear();

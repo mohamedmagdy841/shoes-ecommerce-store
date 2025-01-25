@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
+use App\Models\Product;
 use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -64,6 +65,16 @@ class ApiOrderController extends Controller
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                 ]);
+
+                $product = Product::find($item->id);
+                if ($product) {
+                    if ($product->qty < $item->quantity) {
+                        return $this->sendResponse([],
+                            'Not enough stock for product',
+                            422);
+                    }
+                    $product->decrement('qty', $item->quantity);
+                }
             }
 
             Cache::forget('cart_' . $user->id);
@@ -112,7 +123,7 @@ class ApiOrderController extends Controller
 
             $token = $request->input('stripeToken');
 
-            $charge = Charge::create([
+            Charge::create([
                 'amount' => $totalAmount * 100, // Stripe expects the amount in cents
                 'currency' => 'EGP',
                 'description' => 'Karma Store',
@@ -132,6 +143,16 @@ class ApiOrderController extends Controller
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                 ]);
+
+                $product = Product::find($item->id);
+                if ($product) {
+                    if ($product->qty < $item->quantity) {
+                        return $this->sendResponse([],
+                            'Not enough stock for product',
+                            422);
+                    }
+                    $product->decrement('qty', $item->quantity);
+                }
             }
 
             Cache::forget('cart_' . $user->id);

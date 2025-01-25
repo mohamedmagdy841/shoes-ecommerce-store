@@ -52,14 +52,19 @@ class CartController extends Controller
 
     public function add($productId)
     {
+        $quantity = request()->input('quantity', 1);
         $product = Product::findOrFail($productId);
         $userID = auth()->user()->id;
+
+        if ($quantity <= 0 || $quantity > $product->qty) {
+            return response()->json(['message' => 'Invalid quantity'], 400);
+        }
 
         Cart::session($userID)->add(array(
             'id' => $productId,
             'name' => $product->full_name,
             'price' => $product->price,
-            'quantity' => 1,
+            'quantity' => $quantity,
             'attributes' => array(
                 'image' => $product->images->first()->path,
             ),

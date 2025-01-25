@@ -42,6 +42,7 @@ class ApiCartController extends Controller
 
     public function add($productId)
     {
+        $quantity = request()->input('quantity', 1);
         $product = Product::findOrFail($productId);
         $userID = auth('sanctum')->user()->id;
 
@@ -56,7 +57,7 @@ class ApiCartController extends Controller
                 'id' => $productId,
                 'name' => $product->full_name,
                 'price' => $product->price,
-                'quantity' => 1,
+                'quantity' => $quantity,
                 'attributes' => [
                     'image' => $product->images->first()->path,
                 ]
