@@ -66,12 +66,15 @@ Route::group(
     });
 
     // Notifications
-    Route::get('/notification/markasread', function () {
-        Auth::guard('admin')->user()->notifications->markAsRead();
-    })->name('notifications.read');
-    Route::get('/notification/clear', function () {
-        Auth::guard('admin')->user()->notifications()->delete();
-    })->name('notifications.clear');
+    Route::controller(ManageUserController::class)->prefix('notification')->name('notifications.')->group(function () {
+        Route::get('/markasread', function () {
+            Auth::guard('admin')->user()->notifications->markAsRead();
+        })->name('read');
+
+        Route::get('/clear', function () {
+            Auth::guard('admin')->user()->notifications()->delete();
+        })->name('clear');
+    });
 
     // Settings
     Route::controller(ManageSettingController::class)->prefix('settings')->name('settings.')->group(function () {

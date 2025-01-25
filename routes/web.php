@@ -70,7 +70,6 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index');
 
     // User Profile
-
     Route::controller(ProfileController::class)->prefix('frontend/profile')->name('frontend.profile.')->group(function () {
         Route::get('/', 'edit')->name('edit');
         Route::patch('/', 'update')->name('update');
