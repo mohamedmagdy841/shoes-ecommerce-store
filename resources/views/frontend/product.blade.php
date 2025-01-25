@@ -4,7 +4,7 @@
     .fa-star {
         color: grey;
         cursor: pointer;
-        transition: color 0.3s;
+        transition: color 0.3s ease;
     }
     .fa-star.selected {
         color: #fbd600;
@@ -158,16 +158,15 @@
                                     <div class="rating_list">
                                         <h3>Based on {{ $product->reviews->count() }} Reviews</h3>
                                         <ul class="list">
-                                            <li>5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> {{ $product->reviews->where('rating',5)->count() }}</li>
-                                            <li>4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star" style="color: grey"></i> {{ $product->reviews->where('rating',4)->count() }}</li>
-                                            <li>3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star" style="color: grey"></i><i class="fa fa-star" style="color: grey"></i> {{ $product->reviews->where('rating',3)->count() }}</li>
-                                            <li>2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star" style="color: grey"></i><i
-                                                        class="fa fa-star" style="color: grey"></i><i class="fa fa-star" style="color: grey"></i> {{ $product->reviews->where('rating',2)->count() }}</li>
-                                            <li>1 Star <i class="fa fa-star"></i><i class="fa fa-star" style="color: grey"></i><i class="fa fa-star" style="color: grey"></i><i
-                                                        class="fa fa-star" style="color: grey"></i><i class="fa fa-star" style="color: grey"></i> {{ $product->reviews->where('rating',1)->count() }}</li>
+                                            @for ($rating = 5; $rating >= 1; $rating--)
+                                                <li>
+                                                    {{ $rating }} Star
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i class="fa fa-star {{ $i <= $rating ? 'selected' : '' }}"></i>
+                                                    @endfor
+                                                    {{ $product->reviews->where('rating', $rating)->count() }}
+                                                </li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </div>
@@ -179,15 +178,13 @@
                                             <div class="media">
                                                 <div class="media-body">
                                                     <h4>{{ $review->name }}</h4>
-                                                    @for($i=0;$i<$review->rating;$i++)
-                                                        <i class="fa fa-star"></i>
-                                                    @endfor
-                                                    @for($i=5;$i>$review->rating;$i--)
-                                                        <i class="fa fa-star" style="color: grey"></i>
+                                                    <!-- Highlight selected stars dynamically -->
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        <i class="fa fa-star {{ $i <= $review->rating ? 'selected' : '' }}"></i>
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <p>{!! $review->review !!} </p>
+                                            <p>{!! $review->review !!}</p>
                                         </div>
                                     @endforeach
                                 @endif
@@ -307,24 +304,36 @@
             const ratingDescriptions = ['Poor', 'Fair', 'Good', 'Very Good', 'Outstanding'];
 
             stars.forEach((star, index) => {
+                // Handle click event
                 star.addEventListener('click', function (event) {
                     event.preventDefault();
                     const value = index + 1;
 
-                    // Update the hidden input value
+                    // Update hidden input and text
                     ratingValue.value = value;
-
-                    // Update the rating text
                     ratingText.textContent = ratingDescriptions[index];
 
-                    // Highlight the selected stars
+                    // Update star colors dynamically
                     stars.forEach((s, i) => {
                         const starIcon = s.querySelector('i');
-                        if (i < value) {
-                            starIcon.classList.add('selected');
-                        } else {
-                            starIcon.classList.remove('selected');
-                        }
+                        starIcon.classList.toggle('selected', i < value);
+                    });
+                });
+
+                // Handle hover event
+                star.addEventListener('mouseover', function () {
+                    stars.forEach((s, i) => {
+                        const starIcon = s.querySelector('i');
+                        starIcon.classList.toggle('selected', i <= index);
+                    });
+                });
+
+                // Reset stars on mouseout
+                star.addEventListener('mouseout', function () {
+                    const value = parseInt(ratingValue.value) || 0;
+                    stars.forEach((s, i) => {
+                        const starIcon = s.querySelector('i');
+                        starIcon.classList.toggle('selected', i < value);
                     });
                 });
             });
