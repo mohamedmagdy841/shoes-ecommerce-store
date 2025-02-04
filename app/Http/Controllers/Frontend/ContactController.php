@@ -16,14 +16,15 @@ class ContactController extends Controller
 
     public function store(StoreContactRequest $request)
     {
-        $data = $request->validated();
-        if(!$data)
-        {
-            flash()->error('Something went wrong!');
-            return redirect()->back();
+        try {
+            $data = $request->validated();
+            Contact::create($data);
+            flash()->success('Thank you for contacting us!');
+        } catch (\Exception $e) {
+            flash()->error('Something went wrong! Please try again.');
         }
-        Contact::create($data);
-        flash()->success('Thank you for contacting us!');
+
         return redirect()->back();
     }
+
 }

@@ -19,27 +19,30 @@ class ResetPasswordController extends Controller
     }
     public function resetPassword(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'code' => 'required',
-            'password' => 'required|confirmed|min:8',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|string|email',
+                'code' => 'required',
+                'password' => 'required|confirmed|min:8',
+            ]);
 
-        $otp = $this->otp2->validate($request->email , $request->code);
+            $otp = $this->otp2->validate($request->email, $request->code);
 
-        if($otp->status == false){
-            return $this->sendResponse([], 'Code is invalid', 400);
-        }
+            if (!$otp || !$otp->status) {
+                return $this->sendResponse([], 'Code is invalid', 400);
+            }
 
-        $user = User::whereEmail($request->email)->first();
+            $user = User::whereEmail($request->email)->firstOrFail();
 
-        if (!$user) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+
+            return $this->sendResponse([], 'Password Updated Successfully', 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return $this->sendResponse([], 'User not found', 404);
+        } catch (\Exception $e) {
+            return $this->sendResponse([], 'Something went wrong. Please try again.', 500);
         }
-
-        $user->update([
-            'password' => Hash::make($request->password)
-        ]);
-        return $this->sendResponse([], 'Password Updated Successfully', 200);
     }
 }

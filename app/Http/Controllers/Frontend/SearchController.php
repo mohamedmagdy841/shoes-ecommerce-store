@@ -13,14 +13,21 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $request->validate([
-            'search' => 'nullable|string',
-        ]);
-        $keyword = strip_tags($request->search);
-        $products = Product::where('name', 'like', '%' . $keyword . '%')
-            ->orWhere('description', 'like', '%' . $keyword . '%')
-            ->paginate(8);
+        try {
+            $request->validate([
+                'search' => 'nullable|string',
+            ]);
 
-        return view('frontend.search', compact('products'));
+            $keyword = strip_tags($request->search);
+            $products = Product::where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('description', 'like', '%' . $keyword . '%')
+                ->paginate(8);
+
+            return view('frontend.search', compact('products'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
     }
+
 }

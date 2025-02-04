@@ -13,17 +13,19 @@ class ForgotPasswordController extends Controller
     use HttpResponse;
     public function sendOtpEmail(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email|exists:users,email',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|string|email|exists:users,email',
+            ]);
 
-        $user = User::whereEmail($request->email)->first();
+            $user = User::whereEmail($request->email)->firstOrFail();
+            $user->notify(new SendOtpResetPassword());
 
-        if (!$user) {
+            return $this->sendResponse([], 'OTP sent. Check your email.');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return $this->sendResponse([], 'User not found', 404);
+        } catch (\Exception $e) {
+            return $this->sendResponse([], 'Something went wrong. Please try again.', 500);
         }
-
-        $user->notify(new SendOtpResetPassword());
-        return $this->sendResponse([], 'Otp Sent, Check Your Email');
     }
 }

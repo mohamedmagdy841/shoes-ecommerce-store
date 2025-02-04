@@ -11,17 +11,28 @@ class ProductController extends Controller
 {
     public function show($slug)
     {
-        $product = Product::with(['category', 'images', 'reviews' => function ($query) {
-            $query->latest();
-        },])->whereSlug($slug)->first();
+        try {
+            $product = Product::with([
+                'category',
+                'images',
+                'reviews' => function ($query) {
+                    $query->latest();
+                }
+            ])->whereSlug($slug)->firstOrFail();
 
-        $relatedProducts = Product::with('images')->where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->limit(8)
-            ->get();
+            $relatedProducts = Product::with('images')
+                ->where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->limit(8)
+                ->get();
 
-        return view('frontend.product', compact('product', 'relatedProducts'));
+            return view('frontend.product', compact('product', 'relatedProducts'));
+
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with('error', 'Product not found.');
+        }
     }
+
 
     public function addReview(Request $request)
     {

@@ -13,7 +13,6 @@ class SocialiteController extends Controller
 {
     public function login($provider)
     {
-
         return Socialite::driver($provider)->redirect();
     }
 

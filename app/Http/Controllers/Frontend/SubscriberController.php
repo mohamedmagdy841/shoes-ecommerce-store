@@ -12,19 +12,27 @@ class SubscriberController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'email' => 'required|email|unique:subscribers',
+        $validatedData = $request->validate([
+            'email' => 'required|email|unique:subscribers,email',
         ]);
 
-        if (!$data)
-        {
-            flash()->error('Something went wrong!');
+        try {
+            $subscriber = Subscriber::create($validatedData);
+
+            try {
+                Mail::to($subscriber->email)->send(new NewSubscriberMail());
+            } catch (\Exception $e) {
+                flash()->error('Subscription successful, but email could not be sent.');
+                return redirect()->back();
+            }
+
+            flash()->success('Thanks for subscribing!');
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            flash()->error('Something went wrong! Please try again later.');
+            return redirect()->back();
         }
-
-        Subscriber::create($data);
-        Mail::to($request->email)->send(new NewSubscriberMail());
-        flash()->success('Thanks for subscribing!');
-
-        return redirect()->back();
     }
+
 }
