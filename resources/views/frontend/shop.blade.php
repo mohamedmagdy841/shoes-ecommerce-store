@@ -202,118 +202,118 @@
                 }
             ]
         });
-        $(document).ready(function () {
-            $('.filter-input').on('change', function () {
-                if ($('.filter-input:checked').length > 0) {
-                    const formData = $('#filter-form').serialize();
+        {{--$(document).ready(function () {--}}
+        {{--    $('.filter-input').on('change', function () {--}}
+        {{--        if ($('.filter-input:checked').length > 0) {--}}
+        {{--            const formData = $('#filter-form').serialize();--}}
 
-                    $.ajax({
-                        url: '{{ route("frontend.shop") }}',
-                        method: 'GET',
-                        data: formData,
-                        success: function (data) {
-                            $('.category-list .row').empty();
-                            $('.pagination-custom').hide();
-                            $.each(data.products.data, function (index, product) {
-                                $('.category-list .row').append(`
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-product">
-                                    <img class="img-fluid" src="${product.images[0].path}" alt="">
-                                    <div class="product-details">
-                                        <h6>${product.brand} ${product.name}</h6>
-                                        <div class="price">
-                                            <h6>$${product.price}</h6>
-                                        </div>
-                                        <div class="prd-bottom">
-                                                <a href="" class="social-info addToCart2" data-product-id="${product.id}">
-                                                    <span class="ti-bag"></span>
-                                                    <p class="hover-text">add to bag</p>
-                                                </a>
-                                            <a href="#" class="social-info addToWishlist2" data-product-id="${product.id}">
-                                                <span class="lnr lnr-heart"></span>
-                                                <p class="hover-text">Wishlist</p>
-                                            </a>
-                                            <a href="#" class="social-info">
-                                                <span class="lnr lnr-move"></span>
-                                                <p class="hover-text">view more</p>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `);
-                            });
-                        },
-                        error: function () {
-                            alert('Failed to fetch products. Please try again.');
-                        }
-                    });
-                } else {
-                    window.history.pushState({}, '', '{{ route("frontend.shop") }}');
-                    window.location.replace('{{ route("frontend.shop") }}');
-                }
-            });
+        {{--            $.ajax({--}}
+        {{--                url: '{{ route("frontend.shop") }}',--}}
+        {{--                method: 'GET',--}}
+        {{--                data: formData,--}}
+        {{--                success: function (data) {--}}
+        {{--                    $('.category-list .row').empty();--}}
+        {{--                    $('.pagination-custom').hide();--}}
+        {{--                    $.each(data.products.data, function (index, product) {--}}
+        {{--                        $('.category-list .row').append(`--}}
+        {{--                    <div class="col-lg-4 col-md-6">--}}
+        {{--                        <div class="single-product">--}}
+        {{--                            <img class="img-fluid" src="${product.images[0].path}" alt="">--}}
+        {{--                            <div class="product-details">--}}
+        {{--                                <h6>${product.brand} ${product.name}</h6>--}}
+        {{--                                <div class="price">--}}
+        {{--                                    <h6>$${product.price}</h6>--}}
+        {{--                                </div>--}}
+        {{--                                <div class="prd-bottom">--}}
+        {{--                                        <a href="" class="social-info addToCart2" data-product-id="${product.id}">--}}
+        {{--                                            <span class="ti-bag"></span>--}}
+        {{--                                            <p class="hover-text">add to bag</p>--}}
+        {{--                                        </a>--}}
+        {{--                                    <a href="#" class="social-info addToWishlist2" data-product-id="${product.id}">--}}
+        {{--                                        <span class="lnr lnr-heart"></span>--}}
+        {{--                                        <p class="hover-text">Wishlist</p>--}}
+        {{--                                    </a>--}}
+        {{--                                    <a href="#" class="social-info">--}}
+        {{--                                        <span class="lnr lnr-move"></span>--}}
+        {{--                                        <p class="hover-text">view more</p>--}}
+        {{--                                    </a>--}}
+        {{--                                </div>--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                `);--}}
+        {{--                    });--}}
+        {{--                },--}}
+        {{--                error: function () {--}}
+        {{--                    alert('Failed to fetch products. Please try again.');--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        } else {--}}
+        {{--            window.history.pushState({}, '', '{{ route("frontend.shop") }}');--}}
+        {{--            window.location.replace('{{ route("frontend.shop") }}');--}}
+        {{--        }--}}
+        {{--    });--}}
 
-            $('.addToWishlist2').on('click', function (e) {
-                e.preventDefault();
+        {{--    $('.addToWishlist2').on('click', function (e) {--}}
+        {{--        e.preventDefault();--}}
 
-                @guest()
-                Swal.fire({
-                    title: "You Must Log In First",
-                    icon: "warning",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok"
-                });
-                @endguest
+        {{--        @guest()--}}
+        {{--        Swal.fire({--}}
+        {{--            title: "You Must Log In First",--}}
+        {{--            icon: "warning",--}}
+        {{--            confirmButtonColor: "#3085d6",--}}
+        {{--            confirmButtonText: "Ok"--}}
+        {{--        });--}}
+        {{--        @endguest--}}
 
-                $.ajax({
-                    type: 'post',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: $(this).attr('data-product-id'),
-                    success: function (data) {
-                        if(data.message === "Product added to wishlist")
-                            notyf2.open({
-                                type: 'success',
-                                message: data.message
-                            });
-                        else
-                            notyf2.open({
-                                type: 'warning',
-                                message: data.message
-                            });
-                    }
-                });
-            });
+        {{--        $.ajax({--}}
+        {{--            type: 'post',--}}
+        {{--            headers: {--}}
+        {{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+        {{--            },--}}
+        {{--            url: $(this).attr('data-product-id'),--}}
+        {{--            success: function (data) {--}}
+        {{--                if(data.message === "Product added to wishlist")--}}
+        {{--                    notyf2.open({--}}
+        {{--                        type: 'success',--}}
+        {{--                        message: data.message--}}
+        {{--                    });--}}
+        {{--                else--}}
+        {{--                    notyf2.open({--}}
+        {{--                        type: 'warning',--}}
+        {{--                        message: data.message--}}
+        {{--                    });--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    });--}}
 
-            $('.addToCart2').on('click', function (e) {
-                e.preventDefault();
+        {{--    $('.addToCart2').on('click', function (e) {--}}
+        {{--        e.preventDefault();--}}
 
-                @guest()
-                Swal.fire({
-                    title: "You Must Log In First",
-                    icon: "warning",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "Ok"
-                });
-                @endguest
+        {{--        @guest()--}}
+        {{--        Swal.fire({--}}
+        {{--            title: "You Must Log In First",--}}
+        {{--            icon: "warning",--}}
+        {{--            confirmButtonColor: "#3085d6",--}}
+        {{--            confirmButtonText: "Ok"--}}
+        {{--        });--}}
+        {{--        @endguest--}}
 
-                $.ajax({
-                    type: 'post',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: $(this).attr('data-product-id'),
-                    success: function (data) {
-                        notyf2.open({
-                            type: 'success',
-                            message: data.message
-                        });
-                    }
-                });
-            });
-        });
+        {{--        $.ajax({--}}
+        {{--            type: 'post',--}}
+        {{--            headers: {--}}
+        {{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+        {{--            },--}}
+        {{--            url: $(this).attr('data-product-id'),--}}
+        {{--            success: function (data) {--}}
+        {{--                notyf2.open({--}}
+        {{--                    type: 'success',--}}
+        {{--                    message: data.message--}}
+        {{--                });--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    });--}}
+        {{--});--}}
 
     </script>
 @endpush
