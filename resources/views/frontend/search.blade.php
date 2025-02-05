@@ -19,9 +19,13 @@
                 @foreach($products as $product)
                             <div class="col-lg-3 col-md-6 mt-5">
                                 <div class="single-product">
-                                    <img class="img-fluid" src="{{ asset($product->images->first()->path) }}" alt="">
+                                    <a href="{{ route('frontend.product', $product->slug) }}">
+                                        <img class="img-fluid" src="{{ asset($product->images->first()->path) }}" alt="{{$product->full_name}}">
+                                    </a>
                                     <div class="product-details">
-                                        <h6>{{ $product->name }}</h6>
+                                        <a href="{{ route('frontend.product', $product->slug) }}">
+                                            <h6>{{ $product->full_name }}</h6>
+                                        </a>
                                         <div class="price">
                                             <h6>{{Number::currency($product->price,'EGP')}}</h6>
                                         </div>
