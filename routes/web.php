@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\Blog\BlogSearchController;
 use App\Http\Controllers\Frontend\Blog\BlogSubscriberController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\CouponController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -54,9 +55,11 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
         Route::patch('/{id}/update-quantity/{action}',  'updateQuantity')
             ->name('updateQuantity');
         Route::get('/clear',  'clearCart')->name('clear');
-        Route::get('/apply_coupon',  'applyCoupon')->name('apply_coupon'); // post didn't work
-        Route::get('/cancel_coupon',  'cancelCoupon')->name('cancel_coupon');
     });
+
+    // Coupon
+    Route::get('/apply_coupon',  [CouponController::class, 'applyCoupon'])->name('frontend.coupon.apply_coupon'); // post didn't work
+    Route::get('/cancel_coupon',  [CouponController::class, 'cancelCoupon'])->name('frontend.coupon.cancel_coupon');
 
     // Order
     Route::controller(OrderController::class)->prefix('orders')->name('frontend.orders.')->group(function () {

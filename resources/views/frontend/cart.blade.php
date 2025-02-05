@@ -200,7 +200,7 @@
                 const couponCode = $('#coupon-code').val();  // Get the input value
 
                 $.ajax({
-                    url: '{{ route('frontend.cart.apply_coupon') }}',
+                    url: '{{ route('frontend.coupon.apply_coupon') }}',
                     method: 'GET',
                     data: {
                         coupon_code: couponCode,
@@ -224,7 +224,7 @@
             $('.cancelCoupon').on('click', function (event) {
                 event.preventDefault();
                 $.ajax({
-                    url: '{{ route('frontend.cart.cancel_coupon') }}',
+                    url: '{{ route('frontend.coupon.cancel_coupon') }}',
                     method: 'GET',
                     success: function (response) {
                         if (response.success) {
