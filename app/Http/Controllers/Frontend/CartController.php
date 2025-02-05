@@ -14,15 +14,6 @@ use Illuminate\Support\Number;
 
 class CartController extends Controller
 {
-
-    protected $couponValidator;
-    protected $couponService;
-
-    public function __construct(CouponValidator $couponValidator, CouponService $couponService)
-    {
-        $this->couponValidator = $couponValidator;
-        $this->couponService = $couponService;
-    }
     public function get()
     {
         $userID = auth()->user()->id;
@@ -119,6 +110,5 @@ class CartController extends Controller
         notyf()->success('Cart cleared successfully!');
         return redirect()->back();
     }
-
 
 }
