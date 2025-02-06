@@ -4,7 +4,7 @@ This project is a comprehensive e-commerce platform for purchasing shoes, featur
 ---
 
 ### **Database Schema**  
-![drawSQL-image-export-2024-12-23](https://github.com/user-attachments/assets/61da9aeb-ad43-44e0-b4af-36664ef0929e)
+![drawSQL-image-export-2025-02-06](https://github.com/user-attachments/assets/52bbe47b-b3a7-4a85-9e51-066724f8d37d)
 
 ---
 
@@ -37,6 +37,9 @@ This project is a comprehensive e-commerce platform for purchasing shoes, featur
 
 ---
 
+### **Arabic Supported**
+![Screenshot 2025-02-06 072104](https://github.com/user-attachments/assets/93fe81c6-49e6-432f-9a70-795127c442ca)
+
 ### **Docker and Deployment**  
 <p align="center"><a href="https://www.docker.com/" target="_blank"><img src="https://github.com/user-attachments/assets/1511730a-e1cb-4a3f-b605-8f35cad40027" width="400" alt="Docker Logo"></a></p>
 
@@ -50,7 +53,7 @@ The project is fully containerized using Docker and Docker Compose for simplifie
 
 #### **Clone the Repository**  
 ```bash
-git clone https://github.com/your-username/shoes-ecommerce-store.git
+git clone https://github.com/mohamedmagdy841/shoes-ecommerce-store.git
 cd shoes-ecommerce-store
 ```
 
@@ -69,4 +72,7 @@ php artisan migrate --seed
 ```
 
 #### **Access the Application**  
-Visit `http://localhost` in your browser to explore the platform.  
+Visit `http://localhost` in your browser to explore the platform.
+
+
+### **Project Demo**
