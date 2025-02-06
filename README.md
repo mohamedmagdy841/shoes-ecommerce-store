@@ -76,3 +76,6 @@ Visit `http://localhost` in your browser to explore the platform.
 
 
 ### **Project Demo**
+
+https://github.com/user-attachments/assets/ce302db9-e13b-4c67-83cb-5f9090cba998
+
