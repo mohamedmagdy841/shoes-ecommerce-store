@@ -8,6 +8,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Cart;
 
 class PaymentController extends Controller
 {
@@ -28,9 +29,6 @@ class PaymentController extends Controller
 
         try {
             $cartInfo = $this->orderService->calculateCartTotal($user);
-            // store cart in cache or DB for callback
-            Cache::put('cart_snapshot_user_' . $user->id, $cartInfo, now()->addMinutes(30));
-
         } catch (\Exception $e) {
             notyf()->error($e->getMessage());
             return redirect()->back();
@@ -38,39 +36,33 @@ class PaymentController extends Controller
 
         $response= $this->paymentGateway->sendPayment($request, $user, $cartInfo['total']);
 
-        if($request->is('api/*')){
-
-            return response()->json($response, 200);
-        }
-
         return redirect($response['url']);
     }
 
-    public function callBack(Request $request): \Illuminate\Http\RedirectResponse
+    public function callBack(Request $request)
     {
         $response = $this->paymentGateway->callBack($request);
 
         if ($response && isset($response['userId'])) {
 
             $user = User::find($response['userId']);
-            $this->orderService->createOrderFromCart($user, [
+            $order = $this->orderService->createOrderFromCart($user, [
                 'payment_method' => 'myfatoorah',
             ]);
 
-            return redirect()->route('payment.success');
+            Log::info('Callback success response', ['response' => $response]);
+            return view('frontend.confirmation', ['order' => $order, 'user' => $user]);
         }
-        Log::warning('Callback response', ['response' => $response]);
+        Log::warning('Callback failed response', ['response' => $response]);
         return redirect()->route('payment.failed');
     }
 
-    public function success()
-    {
-
-        return view('frontend.payments.payment-success');
-    }
+//    public function success()
+//    {
+//        return view('frontend.payments.payment-success');
+//    }
     public function failed()
     {
-
         return view('frontend.payments.payment-failed');
     }
 

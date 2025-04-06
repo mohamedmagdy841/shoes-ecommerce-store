@@ -14,22 +14,9 @@ class OrderService
     {
         $cartItems = Cart::session($user->id)->getContent();
 
-        if ($cartItems->isEmpty()) {
-            // Try to recover from stored snapshot
-            $snapshot = Cache::get('cart_snapshot_user_' . $user->id);
-            if (!$snapshot || empty($snapshot['cart_items'])) {
-                throw new \Exception('Your cart is empty');
-            }
-
-            $cartItems = $snapshot['cart_items'];
-            $appliedCoupon = $snapshot['coupon_code'];
-            $discountedTotal = $snapshot['total'];
-            $discountedAmount = $snapshot['discount_amount'];
-        } else {
-            $appliedCoupon = session('applied_coupon', null);
-            $discountedTotal = session('discounted_total', null);
-            $discountedAmount = session('discount_amount', null);
-        }
+        $appliedCoupon = session('applied_coupon', null);
+        $discountedTotal = session('discounted_total', null);
+        $discountedAmount = session('discount_amount', null);
 
         $totalAmount = $discountedTotal ?? $cartItems->sum(function ($item) {
             return $item->quantity * $item->price;
@@ -65,7 +52,6 @@ class OrderService
             Cart::session($user->id)->clear();
             session()->forget(['applied_coupon', 'discounted_total', 'discount_amount']);
             Cache::forget('cart_' . $user->id);
-            Cache::forget('cart_snapshot_user_' . $user->id);
 
             DB::commit();
             return $order;

@@ -29,10 +29,13 @@ class MyFatoorahPaymentService extends BasePaymentService implements PaymentGate
     {
         $data = $request->all();
         $data['NotificationOption'] = "LNK";
+        $data['MobileCountryCode'] = "+2";
         $data['UserDefinedField'] = $user->id;
         $data['CustomerName'] = $user->name;
+        $data['CustomerMobile'] = $user->phone;
+        $data['CustomerEmail'] = $user->email;
         $data['InvoiceValue'] = $amount;
-        $data['CallBackUrl'] = $request->getSchemeAndHttpHost().'/api/payment/callback';
+        $data['CallBackUrl'] = route('payment.callBack');
         Log::info('Data ', ['data' => $data]);
         $response = $this->buildRequest('POST', '/v2/SendPayment', $data);
         //handel payment response data and return it
