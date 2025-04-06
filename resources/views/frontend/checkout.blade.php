@@ -72,6 +72,22 @@
                                     </div>
                                 </div>
                                 <br>
+
+                                <h5 class="card-subtitle mb-2">MyFatoorah</h5>
+
+                                <div class="card-body">
+                                    <div class="payment_item">
+                                        <form action="{{ route('payment.process') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="payment_method" value="cash_on_delivery">
+
+                                            <button type="submit" class="btn btn-success btn-block btn-lg">PAY
+                                                <i class="icofont-long-arrow-right"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <br>
+
                                 <h5 class="card-subtitle mb-2">Credit/Debit Cards</h5>
                                 <div class="card-body">
                                     <div class="payment_item active">

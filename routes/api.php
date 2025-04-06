@@ -99,5 +99,5 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiOrderContr
     Route::post('/stripe-order', 'stripeOrder');
 });
 
-//Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
-//Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
+Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
+Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);
