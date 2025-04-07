@@ -1,6 +1,8 @@
 # Shoes E-commerce Store 
 This project is a comprehensive e-commerce platform for purchasing shoes, featuring real-time notifications, social authentication, dynamic cart management, and a robust admin panel. The application is fully containerized with Docker to ensure reliable and scalable deployment.
 
+Additionally, the project uses **AWS S3** for storing product images and **CloudFront CDN** for fast, global content delivery.
+
 ---
 
 ### **Database Schema**  
@@ -10,31 +12,29 @@ This project is a comprehensive e-commerce platform for purchasing shoes, featur
 
 ### **Key Features**  
 
+- **AWS S3 for Image Storage**: All product images are now securely stored on AWS S3, ensuring scalable and reliable image hosting.
+- **AWS CloudFront CDN**: Content is delivered quickly and efficiently to users worldwide, thanks to the integration with AWS CloudFront CDN, reducing latency and improving user experience.
 - **Real-Time Notifications**: Integrated Laravel Echo and Pusher to provide real-time updates for order statuses, promotions, and more.
-- **Payment Gateway Integration**: Supports Stripe Payment Gateway. 
+- **Payment Gateway Integration**: Supports **Paymob**, **MyFatoorah** and **Stripe**. 
 - **Multi-Authentication System**: Supports multiple auth guards for users and admins, ensuring secure role-based access.  
 - **Social Authentication**: Implemented using Laravel Socialite, allowing users to log in or register via Google and GitHub OAuth providers.  
-- **Dynamic Shopping Cart**: A custom-built shopping cart system that adapts to user preferences and supports seamless item addition, removal, and updates.  
-- **PDF Invoice Generation**: Automatically generates downloadable invoices for each order.
 - **Dockerized Setup**: Fully containerized with Docker to standardize development and simplify deployment.
 - **Redis Caching**: Optimized performance by caching frequently accessed data using Redis.  
 - **Search and Filter**: Advanced search functionality with filters for brand, size, price range, and ratings.  
 - **Rating and Review System**: Users can rate and review purchased products, enhancing customer engagement.  
 - **Admin Panel**: A dedicated admin dashboard for managing products, users, orders, and reviews.  
-- **Reset Password Mail**: Allows users to reset their passwords securely via email.  
-
 
 ---
 
 ### **Technologies Used**  
 
-- **Laravel 11**: Core framework for building the application.  
-- **Pusher and Echo**: For implementing real-time notifications.  
-- **Laravel Socialite**: Handles OAuth-based social logins.  
+- **Laravel 11**: Core framework for building the application.
 - **Redis**: Speeds up the application with efficient caching.  
 - **Docker**: Ensures consistent and scalable deployments.  
-- **MySQL**: Backend database for storing application data.  
-
+- **MySQL**: Backend database for storing application data.
+- **AWS S3**: Used for storing product images securely.  
+- **AWS CloudFront**: CDN service to speed up the delivery of content globally.
+  
 ---
 
 ### **Arabic Supported**
