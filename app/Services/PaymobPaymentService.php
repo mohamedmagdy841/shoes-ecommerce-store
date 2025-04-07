@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\PaymentGatewayInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -52,7 +53,6 @@ class PaymobPaymentService extends BasePaymentService implements PaymentGatewayI
         $data['integrations'] = $this->integrations_id;
         $response = $this->buildRequest('POST', '/api/ecommerce/orders', $data);
 
-        //handel payment response data and return it
         if ($response->getData(true)['success']) {
             Log::info('response', [$response->getData(true)]);
             return ['success' => true, 'url' => $response->getData(true)['data']['url']];
@@ -68,7 +68,7 @@ class PaymobPaymentService extends BasePaymentService implements PaymentGatewayI
         Storage::put('paymob_response.json', json_encode($request->all()));
 
         if (isset($response['success']) && $response['success'] === 'true') {
-
+            Cache::put('payment_method', 'paymob', now()->addMinutes(30));
             return true;
         }
         return false;

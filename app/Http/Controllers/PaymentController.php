@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\PaymentGatewayInterface;
 use App\Models\User;
+use App\Services\CashOnDeliveryPaymentService;
+use App\Services\MyFatoorahPaymentService;
 use App\Services\OrderService;
+use App\Services\PaymobPaymentService;
+use App\Services\StripePaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -42,19 +46,48 @@ class PaymentController extends Controller
     public function callBack(Request $request)
     {
         $user = auth()->user();
-        $response = $this->paymentGateway->callBack($request);
+
+        $gatewayType = $this->resolveGatewayTypeFromRequest($request);
+
+        $gateway = match ($gatewayType) {
+            'stripe' => new StripePaymentService(),
+            'paymob' => new PaymobPaymentService(),
+            'myfatoorah' => new MyFatoorahPaymentService(),
+            'cash_on_delivery' => new CashOnDeliveryPaymentService(),
+            default => throw new \Exception("Unsupported gateway type: $gatewayType"),
+        };
+
+        $response = $gateway->callBack($request);
 
         if ($response) {
-
+            $payment_method = Cache::get('payment_method', 'Cash');
             $order = $this->orderService->createOrderFromCart($user, [
-                'payment_method' => 'myfatoorah',
+                'payment_method' => $payment_method,
             ]);
-
+            Cache::forget('payment_method');
             Log::info('Callback success response', ['response' => $response]);
             return view('frontend.confirmation', ['order' => $order, 'user' => $user]);
         }
         Log::warning('Callback failed response', ['response' => $response]);
         return redirect()->route('payment.failed');
+    }
+
+
+    private function resolveGatewayTypeFromRequest(Request $request): string
+    {
+        if ($request->has('paymentId')) {
+            return 'myfatoorah';
+        }
+
+        if ($request->has('id') && $request->has('hmac')) {
+            return 'paymob';
+        }
+
+        if ($request->hasHeader('stripe-signature')) {
+            return 'stripe';
+        }
+
+        return 'cash_on_delivery';
     }
 
     public function failed()
