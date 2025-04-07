@@ -36,7 +36,6 @@ class MyFatoorahPaymentService extends BasePaymentService implements PaymentGate
         $data['CustomerEmail'] = $user->email;
         $data['InvoiceValue'] = $amount;
         $data['CallBackUrl'] = route('payment.callBack');
-        Log::info('Data ', ['data' => $data]);
         $response = $this->buildRequest('POST', '/v2/SendPayment', $data);
         //handel payment response data and return it
         if($response->getData(true)['success'] && $response->getData(true)['data']['IsSuccess']){

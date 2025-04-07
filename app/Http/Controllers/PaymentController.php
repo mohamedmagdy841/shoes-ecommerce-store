@@ -41,11 +41,11 @@ class PaymentController extends Controller
 
     public function callBack(Request $request)
     {
+        $user = auth()->user();
         $response = $this->paymentGateway->callBack($request);
 
-        if ($response && isset($response['userId'])) {
+        if ($response) {
 
-            $user = User::find($response['userId']);
             $order = $this->orderService->createOrderFromCart($user, [
                 'payment_method' => 'myfatoorah',
             ]);
@@ -57,10 +57,6 @@ class PaymentController extends Controller
         return redirect()->route('payment.failed');
     }
 
-//    public function success()
-//    {
-//        return view('frontend.payments.payment-success');
-//    }
     public function failed()
     {
         return view('frontend.payments.payment-failed');
