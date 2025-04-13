@@ -10,8 +10,9 @@
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
 
-resources/view/* linguist-vendored
-public/assets/* linguist-vendored
+resources/view/** linguist-vendored
+public/assets/** linguist-vendored
 
 *.scss linguist-vendored
 *.css linguist-vendored
+*.blade.php linguist-vendored
