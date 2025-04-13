@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
+use App\Interfaces\PaymentGatewayInterface;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Cart;
@@ -13,11 +15,13 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Stripe\Charge;
 use Stripe\Stripe;
 
 class OrderController extends Controller
 {
+
     public function index()
     {
         $orders = auth()->user()->orders()->with('items.product')->latest()->paginate(8);
@@ -65,8 +69,7 @@ class OrderController extends Controller
                 $product = Product::find($item->id);
                 if ($product) {
                     if ($product->qty < $item->quantity) {
-                        notyf()->error('Not enough stock for product');
-                        return redirect()->back();
+                        throw new \Exception("Product '{$product->name}' out of stock");
                     }
                     $product->decrement('qty', $item->quantity);
                 }
@@ -82,7 +85,7 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            notyf()->error('Failed to place order');
+            notyf()->error($e->getMessage());
             return redirect()->back();
         }
     }
@@ -139,8 +142,7 @@ class OrderController extends Controller
                 $product = Product::find($item->id);
                 if ($product) {
                     if ($product->qty < $item->quantity) {
-                        notyf()->error('Not enough stock for product');
-                        return redirect()->back();
+                        throw new \Exception("Product '{$product->name}' out of stock");
                     }
                     $product->decrement('qty', $item->quantity);
                 }
@@ -155,7 +157,7 @@ class OrderController extends Controller
             return view('frontend.confirmation', ['order' => $order, 'user' => $user]);
         } catch (\Exception $e) {
             DB::rollBack();
-            notyf()->error('Failed to place order');
+            notyf()->error($e->getMessage());
             return redirect()->back();
         }
 

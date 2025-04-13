@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Interfaces\PaymentGatewayInterface;
+use App\Services\CashOnDeliveryPaymentService;
+use App\Services\MyFatoorahPaymentService;
 use App\Services\PaymobPaymentService;
+use App\Services\StripePaymentService;
 use Illuminate\Support\ServiceProvider;
 
 class PaymentServiceProvider extends ServiceProvider
@@ -14,17 +17,22 @@ class PaymentServiceProvider extends ServiceProvider
     public function register(): void {
 
 
-        //if you have multi payment gateways and want to use one of them you should send the parameter with data
-//        $this->app->singleton(PaymentGatewayInterface::class, function ($app) {
-//            $gatewayType = request()->get('gateway_type');
-//            return match ($gatewayType) {
-//
-//
-//                default => throw new \Exception("Unsupported gateway type"),
-//            };
-//        });
+        $this->app->singleton(PaymentGatewayInterface::class, function ($app) {
+            $gatewayType = request()->get('gateway_type', 'paymob');
 
-        $this->app->bind(PaymentGatewayInterface::class, PaymobPaymentService::class);
+            return match ($gatewayType) {
+                'stripe' => new StripePaymentService(),
+                'paymob' => new PaymobPaymentService(),
+                'myfatoorah' => new MyFatoorahPaymentService(),
+                'cash_on_delivery' => new CashOnDeliveryPaymentService(),
+                default => throw new \Exception("Unsupported gateway type: $gatewayType"),
+            };
+        });
+
+//        $this->app->bind(PaymentGatewayInterface::class, MyFatoorahPaymentService::class);
+//        $this->app->bind(PaymentGatewayInterface::class, PaymobPaymentService::class);
+//        $this->app->bind(PaymentGatewayInterface::class, StripePaymentService::class);
+//        $this->app->bind(PaymentGatewayInterface::class, CashOnDeliveryPaymentService::class);
 
     }
 

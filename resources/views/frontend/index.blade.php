@@ -53,7 +53,6 @@
 @endsection
 @section('home-active', 'active')
 @section('content')
-
     <!-- start features Area -->
     <section class="features-area section_gap">
         <div class="container">

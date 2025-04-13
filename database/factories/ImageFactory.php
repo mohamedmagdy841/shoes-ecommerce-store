@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,13 +31,30 @@ class ImageFactory extends Factory
         }
 
         $file = $files[array_rand($files)];
+        $fileContent = Storage::get($file);
+        $fileName = basename($file);
+        $storagePath = 'images/' . $fileName;
 
-        $storagePath = 'images/' . basename($file);
-        Storage::disk('public')->put($storagePath, Storage::get($file));
+        if ($this->isS3Available()){
+            Storage::disk('s3')->put($storagePath, $fileContent);
+            $url = Storage::disk('s3')->url($storagePath);
+        } else {
+            Storage::disk('public')->put($storagePath, $fileContent);
+            $url = 'storage/' . $storagePath;
+        }
 
         return $this->state([
-            'path' => 'storage/' . $storagePath,
+            'path' => $url,
         ]);
 
+    }
+
+    private function isS3Available(): bool
+    {
+        try {
+            return count(Storage::disk('s3')->files('images/')) >= 0;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

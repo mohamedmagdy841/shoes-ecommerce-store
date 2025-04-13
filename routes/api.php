@@ -98,6 +98,3 @@ Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiOrderContr
     Route::get('/invoice/download/{id}', 'orderInvoiceDownload');
     Route::post('/stripe-order', 'stripeOrder');
 });
-
-//Route::post('/payment/process', [PaymentController::class, 'paymentProcess']);
-//Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack']);

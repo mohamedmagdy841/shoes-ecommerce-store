@@ -67,6 +67,7 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
         Route::get('/', 'index')->name('index'); // List user orders
         Route::get('/invoice/download/{id}', 'orderInvoiceDownload')->name('invoice.download');
         Route::post('/stripe_order', 'stripeOrder')->name('stripe_order');
+
     });
 
     // Checkout
@@ -81,8 +82,11 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
 });
 
 // Payment
-//Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
-//Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
+Route::middleware('auth')->group(function () {
+    Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::post('/payment/checkout', [PaymentController::class, 'paymentProcess'])->name('payment.process');
+    Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack'])->name('payment.callBack');
+});
 
 // Contact
 Route::controller(ContactController::class)->prefix('contact')->name('frontend.')->group(function () {
