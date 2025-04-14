@@ -17,8 +17,6 @@ class AdminHomeController extends Controller
             'group_by_field' => 'created_at',
             'group_by_period' => 'month',
             'chart_type' => 'line',
-
-
         ];
 
         $products_chart_options = [
@@ -29,7 +27,6 @@ class AdminHomeController extends Controller
             'group_by_field' => 'name',
             'chart_height' => 100,
             'chart_type' => 'pie',
-
         ];
 
         $orders_chart = new LaravelChart($orders_chart_options);

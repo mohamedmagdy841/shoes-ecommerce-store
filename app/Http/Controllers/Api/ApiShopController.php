@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\ProductFilterService;
 use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
 
@@ -14,52 +15,33 @@ class ApiShopController extends Controller
 {
     use HttpResponse;
 
+    protected $productFilterService;
+
+    public function __construct(ProductFilterService $productFilterService)
+    {
+        $this->productFilterService = $productFilterService;
+    }
+
     public function index(Request $request)
     {
-        $categories = Category::all();
-        $brands = Product::groupBy('brand')->pluck('brand');
-        $colors = Product::groupBy('color')->pluck('color');
+        $filters = [
+            'categories' => $request->input('categories', []),
+            'brands' => $request->input('brands', []),
+            'colors' => $request->input('colors', []),
+            'price_range' => (array) $request->input('price_range', []),
+            'sort_by' => $request->input('sort_by'),
+        ];
 
-        $selectedCategories = $request->input('categories', []);
-        $selectedBrand = $request->input('brands', []);
-        $selectedColor = $request->input('colors', []);
-        $priceRange = $request->input('price_range');
-        $sortBy = $request->input('sort_by');
-
-        $products = Product::with('images')
-            ->active()
-            ->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
-                $query->whereIn('category_id', $selectedCategories);})
-            ->when(!empty($selectedBrand), function ($query) use ($selectedBrand) {
-                $query->whereIn('brand', $selectedBrand);})
-            ->when(!empty($selectedColor), function ($query) use ($selectedColor) {
-                $query->whereIn('color', $selectedColor);})
-            ->when($priceRange, function ($query) use ($priceRange) {
-                if ($priceRange === '50-100') {
-                    $query->whereBetween('price', [50, 100]);
-                } elseif ($priceRange === '100-150') {
-                    $query->whereBetween('price', [100, 150]);
-                } elseif ($priceRange === '150-200') {
-                    $query->whereBetween('price', [150, 200]);
-                } elseif ($priceRange === '200-above') {
-                    $query->where('price', '>=', 200);
-                }})
-            ->when($sortBy, function ($query) use ($sortBy) {
-                if ($sortBy === 'price_asc') {
-                    $query->orderBy('price', 'asc');
-                } elseif ($sortBy === 'price_desc') {
-                    $query->orderBy('price', 'desc');
-                }})
-            ->paginate(12)->withQueryString();
+        $filterOptions = $this->productFilterService->getFilters();
+        $products = $this->productFilterService->filterProducts($filters);
 
         $data = [
-            'categories' => CategoryResource::collection($categories),
+            'categories' => CategoryResource::collection($filterOptions['categories']),
             'products' => ProductResource::collection($products)->response()->getData(true),
-            'brands' => $brands,
-            'colors' => $colors,
-            'selectedColor' => $selectedColor,
+            'brands' => $filterOptions['brands'],
+            'colors' => $filterOptions['colors'],
+            'selectedColor' => $filters['colors'],
         ];
 
         return $this->sendResponse($data, 'Products retrieved successfully.');
-    }
-}
+    }}

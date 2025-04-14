@@ -16,8 +16,7 @@ class ApiContactController extends Controller
 
     public function store(StoreContactRequest $request)
     {
-        $data = $request->validated();
-        Contact::create($data);
+        Contact::create($request->validated());
         return $this->sendResponse(null, 'Thank you for contacting us!', 201);
     }
 }

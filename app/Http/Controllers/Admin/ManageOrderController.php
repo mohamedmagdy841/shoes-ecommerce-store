@@ -44,10 +44,8 @@ class ManageOrderController extends Controller implements HasMiddleware
 
             notyf()->success('Order status has been updated.');
             return redirect()->back();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while updating the order status.');
+            notyf()->error('An error occurred while updating the order status. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -58,7 +56,7 @@ class ManageOrderController extends Controller implements HasMiddleware
             $order->delete();
             return response()->json('Order has been deleted.', 200);
         } catch (\Exception $e) {
-            return response()->json('An error occurred while deleting the order.', 500);
+            return response()->json('An error occurred while deleting the order. ' . $e->getMessage(), 500);
         }
     }
 
@@ -67,7 +65,7 @@ class ManageOrderController extends Controller implements HasMiddleware
         try {
             return Excel::download(new OrderDataExport(), 'orders.xlsx');
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while exporting the orders.');
+            notyf()->error('An error occurred while exporting the orders. ' . $e->getMessage());
             return redirect()->back();
         }
     }

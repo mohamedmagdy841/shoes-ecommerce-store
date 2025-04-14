@@ -21,7 +21,7 @@ class AdminProfileController extends Controller
             return view('admin.profile.edit', compact('admin'));
         } catch (\Exception $e) {
             notyf()->error('An error occurred: ' . $e->getMessage());
-            return redirect()->route('admin.login'); // Redirect to login if not authenticated
+            return redirect()->route('admin.login');
         }
     }
 
@@ -30,7 +30,7 @@ class AdminProfileController extends Controller
         try {
             $data = $request->validated();
 
-            if ($data['password'] == null) {
+            if ($data['password'] === null) {
                 unset($data['password']);
             }
 

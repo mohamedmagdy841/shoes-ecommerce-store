@@ -38,12 +38,11 @@ class ManageCategoryController extends Controller implements HasMiddleware
     public function store(StoreCategoryRequest $request)
     {
         try {
-            $data = $request->validated();
-            Category::create($data);
+            Category::create($request->validated());
             notyf()->success('Category created successfully');
             return redirect()->back();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while creating the category.');
+            notyf()->error('An error occurred while creating the category. ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -54,12 +53,11 @@ class ManageCategoryController extends Controller implements HasMiddleware
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         try {
-            $data = $request->validated();
-            $category->update($data);
+            $category->update($request->validated());
             notyf()->success('Category updated successfully');
             return redirect()->back();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while updating the category.');
+            notyf()->error('An error occurred while updating the category. ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -73,7 +71,7 @@ class ManageCategoryController extends Controller implements HasMiddleware
             $category->delete();
             return response('Category deleted successfully.', 200);
         } catch (\Exception $e) {
-            return response('An error occurred while deleting the category.', 500);
+            return response('An error occurred while deleting the category. ' . $e->getMessage(), 500);
         }
     }
 
@@ -88,7 +86,7 @@ class ManageCategoryController extends Controller implements HasMiddleware
             notyf()->success($message);
             return redirect()->back();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while changing the category status.');
+            notyf()->error('An error occurred while changing the category status. ' . $e->getMessage());
             return redirect()->back();
         }
     }

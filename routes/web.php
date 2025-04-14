@@ -63,11 +63,8 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
 
     // Order
     Route::controller(OrderController::class)->prefix('orders')->name('frontend.orders.')->group(function () {
-        Route::post('/cashOrder', 'cashOrder')->name('cash_order'); // Place order
         Route::get('/', 'index')->name('index'); // List user orders
         Route::get('/invoice/download/{id}', 'orderInvoiceDownload')->name('invoice.download');
-        Route::post('/stripe_order', 'stripeOrder')->name('stripe_order');
-
     });
 
     // Checkout
