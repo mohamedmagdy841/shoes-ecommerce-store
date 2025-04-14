@@ -35,7 +35,7 @@ class ManageProductController extends Controller implements HasMiddleware
             $products = Product::with('images')->latest()->paginate(5);
             return view('admin.product.index', compact('products'));
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the products.');
+            notyf()->error('An error occurred while loading the products. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -49,7 +49,7 @@ class ManageProductController extends Controller implements HasMiddleware
             $categories = Category::active()->select('id', 'name')->get();
             return view('admin.product.create', compact('categories'));
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the categories.');
+            notyf()->error('An error occurred while loading the categories. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -86,7 +86,7 @@ class ManageProductController extends Controller implements HasMiddleware
             $categories = Category::active()->select('id', 'name')->get();
             return view('admin.product.edit', compact('product', 'categories'));
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the product details.');
+            notyf()->error('An error occurred while loading the product details. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -127,7 +127,7 @@ class ManageProductController extends Controller implements HasMiddleware
             $product->delete();
             return response('Product deleted successfully.', 200);
         } catch (\Exception $e) {
-            return response('An error occurred while deleting the product.', 500);
+            return response('An error occurred while deleting the product. ' . $e->getMessage(), 500);
         }
     }
 
@@ -147,7 +147,7 @@ class ManageProductController extends Controller implements HasMiddleware
 
             return redirect()->back();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while changing the product status.');
+            notyf()->error('An error occurred while changing the product status. ' . $e->getMessage());
             return redirect()->back();
         }
     }

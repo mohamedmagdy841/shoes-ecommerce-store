@@ -24,7 +24,7 @@ class ManageCouponController extends Controller implements HasMiddleware
             $coupons = Coupon::latest()->paginate(5);
             return view('admin.coupon.index', compact('coupons'));
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the coupons.');
+            notyf()->error('An error occurred while loading the coupons. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -34,7 +34,7 @@ class ManageCouponController extends Controller implements HasMiddleware
         try {
             return view('admin.coupon.create');
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the create coupon page.');
+            notyf()->error('An error occurred while loading the create coupon page. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -46,7 +46,7 @@ class ManageCouponController extends Controller implements HasMiddleware
             notyf()->success('Coupon created successfully!');
             return redirect()->back();
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while creating the coupon.');
+            notyf()->error('An error occurred while creating the coupon. ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -56,7 +56,7 @@ class ManageCouponController extends Controller implements HasMiddleware
         try {
             return view('admin.coupon.edit', compact('coupon'));
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while loading the edit coupon page.');
+            notyf()->error('An error occurred while loading the edit coupon page. ' . $e->getMessage());
             return redirect()->back();
         }
     }
@@ -68,7 +68,7 @@ class ManageCouponController extends Controller implements HasMiddleware
             notyf()->success('Coupon updated successfully');
             return redirect()->route('admin.coupons.index');
         } catch (\Exception $e) {
-            notyf()->error('An error occurred while updating the coupon.');
+            notyf()->error('An error occurred while updating the coupon. ' . $e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -79,7 +79,7 @@ class ManageCouponController extends Controller implements HasMiddleware
             $coupon->delete();
             return response('Coupon deleted successfully.', 200);
         } catch (\Exception $e) {
-            return response('An error occurred while deleting the coupon.', 500);
+            return response('An error occurred while deleting the coupon. ' . $e->getMessage(), 500);
         }
     }
 

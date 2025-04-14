@@ -24,9 +24,8 @@ class ApiCouponController extends Controller
     }
     public function applyCoupon(Request $request)
     {
-        $userID = auth('sanctum')->user()->id;
         $couponCode = $request->input('coupon_code');
-        $cartCacheKey = 'cart_' . $userID;
+        $cartCacheKey = 'cart_' . auth('sanctum')->user()->id;
         $coupon = Coupon::where('code', $couponCode)->first();
 
         if (!$coupon) {

@@ -93,8 +93,6 @@ Route::get('/checkout', [ApiCheckoutController::class, 'index'])->middleware(['a
 
 // Order
 Route::middleware(['auth:sanctum', 'checkUserStatus'])->controller(ApiOrderController::class)->prefix('orders')->group(function () {
-    Route::post('/cash-order', 'cashOrder'); // Place order
     Route::get('/', 'index'); // List user orders
     Route::get('/invoice/download/{id}', 'orderInvoiceDownload');
-    Route::post('/stripe-order', 'stripeOrder');
 });

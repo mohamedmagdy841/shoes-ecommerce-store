@@ -21,12 +21,10 @@ class CartController extends Controller
         $cart = Cache::get($cartCacheKey);
 
         if (!Cache::has($cartCacheKey)) {
-            $items = Cart::session($userID)->getContent();
-            $subtotal = Cart::session($userID)->getSubtotal();
 
             $cart = [
-                'items' => $items,
-                'subtotal' => $subtotal,
+                'items' => Cart::session($userID)->getContent(),
+                'subtotal' => Cart::session($userID)->getSubtotal(),
             ];
 
             Cache::put($cartCacheKey, $cart, now()->addMinutes(30));
