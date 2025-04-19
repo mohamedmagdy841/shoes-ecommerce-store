@@ -16,8 +16,8 @@ jobs:
       with:
         php-version: '8.2'
     - uses: actions/checkout@v4
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Copy .env.testing
+      run: cp .env.testing .env
     - name: Override Cache Driver
       run: php -r "file_put_contents('.env', str_replace('CACHE_DRIVER=redis', 'CACHE_DRIVER=array', file_get_contents('.env')));"
     - name: Install Dependencies
