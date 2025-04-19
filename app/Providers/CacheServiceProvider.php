@@ -22,6 +22,11 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Skip caching when running tests or in CI environments
+        if (app()->environment('testing', 'ci')) {
+            return;
+        }
+
 //        Cache::forget('home_products');
         if(!Cache::has('home_products')){
             $home_products = Product::with('images')->latest()->limit(16)->get();
