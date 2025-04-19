@@ -24,6 +24,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Database Migrate
+      run: php artisan migrate
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
