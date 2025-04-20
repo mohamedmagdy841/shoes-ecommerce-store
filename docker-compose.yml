@@ -6,6 +6,7 @@ services:
         container_name: shoes-ecommerce
         volumes:
             - ./:/var/www/html
+            - ./env.docker:/var/www/html/.env
         ports:
             - "8000:80"
         environment:
@@ -18,8 +19,14 @@ services:
             - DB_DATABASE=${DB_DATABASE}
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
+            - REDIS_HOST=redis
+            - REDIS_PASSWORD=null
+            - REDIS_PORT=6379
+            - CACHE_DRIVER=redis
+            - SESSION_DRIVER=redis
         depends_on:
             - db
+            - redis
         networks:
             - laravel-network
 
@@ -35,6 +42,11 @@ services:
             - dbdata:/var/lib/mysql
         ports:
             - "3307:3306"
+        networks:
+            - laravel-network
+    redis:
+        image: redis:alpine
+        container_name: redis
         networks:
             - laravel-network
 

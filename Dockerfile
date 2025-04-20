@@ -6,14 +6,22 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev  \
+    libicu-dev \
     zip \
     unzip \
     software-properties-common \
-    npm
+    npm && \
+    pecl install redis && \
+    docker-php-ext-enable redis && \
+    docker-php-ext-install zip && \
+    docker-php-ext-install intl
 
-RUN npm install npm@latest -g && \
-    npm install n -g && \
-    n lts
+RUN npm install -g n && \
+    n lts && \
+    npm install -g npm@latest
+
+RUN git config --global --add safe.directory /var/www/html
 
 WORKDIR /var/www/html
 
@@ -36,7 +44,7 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /et
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN composer install --optimize-autoloader --no-dev
+#RUN composer install --optimize-autoloader --no-dev
 
 EXPOSE 80
 

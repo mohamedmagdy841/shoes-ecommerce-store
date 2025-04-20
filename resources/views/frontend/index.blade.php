@@ -156,8 +156,9 @@
     </section>
     <!-- End category Area -->
     @php
-        // Chunk the products into groups of 8
-        $chunks = $home_products->chunk(8);
+        $chunks = $home_products instanceof \Illuminate\Support\Collection
+            ? $home_products->chunk(8)
+            : collect();
     @endphp
     <!-- start product Area -->
     <section class="owl-carousel active-product-area section_gap">

@@ -57,18 +57,28 @@ git clone https://github.com/mohamedmagdy841/shoes-ecommerce-store.git
 cd shoes-ecommerce-store
 ```
 
+#### **Configure Environment**
+Set up the `.env` file with database credentials, Pusher keys, Redis configuration, and OAuth credentials for Google and GitHub.
+
 #### **Set up Docker**  
-Ensure Docker is installed, then start the containers:  
+Ensure Docker is installed:  
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
-#### **Configure Environment**  
-Set up the `.env` file with database credentials, Pusher keys, Redis configuration, and OAuth credentials for Google and GitHub.  
+#### **Generate Key**
+```bash
+php artisan key:generate
+```
 
 #### **Run Migrations and Seeders**  
 ```bash
 php artisan migrate --seed
+```
+
+#### **Link Storage**
+```bash
+php artisan storage:link
 ```
 
 #### **Access the Application**  
