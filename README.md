@@ -66,6 +66,11 @@ Ensure Docker is installed:
 docker-compose up --build
 ```
 
+#### **Install Packages**
+```bash
+composer install
+```
+
 #### **Generate Key**
 ```bash
 php artisan key:generate

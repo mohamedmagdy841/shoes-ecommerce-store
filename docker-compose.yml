@@ -6,7 +6,6 @@ services:
         container_name: shoes-ecommerce
         volumes:
             - ./:/var/www/html
-            - ./env.docker:/var/www/html/.env
         ports:
             - "8000:80"
         environment:
@@ -36,7 +35,8 @@ services:
         environment:
             - MYSQL_DATABASE=${DB_DATABASE}
             - MYSQL_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+#            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ALLOW_EMPTY_PASSWORD=1
 
         volumes:
             - dbdata:/var/lib/mysql
