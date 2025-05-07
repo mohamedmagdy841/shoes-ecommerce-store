@@ -24,7 +24,7 @@ class CheckSettingProvider extends ServiceProvider
     public function boot(): void
     {
         if (Schema::hasTable('settings')) {
-            $getSetting = Setting::firstOr(function (){
+            $getSetting = Setting::firstOrCreate(function (){
                 return Setting::create([
                     'site_name' => 'Karma',
                     'email' => 'karma@gmail.com',
