@@ -28,3 +28,6 @@ services:
 networks:
   custom-network:
     external: true
+
+volumes:
+  storage_data:
