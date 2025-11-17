@@ -16,9 +16,8 @@ RUN apk add --no-cache \
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && docker-php-ext-enable fileinfo session tokenizer
-
+    && docker-php-ext-install gd 
+    
 WORKDIR /var/www/html
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
