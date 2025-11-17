@@ -17,7 +17,7 @@ RUN apk add --no-cache \
         npm
 
 RUN docker-php-ext-install intl \
-    && pdo pdo_pgsql mbstring xml curl zip opcache \
+    && docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
 
