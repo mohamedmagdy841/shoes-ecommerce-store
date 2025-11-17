@@ -9,6 +9,8 @@ services:
     restart: always
     env_file:
       - .env
+    volumes:
+      - .:/var/www/html 
 
   shoes_nginx:
     image: nginx:1.29.0-alpine
