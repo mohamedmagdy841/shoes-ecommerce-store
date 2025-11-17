@@ -31,38 +31,23 @@ class ImageFactory extends Factory
             throw new \Exception("Folder does not exist: $sourceFolder");
         }
 
-        // If source is under storage/app, derive relative path for Storage::disk('local')
-        $storageAppReal = realpath(storage_path('app'));
-        $sourceReal = realpath($sourceFolder);
-        $files = [];
-
-        if ($storageAppReal !== false && $sourceReal !== false && str_starts_with($sourceReal, $storageAppReal)) {
-            $relativePath = ltrim(substr($sourceReal, strlen($storageAppReal)), '/');
-            $files = Storage::disk('local')->files($relativePath);
-            // Storage::files returns full filenames relative to storage/app, convert to plain names
-            $files = array_values(array_map(fn($f) => basename($f), $files));
-        } else {
-            // fallback to direct filesystem scan (for database/seeders/images/…)
-            $files = array_values(array_filter(scandir($sourceFolder), function ($file) use ($sourceFolder) {
-                return is_file($sourceFolder . '/' . $file);
-            }));
-        }
+        // Load files from the folder
+        $files = array_values(array_filter(scandir($sourceFolder), function ($file) use ($sourceFolder) {
+            return is_file($sourceFolder . '/' . $file);
+        }));
 
         if (empty($files)) {
-            throw new \Exception("No files found in the folder: $sourceFolder");
+            throw new \Exception("No files found in: $sourceFolder");
         }
 
+        // Pick a random image
         $fileName = $files[array_rand($files)];
 
-        // Read file content (use Storage if we listed via Storage::disk('local'))
-        if (!empty($relativePath ?? '') && isset($relativePath)) {
-            $fileRelative = trim($relativePath . '/' . $fileName, '/');
-            $fileContent = Storage::disk('local')->get($fileRelative);
-        } else {
-            $fileContent = file_get_contents($sourceFolder . '/' . $fileName);
-        }
+        // Read file content
+        $fileContent = file_get_contents($sourceFolder . '/' . $fileName);
 
-        $storagePath = 'images/' . uniqid() . '_' . $fileName;
+        // FINAL TARGET: images/p6.jpg
+        $storagePath = 'images/' . $fileName;
 
         if ($this->isS3Available()) {
             Storage::disk('s3')->put($storagePath, $fileContent);
@@ -76,6 +61,7 @@ class ImageFactory extends Factory
             'path' => $url,
         ]);
     }
+
 
 
 
