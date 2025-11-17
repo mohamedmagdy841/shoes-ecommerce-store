@@ -25,7 +25,12 @@ WORKDIR /var/www/html
 COPY . .
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV LARAVEL_SKIP_PACKAGE_DISCOVERY=1
+
+
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 RUN npm install && npm run build
 
