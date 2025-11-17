@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         $products = Product::factory(50)->create();
 
-        $sourceFolder = database_path('seeders/images/products');
+        $sourceFolder = database_path('images/products');
 
         $products->each(function ($product) use ($sourceFolder) {
             for ($i = 0; $i < 3; $i++) {
