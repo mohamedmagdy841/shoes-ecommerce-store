@@ -250,24 +250,38 @@
                     </div>
                     <a href="{{ route('frontend.shop') }}" class="primary-btn">Shop Now</a>
                 </div>
-                <div class="col-lg-6 no-padding exclusive-right">
-                    <div class="single-exclusive-slider">
-                        <img class="img-fluid" src="{{ asset($product->images->first()->path) }}" alt="">
-                        <div class="product-details">
-                            <div class="price">
-                                <h6>{{Number::currency($product->price,'EGP')}}</h6>
-                            </div>
-                            <a href="{{ route('frontend.product', $product->slug) }}">
-                                <h3>{{ $product->full_name }}</h3>
-                            </a>
-                            <div class="add-bag d-flex align-items-center justify-content-center">
-                                <a href="" class="social-info addToCart" data-product-id="{{ route('frontend.cart.add', $product->id) }}">
-                                    <span class="ti-bag"></span>
-                                    <p class="hover-text">add to bag</p>
+                @php
+                    $exclusive = $home_products->first(); // Pick 1 product safely
+                @endphp
+
+                @if($exclusive)
+                    <div class="col-lg-6 no-padding exclusive-right">
+                        <div class="single-exclusive-slider">
+                            <img class="img-fluid"
+                                src="{{ asset(optional($exclusive->images->first())->path) }}"
+                                alt="">
+
+                            <div class="product-details">
+                                <div class="price">
+                                    <h6>{{ Number::currency($exclusive->price, 'EGP') }}</h6>
+                                </div>
+
+                                <a href="{{ route('frontend.product', $exclusive->slug) }}">
+                                    <h3>{{ $exclusive->full_name }}</h3>
                                 </a>
+
+                                <div class="add-bag d-flex align-items-center justify-content-center">
+                                    <a href=""
+                                        class="social-info addToCart"
+                                        data-product-id="{{ route('frontend.cart.add', $exclusive->id) }}">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text">add to bag</p>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                @endif
                 </div>
             </div>
         </div>
