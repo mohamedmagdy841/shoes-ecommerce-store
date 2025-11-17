@@ -8,8 +8,6 @@ RUN composer install --no-dev --optimize-autoloader
 
 COPY . .
 
-
-# Correct permissions for storage & bootstrap
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 storage bootstrap/cache
 
@@ -25,18 +23,17 @@ RUN apk add --no-cache \
         postgresql-dev \
         libzip-dev \
         icu-dev \
-    && docker-php-ext-install \
-        pdo \
-        pdo_pgsql \
-        mbstring \
-        xml \
-        curl \
-        zip \
-        opcache \
-    && docker-php-ext-enable \
-        fileinfo \
-        session \
-        tokenizer
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev
+
+RUN docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
+    && docker-php-ext-enable fileinfo session tokenizer \
+    \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+    && docker-php-ext-install gd
 
 WORKDIR /var/www/html
 
