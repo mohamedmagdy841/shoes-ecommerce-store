@@ -24,8 +24,10 @@ class CheckSettingProvider extends ServiceProvider
     public function boot(): void
     {
         if (Schema::hasTable('settings')) {
-            $getSetting = Setting::firstOr(function (){
-                return Setting::create([
+            $getSetting = Setting::first();
+
+            if (! $getSetting) {
+                $getSetting = Setting::create([
                     'site_name' => 'Karma',
                     'email' => 'karma@gmail.com',
                     'phone' => '01234567891',
@@ -40,7 +42,7 @@ class CheckSettingProvider extends ServiceProvider
                     'city' => 'San Francisco',
                     'country' => 'USA',
                 ]);
-            });
+            }
 
             $categories = Category::select('slug', 'name')->get();
 
