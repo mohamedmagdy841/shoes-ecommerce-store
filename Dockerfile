@@ -12,20 +12,22 @@ RUN apk add --no-cache \
         libjpeg-turbo-dev \
         libpng-dev \
         git \
-        unzip
+        unzip \
+        nodejs \
+        npm
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd 
-    
+    && docker-php-ext-install gd
+
 WORKDIR /var/www/html
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-COPY composer.json composer.lock ./
+COPY . .
 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-COPY . .
+RUN npm install && npm run build
 
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 storage bootstrap/cache \
