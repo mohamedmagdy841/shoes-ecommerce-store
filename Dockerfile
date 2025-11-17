@@ -1,18 +1,3 @@
-# Stage 1: Build Application
-FROM composer:2 AS builder
-WORKDIR /app
-
-COPY composer.json composer.lock ./
-
-RUN composer install --no-dev --optimize-autoloader
-
-COPY . .
-
-RUN mkdir -p storage/framework/{sessions,views,cache} \
-    && chmod -R 775 storage bootstrap/cache
-
-
-# Stage 2: Production Image
 FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache \
@@ -25,20 +10,26 @@ RUN apk add --no-cache \
         icu-dev \
         freetype-dev \
         libjpeg-turbo-dev \
-        libpng-dev
+        libpng-dev \
+        git \
+        unzip
 
 RUN docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
-    && docker-php-ext-enable fileinfo session tokenizer \
-    \
-    && docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-    && docker-php-ext-install gd
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && docker-php-ext-enable fileinfo session tokenizer
 
 WORKDIR /var/www/html
 
-COPY --from=builder /app .
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN composer install --no-dev --optimize-autoloader
+
+COPY . .
+
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
 
 CMD ["php-fpm"]
