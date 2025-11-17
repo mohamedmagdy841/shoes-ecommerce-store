@@ -1,51 +1,47 @@
-FROM php:8.2-apache
+# Stage 1: Build Application
+FROM composer:2 AS builder
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libzip-dev  \
-    libicu-dev \
-    zip \
-    unzip \
-    software-properties-common \
-    npm && \
-    pecl install redis && \
-    docker-php-ext-enable redis && \
-    docker-php-ext-install zip && \
-    docker-php-ext-install intl
+COPY composer.json composer.lock ./
 
-RUN npm install -g n && \
-    n lts && \
-    npm install -g npm@latest
+RUN composer install --no-dev --optimize-autoloader
 
-RUN git config --global --add safe.directory /var/www/html
+COPY . .
+
+
+# Correct permissions for storage & bootstrap
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && chmod -R 775 storage bootstrap/cache
+
+
+# Stage 2: Production Image
+FROM php:8.3-fpm-alpine
+
+RUN apk add --no-cache \
+        libxml2-dev \
+        oniguruma-dev \
+        curl-dev \
+        openssl-dev \
+        postgresql-dev \
+        libzip-dev \
+        icu-dev \
+    && docker-php-ext-install \
+        pdo \
+        pdo_pgsql \
+        mbstring \
+        xml \
+        curl \
+        zip \
+        opcache \
+    && docker-php-ext-enable \
+        fileinfo \
+        session \
+        tokenizer
 
 WORKDIR /var/www/html
 
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+COPY --from=builder /app .
 
-RUN a2enmod rewrite
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-COPY . /var/www/html
-
-# Update apache configuration
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf && \
-    echo "<Directory /var/www/html>\n\
-            Options Indexes FollowSymLinks\n\
-            AllowOverride All\n\
-            Require all granted\n\
-          </Directory>" >> /etc/apache2/sites-available/000-default.conf
-
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-#RUN composer install --optimize-autoloader --no-dev
-
-EXPOSE 80
-
-CMD ["apache2-foreground"]
+CMD ["php-fpm"]

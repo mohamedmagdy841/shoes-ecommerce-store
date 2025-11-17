@@ -1,58 +1,27 @@
 services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: shoes-ecommerce
-        volumes:
-            - ./:/var/www/html
-        ports:
-            - "8000:80"
-        environment:
-            - APP_ENV=local
-            - APP_DEBUG=true
-            - APP_KEY=${APP_KEY}
-            - DB_CONNECTION=${DB_CONNECTION}
-            - DB_HOST=${DB_HOST}
-            - DB_PORT=${DB_PORT}
-            - DB_DATABASE=${DB_DATABASE}
-            - DB_USERNAME=${DB_USERNAME}
-            - DB_PASSWORD=${DB_PASSWORD}
-            - REDIS_HOST=redis
-            - REDIS_PASSWORD=null
-            - REDIS_PORT=6379
-            - CACHE_DRIVER=redis
-            - SESSION_DRIVER=redis
-        depends_on:
-            - db
-            - redis
-        networks:
-            - laravel-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shoes
+    networks:
+      - custom-network
+    restart: always
+    env_file:
+      - .env
 
-    db:
-        image: mysql:8.0
-        container_name: database
-        environment:
-            - MYSQL_DATABASE=${DB_DATABASE}
-            - MYSQL_PASSWORD=${DB_PASSWORD}
-#            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ALLOW_EMPTY_PASSWORD=1
-
-        volumes:
-            - dbdata:/var/lib/mysql
-        ports:
-            - "3307:3306"
-        networks:
-            - laravel-network
-    redis:
-        image: redis:alpine
-        container_name: redis
-        networks:
-            - laravel-network
+  shoes_nginx:
+    image: nginx:1.29.0-alpine
+    container_name: shoes_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - custom-network
+    restart: always
 
 networks:
-    laravel-network:
-        driver: bridge
-
-volumes:
-    dbdata:
+  custom-network:
+    external: true
