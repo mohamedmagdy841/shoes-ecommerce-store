@@ -24,7 +24,7 @@ class CacheServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Skip caching when running tests or in CI environments
-        if (app()->environment('testing', 'ci')) {
+        if (app()->environment('testing', 'ci') || app()->runningInConsole()) {
             return;
         }
 
