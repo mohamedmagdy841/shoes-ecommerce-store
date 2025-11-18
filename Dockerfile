@@ -36,7 +36,8 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --only=production
+RUN npm ci
+RUN npm run build
 
 COPY . .
 
