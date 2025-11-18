@@ -3,6 +3,19 @@
 # ============================================
 FROM composer:2 AS composer-stage
 
+# Install PHP extensions needed by your dependencies
+RUN apk add --no-cache --virtual .build-deps \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && apk del .build-deps \
+    && apk add --no-cache \
+        freetype \
+        libjpeg-turbo \
+        libpng
+
 WORKDIR /app
 
 COPY composer.json composer.lock ./
