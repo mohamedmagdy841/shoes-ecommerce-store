@@ -94,5 +94,3 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chown -R www-data:www-data storage bootstrap/cache
 
 CMD ["php-fpm"]
-
-# shoes-ecommerce-store-app:latest             b70ab133116f       1.09GB             0B    U
