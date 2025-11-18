@@ -1,4 +1,4 @@
-@extends('frontend.master')
+{{-- @extends('frontend.master')
 @section('title',  config('app.name') . " | " . 'User Register')
 @section('banner')
     <!-- Start Banner Area -->
@@ -73,4 +73,4 @@
     </section>
     <!--================End Login Box Area =================-->
 @endsection
-
+ --}}

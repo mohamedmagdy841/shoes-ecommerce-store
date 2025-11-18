@@ -80,9 +80,9 @@ Route::middleware(['auth', 'checkUserStatus'])->group(function () {
 
 // Payment
 Route::middleware('auth')->group(function () {
-    Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
-    Route::post('/payment/checkout', [PaymentController::class, 'paymentProcess'])->name('payment.process');
-    Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack'])->name('payment.callBack');
+    // Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
+    // Route::post('/payment/checkout', [PaymentController::class, 'paymentProcess'])->name('payment.process');
+    // Route::match(['GET','POST'],'/payment/callback', [PaymentController::class, 'callBack'])->name('payment.callBack');
 });
 
 // Contact

@@ -30,7 +30,8 @@
                         <img class="img-fluid" src="{{ asset('assets/frontend') }}/img/login.jpg" alt="">
                         <div class="hover">
                             <h4>New to our website?</h4>
-                            <a class="primary-btn" href="{{ route('register') }}">Create an Account</a>
+                            <a class="primary-btn" href="#" onclick="return false;">Create an Account</a>
+                            {{-- <a class="primary-btn" href="{{ route('register') }}">Create an Account</a> --}}
                         </div>
                     </div>
                 </div>

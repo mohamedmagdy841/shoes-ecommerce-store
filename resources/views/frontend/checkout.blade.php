@@ -40,7 +40,8 @@
                                 <h5 class="card-title">Select Payment Method</h5>
                                 <p>Select your preferred payment method to complete your order.</p>
 
-                                <form action="{{ route('payment.process') }}" method="post" id="payment_form">
+                                {{-- <form action="{{ route('payment.process') }}" method="post" id="payment_form"> --}}
+                                <form action="#" method="post" id="payment_form">
                                     @csrf
                                     <input type="hidden" name="gateway_type" id="gateway_type">
 
@@ -150,24 +151,24 @@
 
 @push('js')
     <script>
-        const paymentOptions = document.querySelectorAll('.payment_option');
-        const paymentMethodInput = document.getElementById('gateway_type');
-        const submitButton = document.getElementById('submit_payment');
+        // const paymentOptions = document.querySelectorAll('.payment_option');
+        // const paymentMethodInput = document.getElementById('gateway_type');
+        // const submitButton = document.getElementById('submit_payment');
 
-        paymentOptions.forEach(option => {
-            option.addEventListener('click', function () {
-                paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                paymentMethodInput.value = this.getAttribute('data-method');
-                submitButton.disabled = false;
-            });
-        });
+        // paymentOptions.forEach(option => {
+        //     option.addEventListener('click', function () {
+        //         paymentOptions.forEach(opt => opt.classList.remove('selected'));
+        //         this.classList.add('selected');
+        //         paymentMethodInput.value = this.getAttribute('data-method');
+        //         submitButton.disabled = false;
+        //     });
+        // });
 
-        document.getElementById('payment_form').addEventListener('submit', function (e) {
-            if (!paymentMethodInput.value) {
-                e.preventDefault();
-                alert("Please select a payment method.");
-            }
-        });
+        // document.getElementById('payment_form').addEventListener('submit', function (e) {
+        //     if (!paymentMethodInput.value) {
+        //         e.preventDefault();
+        //         alert("Please select a payment method.");
+        //     }
+        // });
     </script>
 @endpush
