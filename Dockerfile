@@ -1,6 +1,54 @@
+# ============================================
+# Stage 1: Composer Dependencies
+# ============================================
+FROM composer:2 AS composer-stage
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-scripts \
+    --no-interaction \
+    --prefer-dist
+
+# ============================================
+# Stage 2: Node.js Build
+# ============================================
+FROM node:24-alpine AS node-stage
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm ci --only=production
+
+COPY . .
+
+RUN npm run build
+
+# ============================================
+# Stage 3: Final Production Image
+# ============================================
 FROM php:8.3-fpm-alpine
 
+# Install only RUNTIME dependencies (no build tools)
 RUN apk add --no-cache \
+        libxml2 \
+        oniguruma \
+        curl \
+        openssl \
+        postgresql-libs \
+        libzip \
+        icu \
+        freetype \
+        libjpeg-turbo \
+        libpng
+
+# Install PHP extensions (build deps are auto-removed)
+RUN apk add --no-cache --virtual .build-deps \
         libxml2-dev \
         oniguruma-dev \
         curl-dev \
@@ -11,32 +59,27 @@ RUN apk add --no-cache \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
-        git \
-        unzip \
-        nodejs \
-        npm
-
-RUN docker-php-ext-install intl \
-    && docker-php-ext-install pdo pdo_pgsql mbstring xml curl zip opcache \
+    && docker-php-ext-install intl pdo pdo_pgsql mbstring xml curl zip opcache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd
+    && docker-php-ext-install gd \
+    && apk del .build-deps
 
 WORKDIR /var/www/html
 
+# Copy application code
 COPY . .
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Copy composer dependencies from Stage 1
+COPY --from=composer-stage /app/vendor ./vendor
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV LARAVEL_SKIP_PACKAGE_DISCOVERY=1
+# Copy built assets from Stage 2
+COPY --from=node-stage /app/public/build ./public/build
 
-
-RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-RUN npm install && npm run build
-
+# Set up Laravel directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
 CMD ["php-fpm"]
+
+# shoes-ecommerce-store-app:latest             b70ab133116f       1.09GB             0B    U
